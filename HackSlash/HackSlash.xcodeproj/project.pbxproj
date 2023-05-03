@@ -17,6 +17,8 @@
 		A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7C1669C29F71DC1003B096D /* Main.storyboard */; };
 		A7C166A029F71DC2003B096D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7C1669F29F71DC2003B096D /* Assets.xcassets */; };
 		A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7C166A129F71DC2003B096D /* LaunchScreen.storyboard */; };
+		F99499D42A02CC0E00E3807D /* MoveHorizontal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D32A02CC0E00E3807D /* MoveHorizontal.swift */; };
+		F99499D62A02CD3800E3807D /* DirectionsEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D52A02CD3800E3807D /* DirectionsEnum.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 		A7C1669D29F71DC1003B096D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A7C1669F29F71DC2003B096D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A7C166A229F71DC2003B096D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F99499D32A02CC0E00E3807D /* MoveHorizontal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveHorizontal.swift; sourceTree = "<group>"; };
+		F99499D52A02CD3800E3807D /* DirectionsEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsEnum.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +71,8 @@
 				A7C1669429F71DC1003B096D /* GameScene.sks */,
 				A7C1669629F71DC1003B096D /* Actions.sks */,
 				A7C1669829F71DC1003B096D /* GameScene.swift */,
+				F99499D32A02CC0E00E3807D /* MoveHorizontal.swift */,
+				F99499D52A02CD3800E3807D /* DirectionsEnum.swift */,
 				A7C1669A29F71DC1003B096D /* GameViewController.swift */,
 				A7C1669C29F71DC1003B096D /* Main.storyboard */,
 				A7C1669F29F71DC2003B096D /* Assets.xcassets */,
@@ -152,8 +158,10 @@
 			files = (
 				A7B6B1B02A02C461005FF90B /* Constants.swift in Sources */,
 				A7C1669929F71DC1003B096D /* GameScene.swift in Sources */,
+				F99499D42A02CC0E00E3807D /* MoveHorizontal.swift in Sources */,
 				A7C1200A2A01A0F500DF0C6A /* Player.swift in Sources */,
 				A7C1669B29F71DC1003B096D /* GameViewController.swift in Sources */,
+				F99499D62A02CD3800E3807D /* DirectionsEnum.swift in Sources */,
 				A7C1669329F71DC1003B096D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,7 +309,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 73DNAYF2TM;
+				DEVELOPMENT_TEAM = 2V5RBDFH46;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -314,7 +322,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlash;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
