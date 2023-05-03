@@ -16,10 +16,20 @@ class GameScene: SKScene {
         setupGround()
         // ------------------------------------------------------------------------
         setupPlayer()
+        // ------------------------------------------------------------------------
+        setupCamera()
     }
     
     override func update(_ currentTime: TimeInterval) {
         player.move(direction: [.right, .up])
+        camera?.position = player.position
+    }
+    
+    func setupCamera() {
+        let camera = SKCameraNode()
+        camera.setScale(0.7)
+        self.camera = camera
+        addChild(camera)
     }
     
     func setupGround(){
