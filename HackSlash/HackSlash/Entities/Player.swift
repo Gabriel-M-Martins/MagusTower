@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-class Player: StateMachine {
+class Player: StateMachine, Move {
     typealias STM = StatesPlayer
     
     var sprite: SKSpriteNode

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A7B6B1B02A02C461005FF90B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
+		A75915982A02EA3A00D953C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
 		A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B12A02C98A005FF90B /* StateMachine.swift */; };
 		A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */; };
 		A7B6B1B82A02E732005FF90B /* AnimationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B72A02E732005FF90B /* AnimationInfo.swift */; };
@@ -21,8 +21,8 @@
 		A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7C1669C29F71DC1003B096D /* Main.storyboard */; };
 		A7C166A029F71DC2003B096D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7C1669F29F71DC2003B096D /* Assets.xcassets */; };
 		A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7C166A129F71DC2003B096D /* LaunchScreen.storyboard */; };
-		F99499D42A02CC0E00E3807D /* MoveHorizontal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D32A02CC0E00E3807D /* MoveHorizontal.swift */; };
-		F99499D62A02CD3800E3807D /* DirectionsEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D52A02CD3800E3807D /* DirectionsEnum.swift */; };
+		F99499D42A02CC0E00E3807D /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D32A02CC0E00E3807D /* Move.swift */; };
+		F99499D62A02CD3800E3807D /* Directions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D52A02CD3800E3807D /* Directions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,8 +41,8 @@
 		A7C1669D29F71DC1003B096D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A7C1669F29F71DC2003B096D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A7C166A229F71DC2003B096D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		F99499D32A02CC0E00E3807D /* MoveHorizontal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveHorizontal.swift; sourceTree = "<group>"; };
-		F99499D52A02CD3800E3807D /* DirectionsEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsEnum.swift; sourceTree = "<group>"; };
+		F99499D32A02CC0E00E3807D /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
+		F99499D52A02CD3800E3807D /* Directions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +56,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A75915962A02EA0E00D953C2 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				F99499D52A02CD3800E3807D /* Directions.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		A75915972A02EA2000D953C2 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A7B6B1B12A02C98A005FF90B /* StateMachine.swift */,
+				F99499D32A02CC0E00E3807D /* Move.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A75915992A02EA4300D953C2 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				A7C120092A01A0F500DF0C6A /* Player.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
 		A7B6B1B32A02E6BF005FF90B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -67,6 +92,7 @@
 		A7B6B1B62A02E6F1005FF90B /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				A7B6B1AF2A02C461005FF90B /* Constants.swift */,
 				A7B6B1B72A02E732005FF90B /* AnimationInfo.swift */,
 			);
 			path = Data;
@@ -99,6 +125,9 @@
 		A7C1669129F71DC1003B096D /* HackSlash */ = {
 			isa = PBXGroup;
 			children = (
+				A75915992A02EA4300D953C2 /* Entities */,
+				A75915972A02EA2000D953C2 /* Components */,
+				A75915962A02EA0E00D953C2 /* Utility */,
 				A7B6B1B92A02E76B005FF90B /* States */,
 				A7B6B1B62A02E6F1005FF90B /* Data */,
 				A7B6B1B32A02E6BF005FF90B /* Protocols */,
@@ -106,15 +135,10 @@
 				A7C1669429F71DC1003B096D /* GameScene.sks */,
 				A7C1669629F71DC1003B096D /* Actions.sks */,
 				A7C1669829F71DC1003B096D /* GameScene.swift */,
-				F99499D32A02CC0E00E3807D /* MoveHorizontal.swift */,
-				F99499D52A02CD3800E3807D /* DirectionsEnum.swift */,
 				A7C1669A29F71DC1003B096D /* GameViewController.swift */,
 				A7C1669C29F71DC1003B096D /* Main.storyboard */,
 				A7C1669F29F71DC2003B096D /* Assets.xcassets */,
 				A7C166A129F71DC2003B096D /* LaunchScreen.storyboard */,
-				A7C120092A01A0F500DF0C6A /* Player.swift */,
-				A7B6B1AF2A02C461005FF90B /* Constants.swift */,
-				A7B6B1B12A02C98A005FF90B /* StateMachine.swift */,
 			);
 			path = HackSlash;
 			sourceTree = "<group>";
@@ -193,16 +217,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7B6B1BB2A02E785005FF90B /* StatesPlayer.swift in Sources */,
+				A75915982A02EA3A00D953C2 /* Constants.swift in Sources */,
 				A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */,
 				A7B6B1B82A02E732005FF90B /* AnimationInfo.swift in Sources */,
 				A7C1669929F71DC1003B096D /* GameScene.swift in Sources */,
-				F99499D42A02CC0E00E3807D /* MoveHorizontal.swift in Sources */,
+				F99499D42A02CC0E00E3807D /* Move.swift in Sources */,
 				A7C1200A2A01A0F500DF0C6A /* Player.swift in Sources */,
 				A7C1669B29F71DC1003B096D /* GameViewController.swift in Sources */,
 				A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */,
-				F99499D62A02CD3800E3807D /* DirectionsEnum.swift in Sources */,
+				F99499D62A02CD3800E3807D /* Directions.swift in Sources */,
 				A7C1669329F71DC1003B096D /* AppDelegate.swift in Sources */,
-				A7C120082A019BB000DF0C6A /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
