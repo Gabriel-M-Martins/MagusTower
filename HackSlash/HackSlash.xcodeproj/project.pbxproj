@@ -47,7 +47,6 @@
 		A7C1668629F71DC1003B096D = {
 			isa = PBXGroup;
 			children = (
-				A7B6B1AF2A02C461005FF90B /* Constants.swift */,
 				A7C1669129F71DC1003B096D /* HackSlash */,
 				A7C1669029F71DC1003B096D /* Products */,
 			);
@@ -73,6 +72,7 @@
 				A7C1669F29F71DC2003B096D /* Assets.xcassets */,
 				A7C166A129F71DC2003B096D /* LaunchScreen.storyboard */,
 				A7C120092A01A0F500DF0C6A /* Player.swift */,
+				A7B6B1AF2A02C461005FF90B /* Constants.swift */,
 			);
 			path = HackSlash;
 			sourceTree = "<group>";
