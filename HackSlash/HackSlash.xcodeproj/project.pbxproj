@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7B6B1B02A02C461005FF90B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
 		A7C1200A2A01A0F500DF0C6A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C120092A01A0F500DF0C6A /* Player.swift */; };
 		A7C1669329F71DC1003B096D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1669229F71DC1003B096D /* AppDelegate.swift */; };
 		A7C1669529F71DC1003B096D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A7C1669429F71DC1003B096D /* GameScene.sks */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A7B6B1AF2A02C461005FF90B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A7C120092A01A0F500DF0C6A /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		A7C1668F29F71DC1003B096D /* HackSlash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackSlash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C1669229F71DC1003B096D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 		A7C1668629F71DC1003B096D = {
 			isa = PBXGroup;
 			children = (
+				A7B6B1AF2A02C461005FF90B /* Constants.swift */,
 				A7C1669129F71DC1003B096D /* HackSlash */,
 				A7C1669029F71DC1003B096D /* Products */,
 			);
@@ -147,6 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7B6B1B02A02C461005FF90B /* Constants.swift in Sources */,
 				A7C1669929F71DC1003B096D /* GameScene.swift in Sources */,
 				A7C1200A2A01A0F500DF0C6A /* Player.swift in Sources */,
 				A7C1669B29F71DC1003B096D /* GameViewController.swift in Sources */,
