@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		A7B6B1B02A02C461005FF90B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
+		A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B12A02C98A005FF90B /* StateMachine.swift */; };
+		A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */; };
+		A7B6B1B82A02E732005FF90B /* AnimationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B72A02E732005FF90B /* AnimationInfo.swift */; };
+		A7B6B1BB2A02E785005FF90B /* StatesPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1BA2A02E785005FF90B /* StatesPlayer.swift */; };
 		A7C1200A2A01A0F500DF0C6A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C120092A01A0F500DF0C6A /* Player.swift */; };
 		A7C1669329F71DC1003B096D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1669229F71DC1003B096D /* AppDelegate.swift */; };
 		A7C1669529F71DC1003B096D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A7C1669429F71DC1003B096D /* GameScene.sks */; };
@@ -21,6 +25,10 @@
 
 /* Begin PBXFileReference section */
 		A7B6B1AF2A02C461005FF90B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A7B6B1B12A02C98A005FF90B /* StateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
+		A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachineable.swift; sourceTree = "<group>"; };
+		A7B6B1B72A02E732005FF90B /* AnimationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationInfo.swift; sourceTree = "<group>"; };
+		A7B6B1BA2A02E785005FF90B /* StatesPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatesPlayer.swift; sourceTree = "<group>"; };
 		A7C120092A01A0F500DF0C6A /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		A7C1668F29F71DC1003B096D /* HackSlash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackSlash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C1669229F71DC1003B096D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -44,6 +52,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A7B6B1B32A02E6BF005FF90B /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		A7B6B1B62A02E6F1005FF90B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				A7B6B1B72A02E732005FF90B /* AnimationInfo.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		A7B6B1B92A02E76B005FF90B /* States */ = {
+			isa = PBXGroup;
+			children = (
+				A7B6B1BA2A02E785005FF90B /* StatesPlayer.swift */,
+			);
+			path = States;
+			sourceTree = "<group>";
+		};
 		A7C1668629F71DC1003B096D = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +95,9 @@
 		A7C1669129F71DC1003B096D /* HackSlash */ = {
 			isa = PBXGroup;
 			children = (
+				A7B6B1B92A02E76B005FF90B /* States */,
+				A7B6B1B62A02E6F1005FF90B /* Data */,
+				A7B6B1B32A02E6BF005FF90B /* Protocols */,
 				A7C1669229F71DC1003B096D /* AppDelegate.swift */,
 				A7C1669429F71DC1003B096D /* GameScene.sks */,
 				A7C1669629F71DC1003B096D /* Actions.sks */,
@@ -73,6 +108,7 @@
 				A7C166A129F71DC2003B096D /* LaunchScreen.storyboard */,
 				A7C120092A01A0F500DF0C6A /* Player.swift */,
 				A7B6B1AF2A02C461005FF90B /* Constants.swift */,
+				A7B6B1B12A02C98A005FF90B /* StateMachine.swift */,
 			);
 			path = HackSlash;
 			sourceTree = "<group>";
@@ -151,9 +187,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7B6B1B02A02C461005FF90B /* Constants.swift in Sources */,
+				A7B6B1BB2A02E785005FF90B /* StatesPlayer.swift in Sources */,
+				A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */,
+				A7B6B1B82A02E732005FF90B /* AnimationInfo.swift in Sources */,
 				A7C1669929F71DC1003B096D /* GameScene.swift in Sources */,
 				A7C1200A2A01A0F500DF0C6A /* Player.swift in Sources */,
 				A7C1669B29F71DC1003B096D /* GameViewController.swift in Sources */,
+				A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */,
 				A7C1669329F71DC1003B096D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

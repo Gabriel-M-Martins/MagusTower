@@ -8,7 +8,9 @@
 import Foundation
 import SpriteKit
 
-class Player {
+class Player: StateMachine {
+    typealias STM = StatesPlayer
+    
     var sprite: SKSpriteNode
     
     var physicsBody: SKPhysicsBody {
@@ -25,6 +27,3 @@ class Player {
         self.sprite.physicsBody = SKPhysicsBody()
     }
 }
-
-
-
