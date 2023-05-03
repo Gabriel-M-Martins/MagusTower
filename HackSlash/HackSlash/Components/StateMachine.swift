@@ -21,8 +21,9 @@ extension StateMachine {
         
         let targetInfo = target.StateInfo()
 
-        let action = SKAction.animate(with: targetInfo.textures, timePerFrame: targetInfo.duration)
-
+        let action = SKAction.animate(with: targetInfo.textures, timePerFrame: targetInfo.duration / Double(targetInfo.textures.count))
+        action.duration = targetInfo.duration
+        
         sprite.removeAllActions()
 
         if targetInfo.repeating {
