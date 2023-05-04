@@ -11,7 +11,7 @@ import SpriteKit
 enum Directions{
     case up, right, down, left
     
-    var coordenadas: (y: Double, x:Double) {
+    var coordenadas: (x: Double, y:Double) {
         switch self{
         case .up:
             return (0,1)

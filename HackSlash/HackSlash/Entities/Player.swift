@@ -9,6 +9,9 @@ import Foundation
 import SpriteKit
 
 class Player: StateMachine, Move, Attributes {
+//    required init() {
+//
+//    }
     // ------------------------------------------------- state machine implementation
     var currentState: StatesPlayer
     
@@ -37,6 +40,6 @@ class Player: StateMachine, Move, Attributes {
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
         self.currentState = .idle
-        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 5, ySpeed: 10, maxXSpeed: 20, maxYSpeed: 5))
+        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 5, ySpeed: 200, maxXSpeed: 20, maxYSpeed: 600))
     }
 }
