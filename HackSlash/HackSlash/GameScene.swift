@@ -24,6 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact:SKPhysicsContact){
+        print(contact.bodyA.node!.name)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -49,6 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 2))
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
+        platform.physicsBody?.contactTestBitMask = Constants.groundMask
         addChild(platform)
     }
     

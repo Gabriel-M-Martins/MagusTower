@@ -35,6 +35,9 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         self.sprite.physicsBody?.affectedByGravity = true
         self.attributes = attributes
         self.currentState = .idle
+        self.changeMask(bit: Constants.playerMask)
+        self.changeMask(bit: Constants.enemiesMask)
+        self.changeMask(bit: Constants.groundMask)
     }
 }
 

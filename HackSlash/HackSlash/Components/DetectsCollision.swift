@@ -11,8 +11,15 @@ import SpriteKit
 protocol DetectsCollision{
     var physicsBody: SKPhysicsBody {get}
 }
+
 extension DetectsCollision{
     func changeMask(bit: UInt32){
         self.physicsBody.contactTestBitMask = physicsBody.contactTestBitMask | bit
     }
 }
+
+/*
+ SOBRE COMO FUNCIONA:
+    AO SEGUIR O PROTOCOLO, O METODO CHANGEMASK PRECISA SER CHAMADO NO INIT PARA CADA TIPO DE NODO QUE DESEJA VERIFICAR CONTATO.
+    PEGUE O BIT CORRESPONDENTE AO TIPO DE NODO NA PASTA CONSTANTS
+ */
