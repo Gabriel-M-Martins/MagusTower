@@ -21,6 +21,12 @@
 		A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7C1669C29F71DC1003B096D /* Main.storyboard */; };
 		A7C166A029F71DC2003B096D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7C1669F29F71DC2003B096D /* Assets.xcassets */; };
 		A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7C166A129F71DC2003B096D /* LaunchScreen.storyboard */; };
+		A7CDC30D2A0419EF0030A92B /* Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC30C2A0419EF0030A92B /* Attributes.swift */; };
+		A7CDC30F2A04241C0030A92B /* Attacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC30E2A04241C0030A92B /* Attacks.swift */; };
+		A7CDC3112A0424320030A92B /* AttackInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC3102A0424320030A92B /* AttackInfo.swift */; };
+		A7CDC3132A0424720030A92B /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC3122A0424720030A92B /* Elements.swift */; };
+		A7CDC3152A0424880030A92B /* VelocityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC3142A0424880030A92B /* VelocityInfo.swift */; };
+		A7CDC3172A0424CC0030A92B /* AttributesInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC3162A0424CC0030A92B /* AttributesInfo.swift */; };
 		F99499D42A02CC0E00E3807D /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D32A02CC0E00E3807D /* Move.swift */; };
 		F99499D62A02CD3800E3807D /* Directions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D52A02CD3800E3807D /* Directions.swift */; };
 		F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */; };
@@ -43,6 +49,12 @@
 		A7C1669D29F71DC1003B096D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A7C1669F29F71DC2003B096D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A7C166A229F71DC2003B096D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A7CDC30C2A0419EF0030A92B /* Attributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attributes.swift; sourceTree = "<group>"; };
+		A7CDC30E2A04241C0030A92B /* Attacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attacks.swift; sourceTree = "<group>"; };
+		A7CDC3102A0424320030A92B /* AttackInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttackInfo.swift; sourceTree = "<group>"; };
+		A7CDC3122A0424720030A92B /* Elements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
+		A7CDC3142A0424880030A92B /* VelocityInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityInfo.swift; sourceTree = "<group>"; };
+		A7CDC3162A0424CC0030A92B /* AttributesInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributesInfo.swift; sourceTree = "<group>"; };
 		F99499D32A02CC0E00E3807D /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		F99499D52A02CD3800E3807D /* Directions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directions.swift; sourceTree = "<group>"; };
 		F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemySpider.swift; sourceTree = "<group>"; };
@@ -73,6 +85,8 @@
 			children = (
 				A7B6B1B12A02C98A005FF90B /* StateMachine.swift */,
 				F99499D32A02CC0E00E3807D /* Move.swift */,
+				A7CDC30C2A0419EF0030A92B /* Attributes.swift */,
+				A7CDC30E2A04241C0030A92B /* Attacks.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -99,6 +113,10 @@
 			children = (
 				A7B6B1AF2A02C461005FF90B /* Constants.swift */,
 				A7B6B1B72A02E732005FF90B /* AnimationInfo.swift */,
+				A7CDC3102A0424320030A92B /* AttackInfo.swift */,
+				A7CDC3122A0424720030A92B /* Elements.swift */,
+				A7CDC3142A0424880030A92B /* VelocityInfo.swift */,
+				A7CDC3162A0424CC0030A92B /* AttributesInfo.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -226,15 +244,21 @@
 				F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */,
 				A7B6B1BB2A02E785005FF90B /* StatesPlayer.swift in Sources */,
 				A75915982A02EA3A00D953C2 /* Constants.swift in Sources */,
+				A7CDC30F2A04241C0030A92B /* Attacks.swift in Sources */,
+				A7CDC3112A0424320030A92B /* AttackInfo.swift in Sources */,
 				A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */,
 				A7B6B1B82A02E732005FF90B /* AnimationInfo.swift in Sources */,
 				A7C1669929F71DC1003B096D /* GameScene.swift in Sources */,
 				F99499D42A02CC0E00E3807D /* Move.swift in Sources */,
+				A7CDC3152A0424880030A92B /* VelocityInfo.swift in Sources */,
 				A7C1200A2A01A0F500DF0C6A /* Player.swift in Sources */,
 				A7C1669B29F71DC1003B096D /* GameViewController.swift in Sources */,
 				A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */,
 				F99499D62A02CD3800E3807D /* Directions.swift in Sources */,
+				A7CDC30D2A0419EF0030A92B /* Attributes.swift in Sources */,
 				A7C1669329F71DC1003B096D /* AppDelegate.swift in Sources */,
+				A7CDC3172A0424CC0030A92B /* AttributesInfo.swift in Sources */,
+				A7CDC3132A0424720030A92B /* Elements.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
