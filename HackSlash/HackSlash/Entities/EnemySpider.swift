@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-class EnemySpider: StateMachine, Move {
+class EnemySpider: StateMachine, Move, Attributes{
     typealias STM = StatesSpider
     
     var currentState: StatesSpider
@@ -23,18 +23,19 @@ class EnemySpider: StateMachine, Move {
         sprite.position
     }
     
-    var xSpeed: Double = 5
-    var ySpeed: Double = 10
+    var velocity: VelocityInfo{
+        attributes.velocity
+    }
     
-    var maxXSpeed: Double = 20
-    var maxYSpeed: Double = 5
+    var attributes: AttributesInfo
     
-    init(sprite: String) {
+    init(sprite: String, attributes: AttributesInfo) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
         self.sprite.size = CGSize(width: 120, height: 60)
         self.sprite.physicsBody = SKPhysicsBody(rectangleOf: sprite.size(), center: self.sprite.position)
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
+        self.attributes = attributes
         self.currentState = .idle
     }
 }
