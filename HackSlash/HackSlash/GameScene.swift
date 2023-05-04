@@ -32,41 +32,29 @@ class GameScene: SKScene {
         addChild(camera)
     }
     
-    func setupGround(){
-        /// plataforma do ground
-        let ground = SKSpriteNode(color: .black, size: CGSize(width: frame.width, height: frame.height/4))
+    func createPlatform(size: CGSize, position: CGPoint, sprite: String){
+        let platform = SKSpriteNode(imageNamed: sprite)
+        platform.size = size
         // settando o anchor point para ser no meio horizontal e no baixo na vertical
-        ground.anchorPoint = CGPoint(x: 0.5, y: 0)
-        // posicao do ground é zero no x e o mais baixo no y
-        ground.position = CGPoint(x: 0, y: frame.minY)
+        platform.anchorPoint = CGPoint(x: 0.5, y: 0)
+        // posicao do platform é zero no x e o mais baixo no y
+        platform.position = position
         // criando o physicsbody e settando que nao é dinamico p nenhuma força poder ser aplicada contra ele
-        ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: ground.size.width * 2, height: ground.size.height * 2))
-        ground.physicsBody?.isDynamic = false
-        ground.physicsBody?.affectedByGravity = false
-        platforms.append(ground)
-
+        platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 2))
+        platform.physicsBody?.isDynamic = false
+        platform.name = "platform"
+        addChild(platform)
+    }
+    
+    func setupGround(){
+        //cria o chao
+        createPlatform(size: CGSize(width: frame.width, height: frame.height/4), position: CGPoint(x: 0, y: frame.minY), sprite: "YellowBall")
         // ------------------------------------------------------------------------
-        
-        let platform1 = SKSpriteNode(color: .black, size: CGSize(width: frame.width/3, height: constants.platformsHeight))
-
-        platform1.anchorPoint = CGPoint(x: 0, y: 0.5)
-        platform1.position = CGPoint(x: frame.minX, y: frame.midY)
-        platform1.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform1.size.width * 2, height: platform1.size.height * 2))
-        platform1.physicsBody?.isDynamic = false
-        platform1.physicsBody?.affectedByGravity = false
-        platforms.append(platform1)
-
+        //cria plataforma esquerda
+        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.minX + frame.width/6, y: frame.midY), sprite: "YellowBall")
         // ------------------------------------------------------------------------
-        
-        let platform2 = SKSpriteNode(color: .black, size: CGSize(width: frame.width/3, height: constants.platformsHeight))
-
-        platform2.anchorPoint = CGPoint(x: 1, y: 0.5)
-        platform2.position = CGPoint(x: frame.maxX, y: frame.midY)
-        platform2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform2.size.width * 2, height: platform2.size.height * 2))
-        platform2.physicsBody?.isDynamic = false
-        platform2.physicsBody?.affectedByGravity = false
-        platforms.append(platform2)
-
+        //cria plataforma direita
+        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "YellowBall")
         // ------------------------------------------------------------------------
         
         // adicionando todas as plataformas como childs da cena

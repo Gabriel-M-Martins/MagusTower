@@ -23,6 +23,8 @@
 		A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7C166A129F71DC2003B096D /* LaunchScreen.storyboard */; };
 		F99499D42A02CC0E00E3807D /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D32A02CC0E00E3807D /* Move.swift */; };
 		F99499D62A02CD3800E3807D /* Directions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D52A02CD3800E3807D /* Directions.swift */; };
+		F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */; };
+		F9CB0BAB2A041D47004A0661 /* StatesSpider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BAA2A041D47004A0661 /* StatesSpider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,8 @@
 		A7C166A229F71DC2003B096D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F99499D32A02CC0E00E3807D /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		F99499D52A02CD3800E3807D /* Directions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directions.swift; sourceTree = "<group>"; };
+		F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemySpider.swift; sourceTree = "<group>"; };
+		F9CB0BAA2A041D47004A0661 /* StatesSpider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatesSpider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				A7C120092A01A0F500DF0C6A /* Player.swift */,
+				F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -102,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				A7B6B1BA2A02E785005FF90B /* StatesPlayer.swift */,
+				F9CB0BAA2A041D47004A0661 /* StatesSpider.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -216,6 +222,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9CB0BAB2A041D47004A0661 /* StatesSpider.swift in Sources */,
+				F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */,
 				A7B6B1BB2A02E785005FF90B /* StatesPlayer.swift in Sources */,
 				A75915982A02EA3A00D953C2 /* Constants.swift in Sources */,
 				A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */,

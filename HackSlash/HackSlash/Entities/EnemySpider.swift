@@ -1,17 +1,17 @@
 //
-//  File.swift
+//  Inimigo.swift
 //  HackSlash
 //
-//  Created by Gabriel Medeiros Martins on 02/05/23.
+//  Created by Pedro Mezacasa Muller on 04/05/23.
 //
 
 import Foundation
 import SpriteKit
 
-class Player: StateMachine, Move {
-    typealias STM = StatesPlayer
+class EnemySpider: StateMachine, Move {
+    typealias STM = StatesSpider
     
-    var currentState: StatesPlayer
+    var currentState: StatesSpider
     
     var sprite: SKSpriteNode
     
@@ -23,18 +23,19 @@ class Player: StateMachine, Move {
         sprite.position
     }
     
-    var xSpeed: Double = -4
-    var ySpeed: Double = 0
+    var xSpeed: Double = 5
+    var ySpeed: Double = 10
     
     var maxXSpeed: Double = 20
-    var maxYSpeed: Double = 20
+    var maxYSpeed: Double = 5
     
     init(sprite: String) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
-        self.sprite.size = CGSize(width: 60, height: 120)
-        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 60, height: 120), center: self.sprite.position)
+        self.sprite.size = CGSize(width: 120, height: 60)
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: sprite.size(), center: self.sprite.position)
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
         self.currentState = .idle
     }
 }
+
