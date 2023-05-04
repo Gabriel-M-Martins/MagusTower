@@ -11,6 +11,8 @@ import SpriteKit
 class Player: StateMachine, Move {
     typealias STM = StatesPlayer
     
+    var currentState: StatesPlayer
+    
     var sprite: SKSpriteNode
     
     var physicsBody: SKPhysicsBody {
@@ -33,5 +35,6 @@ class Player: StateMachine, Move {
         self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 60, height: 120), center: self.sprite.position)
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
+        self.currentState = .idle
     }
 }

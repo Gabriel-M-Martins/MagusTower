@@ -12,18 +12,20 @@ protocol StateMachine {
     associatedtype STM: StateMachineable
     
     var sprite: SKSpriteNode { get }
-    func transition(from current: STM, to target: STM)
+    var currentState: STM { get set }
+    mutating func transition(to target: STM)
 }
 
 extension StateMachine {
-    func transition(from current: STM, to target: STM) {
-        guard current.ValidateTransition(to: target) else { return }
+    mutating func transition(to target: STM) {
+        guard currentState.ValidateTransition(to: target) else { return }
         
         let targetInfo = target.StateInfo()
-
+        guard !targetInfo.textures.isEmpty else { return }
+        
         let action = SKAction.animate(with: targetInfo.textures, timePerFrame: targetInfo.duration / Double(targetInfo.textures.count))
         action.duration = targetInfo.duration
-        
+
         sprite.removeAllActions()
 
         if targetInfo.repeating {
@@ -31,5 +33,7 @@ extension StateMachine {
         } else {
             sprite.run(action)
         }
+        
+        currentState = target
     }
 }
