@@ -1,6 +1,6 @@
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     /// struct constants vai ter todos os valores constantes ao longo do jogo, cores e etc
     var constants: Constants {
         return Constants(frame: frame)
@@ -13,11 +13,17 @@ class GameScene: SKScene {
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
+        physicsWorld.contactDelegate = self
+        // ------------------------------------------------------------------------
         setupGround()
         // ------------------------------------------------------------------------
         setupPlayer()
         // ------------------------------------------------------------------------
         setupCamera()
+    }
+    
+    
+    func didBegin(_ contact:SKPhysicsContact){
     }
     
     override func update(_ currentTime: TimeInterval) {

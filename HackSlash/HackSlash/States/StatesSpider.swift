@@ -42,7 +42,7 @@ enum StatesSpider: StateMachineable {
         case .goingUp:
             return [.attack].contains(target)
         case .attack:
-            return [.idle, .walking, .charging].contains(target)
+            return [.idle, .walking].contains(target)
         }
     }
 }
