@@ -8,10 +8,17 @@
 import Foundation
 import SpriteKit
 
-class Player: StateMachine, Move {
-    typealias STM = StatesPlayer
-    
+class Player: StateMachine, Move, Attributes {
+    // ------------------------------------------------- state machine implementation
     var currentState: StatesPlayer
+    
+    // ------------------------------------------------- move implementation
+    var velocity: VelocityInfo {
+        attributes.velocity
+    }
+    
+    // ------------------------------------------------- attributes implementation
+    var attributes: AttributesInfo
     
     var sprite: SKSpriteNode
     
@@ -23,12 +30,6 @@ class Player: StateMachine, Move {
         sprite.position
     }
     
-    var xSpeed: Double = 5
-    var ySpeed: Double = 10
-    
-    var maxXSpeed: Double = 20
-    var maxYSpeed: Double = 5
-    
     init(sprite: String) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
         self.sprite.size = CGSize(width: 60, height: 120)
@@ -36,5 +37,6 @@ class Player: StateMachine, Move {
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
         self.currentState = .idle
+        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 5, ySpeed: 10, maxXSpeed: 20, maxYSpeed: 5))
     }
 }
