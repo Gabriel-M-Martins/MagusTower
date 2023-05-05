@@ -9,9 +9,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // lista de plataformas existentes na cena. todas sao desenhadas no começo do jogo
     var platforms: [SKSpriteNode] = []
     var player: Player = Player(sprite: "")
-<<<<<<< HEAD
     var spider: EnemySpider = EnemySpider(sprite: "", attributes: AttributesInfo(health: 10, defense: 1, weakness: [], velocity: VelocityInfo(xSpeed: 0, ySpeed: 0, maxXSpeed: 0, maxYSpeed: 0)))
-=======
     
     
     private var movementInput = SKShapeNode()
