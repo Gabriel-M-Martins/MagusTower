@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if nodeName == "movementInput" {
             player.move(direction: [.up])
+            player.transition(to: .jump)
             return
         }
         
@@ -48,7 +49,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact:SKPhysicsContact){
-        print(contact.bodyA.node!.name)
+        if contact.bodyA.node?.name == "Player" || contact.bodyB.node?.name == "Player" {
+            player.transition(to: .idle)
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -118,7 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupPlayer(){
         //Creates player and adds it to the scene
-        player = Player(sprite: "YellowBall")
+        player = Player(sprite: "MagoFrente")
         addChild(player.sprite)
     }
 }

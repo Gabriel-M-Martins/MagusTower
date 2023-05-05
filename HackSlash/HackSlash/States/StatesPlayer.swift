@@ -18,15 +18,15 @@ enum StatesPlayer: StateMachineable {
     func StateInfo() -> AnimationInfo {
         switch self {
         case .idle:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
+            return AnimationInfo(textures: [Constants.playerIdleTexture], duration: 0, repeating: true)
         case .attack:
             return AnimationInfo(textures: [], duration: 0)
         case .walking:
             return AnimationInfo(textures: [], duration: 0, repeating: true)
         case .jump:
-            return AnimationInfo(textures: [], duration: 0)
+            return AnimationInfo(textures: [Constants.playerJumpTexture], duration: 0)
         case .airborne:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
+            return AnimationInfo(textures: [Constants.playerIdleTexture], duration: 0, repeating: true)
         case .landing:
             return AnimationInfo(textures: [], duration: 0)
         }
@@ -41,7 +41,7 @@ enum StatesPlayer: StateMachineable {
         case .walking:
             return [.idle, .attack, .jump].contains(target)
         case .jump:
-            return [.airborne].contains(target)
+            return [.airborne, .idle].contains(target)
         case .airborne:
             return [.landing, .jump, .attack].contains(target)
         case .landing:
