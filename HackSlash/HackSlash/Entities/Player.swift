@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-class Player: StateMachine, Move, Attributes, DetectsCollision{
+class Player: StateMachine, Move, Attributes, DetectsCollision {
     // ------------------------------------------------- state machine implementation
     var currentState: StatesPlayer
     
