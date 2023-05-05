@@ -21,7 +21,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let nodeName = tappedNode.name else { return }
         
         if nodeName == "movementInput" {
+            print(player.currentState)
             player.move(direction: [.up])
+            player.transition(to: .jump)
+            print(player.currentState)
             return
         }
         
@@ -58,7 +61,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if toDie == 0{
                 spider.transition(to: .charging)
             }
+            player.transition(to: .idle)
             print("foi")
+        }
+        
+        if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
+            print(player.currentState)
+            player.transition(to: .idle)
+            print(player.currentState)
         }
     }
     
@@ -129,7 +139,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupPlayer(){
         //Creates player and adds it to the scene
-        player = Player(sprite: "YellowBall")
+        player = Player(sprite: "MagoFrente")
         player.sprite.position.y += frame.maxY
         addChild(player.sprite)
     }

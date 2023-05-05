@@ -20,7 +20,7 @@ enum StatesSpider: StateMachineable {
     func StateInfo() -> AnimationInfo {
         switch self {
         case .idle:
-            return AnimationInfo(textures: [SKTexture(imageNamed: "VillainFinal2")], duration: 1, repeating: true)
+            return AnimationInfo(textures: [Constants.spiderIdleTexture], duration: 1, repeating: true)
         case .walking:
             return AnimationInfo(textures: [], duration: 0)
         case .charging:

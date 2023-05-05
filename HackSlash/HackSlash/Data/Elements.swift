@@ -14,7 +14,7 @@ enum Elements {
     case earth
     case neutral
     
-    func getBuff() -> ()->Void {
+    func getBuff() -> (any Attributes) -> Void {
         switch self {
         case .fire:
             return placeholder1
@@ -29,7 +29,7 @@ enum Elements {
         }
     }
     
-    func getDebuff() -> ()->Void {
+    func getDebuff() -> (any Attributes) -> Void {
         switch self {
         case .fire:
             return placeholder2
@@ -44,10 +44,11 @@ enum Elements {
         }
     }
     
-    func placeholder1() {
+    func placeholder1(_ attr: any Attributes) {
+//        attr.attributes.
         print("buff")
     }
-    func placeholder2() {
+    func placeholder2(_ attr: any Attributes) {
         print("debuff")
     }
 }
