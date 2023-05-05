@@ -9,6 +9,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // lista de plataformas existentes na cena. todas sao desenhadas no começo do jogo
     var platforms: [SKSpriteNode] = []
     var player: Player = Player(sprite: "")
+    var spider: EnemySpider = EnemySpider(sprite: "", attributes: AttributesInfo(health: 10, defense: 1, weakness: [], velocity: VelocityInfo(xSpeed: 0, ySpeed: 0, maxXSpeed: 0, maxYSpeed: 0)))
     
     
     private var movementInput = SKShapeNode()
@@ -31,6 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
@@ -42,15 +44,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------
         setupCamera()
         // ------------------------------------------------------------------------
+        setupSpider(spriteName: "VillainFinal2", position: CGPoint(x: frame.midX, y: frame.midY - 200))
+
         setupButtons()
         // ------------------------------------------------------------------------
         setupGestures()
+
     }
     
     
     func didBegin(_ contact:SKPhysicsContact){
-        if contact.bodyA.node?.name == "Player" || contact.bodyB.node?.name == "Player" {
-            player.transition(to: .idle)
+        if (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "Spider"){
+            spider.transition(to: .charging)
+            print("foi")
         }
     }
     
@@ -123,5 +129,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Creates player and adds it to the scene
         player = Player(sprite: "MagoFrente")
         addChild(player.sprite)
+    }
+    
+    func setupSpider(spriteName: String, position: CGPoint){
+        spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: -5, ySpeed: 10, maxXSpeed: 5, maxYSpeed: 10)))
+        spider.sprite.position = position
+        addChild(spider.sprite)
     }
 }

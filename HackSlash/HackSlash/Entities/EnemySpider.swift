@@ -29,11 +29,12 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
     
     init(sprite: String, attributes: AttributesInfo) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
-        self.sprite.size = CGSize(width: 120, height: 60)
-        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: sprite.size(), center: self.sprite.position)
+        self.sprite.size = CGSize(width: 100, height: 50)
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: self.sprite.size, center: self.sprite.position)
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
         self.attributes = attributes
+        self.sprite.name = "Spider"
         self.currentState = .idle
         self.changeMask(bit: Constants.playerMask)
         self.changeMask(bit: Constants.enemiesMask)

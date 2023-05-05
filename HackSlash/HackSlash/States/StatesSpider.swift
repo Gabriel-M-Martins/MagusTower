@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SpriteKit
 
 enum StatesSpider: StateMachineable {
     case idle
@@ -19,11 +20,11 @@ enum StatesSpider: StateMachineable {
     func StateInfo() -> AnimationInfo {
         switch self {
         case .idle:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
+            return AnimationInfo(textures: [SKTexture(imageNamed: "VillainFinal2")], duration: 1, repeating: true)
         case .walking:
             return AnimationInfo(textures: [], duration: 0)
         case .charging:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
+            return AnimationInfo(textures: [SKTexture(imageNamed: "DeadVillain")], duration: 1, repeating: true)
         case .goingUp:
             return AnimationInfo(textures: [], duration: 0)
         case .attack:
