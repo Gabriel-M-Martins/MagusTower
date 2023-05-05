@@ -10,7 +10,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var platforms: [SKSpriteNode] = []
     var player: Player = Player(sprite: "")
     var spider: EnemySpider = EnemySpider(sprite: "", attributes: AttributesInfo(health: 10, defense: 1, weakness: [], velocity: VelocityInfo(xSpeed: 0, ySpeed: 0, maxXSpeed: 0, maxYSpeed: 0)))
-    
+    var toDie: Int = 3
     
     private var movementInput = SKShapeNode()
     private var combosInput = SKShapeNode()
@@ -54,8 +54,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact:SKPhysicsContact){
         if (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "Spider"){
-            
-            spider.transition(to: .charging)
+            toDie -= 1
+            if toDie == 0{
+                spider.transition(to: .charging)
+            }
             print("foi")
         }
     }
@@ -110,13 +112,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupGround(){
         //cria o chao
-        createPlatform(size: CGSize(width: frame.width, height: frame.height/4), position: CGPoint(x: 0, y: frame.minY), sprite: "YellowBall")
+        createPlatform(size: CGSize(width: frame.width, height: frame.height/4), position: CGPoint(x: 0, y: frame.minY), sprite: "UnderGroundReal")
         // ------------------------------------------------------------------------
         //cria plataforma esquerda
-        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.minX + frame.width/6, y: frame.midY), sprite: "YellowBall")
+        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.minX + frame.width/6, y: frame.midY), sprite: "UnderGroundReal")
         // ------------------------------------------------------------------------
         //cria plataforma direita
-        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "YellowBall")
+        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "UnderGroundReal")
         // ------------------------------------------------------------------------
         
         // adicionando todas as plataformas como childs da cena
@@ -128,6 +130,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupPlayer(){
         //Creates player and adds it to the scene
         player = Player(sprite: "YellowBall")
+        player.sprite.position.y += frame.maxY
         addChild(player.sprite)
     }
     
