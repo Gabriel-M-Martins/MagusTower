@@ -34,6 +34,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
         self.attributes = attributes
+        self.sprite.name = "Spider"
         self.currentState = .idle
         self.changeMask(bit: Constants.playerMask)
         self.changeMask(bit: Constants.enemiesMask)

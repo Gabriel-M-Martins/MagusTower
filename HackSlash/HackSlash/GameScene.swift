@@ -9,7 +9,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // lista de plataformas existentes na cena. todas sao desenhadas no começo do jogo
     var platforms: [SKSpriteNode] = []
     var player: Player = Player(sprite: "")
-
+    var spider: EnemySpider = EnemySpider(sprite: "", attributes: AttributesInfo(health: 10, defense: 1, weakness: [], velocity: VelocityInfo(xSpeed: 0, ySpeed: 0, maxXSpeed: 0, maxYSpeed: 0)))
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
@@ -21,12 +21,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------
         setupCamera()
         // ------------------------------------------------------------------------
-        setupSpider(spriteName: "DeadVillain", position: CGPoint(x: frame.maxX, y: frame.maxY))
+        setupSpider(spriteName: "VillainFinal2", position: CGPoint(x: frame.midX, y: frame.midY - 200))
     }
     
     
     func didBegin(_ contact:SKPhysicsContact){
-        print(contact.bodyA.node!.name)
+        if (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "Spider"){
+            
+            spider.transition(to: .charging)
+            print("foi")
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -80,7 +84,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, position: CGPoint){
-        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: -5, ySpeed: 10, maxXSpeed: 5, maxYSpeed: 10)))
+        spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: -5, ySpeed: 10, maxXSpeed: 5, maxYSpeed: 10)))
+        spider.sprite.position = position
         addChild(spider.sprite)
     }
 }
