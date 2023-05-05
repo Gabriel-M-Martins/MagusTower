@@ -38,7 +38,7 @@ class Player: StateMachine, Move, Attributes, DetectsCollision{
         self.sprite.physicsBody?.affectedByGravity = true
         self.sprite.name = "Player"
         self.currentState = .idle
-        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 5, ySpeed: 10, maxXSpeed: 20, maxYSpeed: 5))
+        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 5, ySpeed: 30, maxXSpeed: 0, maxYSpeed: 10))
         self.changeMask(bit: Constants.playerMask)
         self.changeMask(bit: Constants.enemiesMask)
         self.changeMask(bit: Constants.groundMask)

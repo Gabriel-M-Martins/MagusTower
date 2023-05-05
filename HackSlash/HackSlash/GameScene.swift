@@ -20,6 +20,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupPlayer()
         // ------------------------------------------------------------------------
         setupCamera()
+        // ------------------------------------------------------------------------
+        setupSpider(spriteName: "DeadVillain", position: CGPoint(x: frame.maxX, y: frame.maxY))
     }
     
     
@@ -75,5 +77,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Creates player and adds it to the scene
         player = Player(sprite: "YellowBall")
         addChild(player.sprite)
+    }
+    
+    func setupSpider(spriteName: String, position: CGPoint){
+        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: -5, ySpeed: 10, maxXSpeed: 5, maxYSpeed: 10)))
+        addChild(spider.sprite)
     }
 }
