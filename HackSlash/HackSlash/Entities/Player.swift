@@ -8,10 +8,7 @@
 import Foundation
 import SpriteKit
 
-class Player: StateMachine, Move, Attributes {
-//    required init() {
-//
-//    }
+class Player: StateMachine, Move, Attributes, DetectsCollision{
     // ------------------------------------------------- state machine implementation
     var currentState: StatesPlayer
     
@@ -39,7 +36,11 @@ class Player: StateMachine, Move, Attributes {
         self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 60, height: 120), center: self.sprite.position)
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
+        self.sprite.name = "Player"
         self.currentState = .idle
-        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 5, ySpeed: 200, maxXSpeed: 20, maxYSpeed: 600))
+        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 5, ySpeed: 10, maxXSpeed: 20, maxYSpeed: 5))
+        self.changeMask(bit: Constants.playerMask)
+        self.changeMask(bit: Constants.enemiesMask)
+        self.changeMask(bit: Constants.groundMask)
     }
 }

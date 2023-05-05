@@ -29,6 +29,9 @@
 		A7CDC3172A0424CC0030A92B /* AttributesInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC3162A0424CC0030A92B /* AttributesInfo.swift */; };
 		F99499D42A02CC0E00E3807D /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D32A02CC0E00E3807D /* Move.swift */; };
 		F99499D62A02CD3800E3807D /* Directions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D52A02CD3800E3807D /* Directions.swift */; };
+		F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */; };
+		F9CB0BAB2A041D47004A0661 /* StatesSpider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BAA2A041D47004A0661 /* StatesSpider.swift */; };
+		F9CB0BAF2A043EE0004A0661 /* DetectsCollision.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BAE2A043EE0004A0661 /* DetectsCollision.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +58,9 @@
 		A7CDC3162A0424CC0030A92B /* AttributesInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributesInfo.swift; sourceTree = "<group>"; };
 		F99499D32A02CC0E00E3807D /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		F99499D52A02CD3800E3807D /* Directions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directions.swift; sourceTree = "<group>"; };
+		F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemySpider.swift; sourceTree = "<group>"; };
+		F9CB0BAA2A041D47004A0661 /* StatesSpider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatesSpider.swift; sourceTree = "<group>"; };
+		F9CB0BAE2A043EE0004A0661 /* DetectsCollision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectsCollision.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +85,7 @@
 		A75915972A02EA2000D953C2 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				F9CB0BAE2A043EE0004A0661 /* DetectsCollision.swift */,
 				A7B6B1B12A02C98A005FF90B /* StateMachine.swift */,
 				F99499D32A02CC0E00E3807D /* Move.swift */,
 				A7CDC30C2A0419EF0030A92B /* Attributes.swift */,
@@ -91,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				A7C120092A01A0F500DF0C6A /* Player.swift */,
+				F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -120,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				A7B6B1BA2A02E785005FF90B /* StatesPlayer.swift */,
+				F9CB0BAA2A041D47004A0661 /* StatesSpider.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -234,6 +243,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9CB0BAB2A041D47004A0661 /* StatesSpider.swift in Sources */,
+				F9CB0BAF2A043EE0004A0661 /* DetectsCollision.swift in Sources */,
+				F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */,
 				A7B6B1BB2A02E785005FF90B /* StatesPlayer.swift in Sources */,
 				A75915982A02EA3A00D953C2 /* Constants.swift in Sources */,
 				A7CDC30F2A04241C0030A92B /* Attacks.swift in Sources */,
