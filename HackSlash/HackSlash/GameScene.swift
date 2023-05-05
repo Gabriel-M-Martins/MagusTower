@@ -9,7 +9,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // lista de plataformas existentes na cena. todas sao desenhadas no começo do jogo
     var platforms: [SKSpriteNode] = []
     var player: Player = Player(sprite: "")
+<<<<<<< HEAD
     var spider: EnemySpider = EnemySpider(sprite: "", attributes: AttributesInfo(health: 10, defense: 1, weakness: [], velocity: VelocityInfo(xSpeed: 0, ySpeed: 0, maxXSpeed: 0, maxYSpeed: 0)))
+=======
+    
+    
+    private var movementInput = SKShapeNode()
+    private var combosInput = SKShapeNode()
+    
+    @objc private func handleTap(_ recognizer: UITapGestureRecognizer) {
+        let tappedNode = atPoint(convertPoint(fromView: recognizer.location(in: view)))
+        
+        guard let nodeName = tappedNode.name else { return }
+        
+        if nodeName == "movementInput" {
+            player.move(direction: [.up])
+            return
+        }
+        
+        if nodeName == "combosInput" {
+            // implement attack stuff
+            return
+        }
+    }
+    
+
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
@@ -22,6 +46,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupCamera()
         // ------------------------------------------------------------------------
         setupSpider(spriteName: "VillainFinal2", position: CGPoint(x: frame.midX, y: frame.midY - 200))
+
+        setupButtons()
+        // ------------------------------------------------------------------------
+        setupGestures()
+
     }
     
     
@@ -34,8 +63,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        player.move(direction: [.right, .up])
+//        player.move(direction: [.right, .up])
         camera?.position = player.position
+    }
+    
+    func setupButtons() {
+        movementInput = SKShapeNode(rectOf: CGSize(width: 200, height: 200))
+        movementInput.name = "movementInput"
+        movementInput.position = CGPoint(x: frame.minX + 250, y: frame.minY + 250)
+        movementInput.strokeColor = .red
+
+        combosInput = SKShapeNode(rectOf: CGSize(width: 200, height: 200))
+        combosInput.name = "combosInput"
+        combosInput.position = CGPoint(x: frame.maxX - 250, y: frame.minY + 250)
+        combosInput.strokeColor = .blue
+        
+        camera?.addChild(movementInput)
+        camera?.addChild(combosInput)
+    }
+    
+    func setupGestures() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        tap.numberOfTapsRequired = 1
+        view?.addGestureRecognizer(tap)
     }
     
     func setupCamera() {
