@@ -18,13 +18,13 @@ enum StatesPlayer: StateMachineable {
     func StateInfo() -> AnimationInfo {
         switch self {
         case .idle:
-            return AnimationInfo(textures: [Constants.playerIdleTexture], duration: 0, repeating: true)
+            return AnimationInfo(textures: [Constants.playerIdleTexture], duration: 5, repeating: true)
         case .attack:
             return AnimationInfo(textures: [], duration: 0)
         case .walking:
             return AnimationInfo(textures: [], duration: 0, repeating: true)
         case .jump:
-            return AnimationInfo(textures: [Constants.playerJumpTexture], duration: 0)
+            return AnimationInfo(textures: [Constants.playerJumpTexture], duration: 5)
         case .airborne:
             return AnimationInfo(textures: [Constants.playerIdleTexture], duration: 0, repeating: true)
         case .landing:

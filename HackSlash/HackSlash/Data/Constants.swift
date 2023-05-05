@@ -16,6 +16,7 @@ struct Constants {
     
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     static let playerJumpTexture: SKTexture = SKTexture(imageNamed: "MagoLado")
+    static let spiderIdleTexture: SKTexture = SKTexture(imageNamed: "Spider")
     
     init(frame: CGRect) {
         self.frame = frame
