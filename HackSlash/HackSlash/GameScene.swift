@@ -12,6 +12,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var spider: EnemySpider = EnemySpider(sprite: "", attributes: AttributesInfo(health: 10, defense: 1, weakness: [], velocity: VelocityInfo(xSpeed: 0, ySpeed: 0, maxXSpeed: 0, maxYSpeed: 0)))
     var toDie: Int = 3
     
+    var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
+    
     private var movementInput = SKShapeNode()
     private var combosInput = SKShapeNode()
     
@@ -39,6 +41,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
+        background.zPosition = -10
+        background.size = CGSize(width: frame.width * 2, height: frame.height * 2)
+        addChild(background)
         // ------------------------------------------------------------------------
         setupGround()
         // ------------------------------------------------------------------------
