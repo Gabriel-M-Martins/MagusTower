@@ -5,7 +5,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var constants: Constants {
         return Constants(frame: frame)
     }
-
+    
     // lista de plataformas existentes na cena. todas sao desenhadas no começo do jogo
     var platforms: [SKSpriteNode] = []
     var player: Player = Player(sprite: "")
@@ -17,26 +17,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var movementInput = SKShapeNode()
     private var combosInput = SKShapeNode()
     
-    @objc private func handleTap(_ recognizer: UITapGestureRecognizer) {
-        let tappedNode = atPoint(convertPoint(fromView: recognizer.location(in: view)))
+    private func isOnNode(_ nodeName: String, location: CGPoint, action: () -> Void) -> Bool{
+        let node = atPoint(location)
         
-        guard let nodeName = tappedNode.name else { return }
+        guard let name = node.name else { return false }
         
-        if nodeName == "movementInput" {
-            print(player.currentState)
-            player.move(direction: [.up])
-            player.transition(to: .jump)
-            print(player.currentState)
-            return
+        if name == nodeName {
+            action()
+            return true
         }
         
-        if nodeName == "combosInput" {
-            // implement attack stuff
-            return
+        return false
+    }
+    
+    @objc private func handleTap(_ recognizer: UITapGestureRecognizer) {
+        let pos = convertPoint(fromView: recognizer.location(in: view))
+        
+        let result = isOnNode("movementInput", location: pos) {
+            player.move(direction: [.up])
+            player.transition(to: .jump)
+        }
+        
+        if !result {
+            let _ = isOnNode("combosInput", location: pos) {
+                //implement combo
+            }
         }
     }
     
-
+    
+    @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
+        
+    }
+    
+    
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
@@ -52,11 +66,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupCamera()
         // ------------------------------------------------------------------------
         setupSpider(spriteName: "VillainFinal2", position: CGPoint(x: frame.midX, y: frame.midY - 200))
-
+        
         setupButtons()
         // ------------------------------------------------------------------------
         setupGestures()
-
+        
     }
     
     
@@ -78,7 +92,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-//        player.move(direction: [.right, .up])
+        //        player.move(direction: [.right, .up])
         camera?.position = player.position
     }
     
@@ -87,7 +101,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         movementInput.name = "movementInput"
         movementInput.position = CGPoint(x: frame.minX + 250, y: frame.minY + 250)
         movementInput.strokeColor = .red
-
+        
         combosInput = SKShapeNode(rectOf: CGSize(width: 200, height: 200))
         combosInput.name = "combosInput"
         combosInput.position = CGPoint(x: frame.maxX - 250, y: frame.minY + 250)
@@ -101,6 +115,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tap.numberOfTapsRequired = 1
         view?.addGestureRecognizer(tap)
+        
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        view?.addGestureRecognizer(pan)
     }
     
     func setupCamera() {
