@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9213C3E52A02E1F6005AC7BD /* FireParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9213C3E42A02E1F6005AC7BD /* FireParticle Godinho.sks */; };
+		9213C3E92A02E4A1005AC7BD /* MagicParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9213C3E72A02E4A1005AC7BD /* MagicParticle Godinho.sks */; };
+		9213C3EA2A02E4A1005AC7BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9213C3E82A02E4A1005AC7BD /* Assets.xcassets */; };
+		9213C3EC2A02E68B005AC7BD /* LightiningParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9213C3EB2A02E68B005AC7BD /* LightiningParticle Godinho.sks */; };
+		9213C3EE2A02E866005AC7BD /* IceParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9213C3ED2A02E866005AC7BD /* IceParticle Godinho.sks */; };
+		9213C3F02A02EFA1005AC7BD /* DirtParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9213C3EF2A02EFA1005AC7BD /* DirtParticle Godinho.sks */; };
 		F93201F329FBE214006037CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93201F229FBE214006037CF /* AppDelegate.swift */; };
 		F93201F529FBE214006037CF /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = F93201F429FBE214006037CF /* GameScene.sks */; };
 		F93201F729FBE214006037CF /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = F93201F629FBE214006037CF /* Actions.sks */; };
@@ -21,6 +27,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9213C3E42A02E1F6005AC7BD /* FireParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "FireParticle Godinho.sks"; sourceTree = "<group>"; };
+		9213C3E72A02E4A1005AC7BD /* MagicParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "MagicParticle Godinho.sks"; sourceTree = "<group>"; };
+		9213C3E82A02E4A1005AC7BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9213C3EB2A02E68B005AC7BD /* LightiningParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "LightiningParticle Godinho.sks"; sourceTree = "<group>"; };
+		9213C3ED2A02E866005AC7BD /* IceParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "IceParticle Godinho.sks"; sourceTree = "<group>"; };
+		9213C3EF2A02EFA1005AC7BD /* DirtParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "DirtParticle Godinho.sks"; sourceTree = "<group>"; };
 		F93201EF29FBE214006037CF /* DemoParticle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoParticle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93201F229FBE214006037CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F93201F429FBE214006037CF /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -46,6 +58,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9213C3E62A02E47C005AC7BD /* Particulas Godinho */ = {
+			isa = PBXGroup;
+			children = (
+				9213C3E42A02E1F6005AC7BD /* FireParticle Godinho.sks */,
+				9213C3E72A02E4A1005AC7BD /* MagicParticle Godinho.sks */,
+				9213C3E82A02E4A1005AC7BD /* Assets.xcassets */,
+				9213C3EB2A02E68B005AC7BD /* LightiningParticle Godinho.sks */,
+				9213C3ED2A02E866005AC7BD /* IceParticle Godinho.sks */,
+				9213C3EF2A02EFA1005AC7BD /* DirtParticle Godinho.sks */,
+			);
+			path = "Particulas Godinho";
+			sourceTree = "<group>";
+		};
 		F93201E629FBE214006037CF = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +90,7 @@
 		F93201F129FBE214006037CF /* DemoParticle */ = {
 			isa = PBXGroup;
 			children = (
+				9213C3E62A02E47C005AC7BD /* Particulas Godinho */,
 				F93201F229FBE214006037CF /* AppDelegate.swift */,
 				F93201F429FBE214006037CF /* GameScene.sks */,
 				F932020B29FBE422006037CF /* Naruto.sks */,
@@ -138,9 +164,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9213C3EE2A02E866005AC7BD /* IceParticle Godinho.sks in Resources */,
 				F93201FE29FBE214006037CF /* Main.storyboard in Resources */,
 				F933673F29FC26FE00F33A8F /* Spark.sks in Resources */,
+				9213C3EA2A02E4A1005AC7BD /* Assets.xcassets in Resources */,
+				9213C3F02A02EFA1005AC7BD /* DirtParticle Godinho.sks in Resources */,
+				9213C3E52A02E1F6005AC7BD /* FireParticle Godinho.sks in Resources */,
+				9213C3E92A02E4A1005AC7BD /* MagicParticle Godinho.sks in Resources */,
 				F93201F529FBE214006037CF /* GameScene.sks in Resources */,
+				9213C3EC2A02E68B005AC7BD /* LightiningParticle Godinho.sks in Resources */,
 				F932020029FBE215006037CF /* Assets.xcassets in Resources */,
 				F932020C29FBE422006037CF /* Naruto.sks in Resources */,
 				F932020329FBE215006037CF /* LaunchScreen.storyboard in Resources */,
