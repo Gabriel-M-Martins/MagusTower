@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Mago de Frente.png",
+      "filename" : "MagoFrente.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Mago de Frente@2x.png",
+      "filename" : "MagoFrente@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Mago de Frente@3x.png",
+      "filename" : "MagoFrente@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

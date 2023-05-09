@@ -40,5 +40,36 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         self.changeMask(bit: Constants.enemiesMask)
         self.changeMask(bit: Constants.groundMask)
     }
+    
+    func moveAI(player: SKSpriteNode){
+        //Antes que ache isso nojento, é a melhor solucao para o erro de self is immutable. Caso queiram ler sobre o erro: https://github.com/apple/swift/issues/46812
+        
+        //Checa se a aranha está no ar ou no meio de um ataque
+        switch self.currentState{
+        case .idle, .walkingRight, .walkingLeft:
+            if player.position.x > self.sprite.position.x {
+                move(direction: [.left])
+                if currentState != .walkingLeft{
+                    var tmpSelf = self
+                    tmpSelf.transition(to: .walkingLeft)
+                }
+            } else {
+                move(direction: [.right])
+                if currentState != .walkingRight{
+                    var tmpSelf = self
+                    tmpSelf.transition(to: .walkingRight)
+                }
+            }
+            if abs(player.position.x - sprite.position.x) >= self.attributes.attackRange{
+                var tmpSelf = self
+                tmpSelf.transition(to: .charging)
+                self.physicsBody.velocity.dx = 0
+            }
+        case .charging:
+            move(direction: [player.position.x > self.sprite.position.x ? .left : .right], power: 0.03)
+        default:
+            break
+        }
+    }
 }
 

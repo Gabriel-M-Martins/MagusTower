@@ -12,4 +12,5 @@ struct AttributesInfo {
     var defense: Int
     var weakness: Set<Elements>
     var velocity: VelocityInfo
+    var attackRange: CGFloat
 }

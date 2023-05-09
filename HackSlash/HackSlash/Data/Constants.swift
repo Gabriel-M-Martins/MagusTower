@@ -15,7 +15,14 @@ struct Constants {
     static let playerMask: UInt32 = 4
     
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
-    static let playerJumpTexture: SKTexture = SKTexture(imageNamed: "MagoLado")
+    //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22
+    static var playerJumpTexture: [SKTexture] {
+        var texture: [SKTexture] = []
+        for n in 0...11{
+            texture.append(SKTexture(imageNamed: "Mago Pulo Frente \(n)"))
+        }
+        return texture
+    }
     static let spiderIdleTexture: SKTexture = SKTexture(imageNamed: "Spider")
     
     init(frame: CGRect) {

@@ -9,7 +9,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // lista de plataformas existentes na cena. todas sao desenhadas no começo do jogo
     var platforms: [SKSpriteNode] = []
     var player: Player = Player(sprite: "")
-    var spider: EnemySpider = EnemySpider(sprite: "", attributes: AttributesInfo(health: 10, defense: 1, weakness: [], velocity: VelocityInfo(xSpeed: 0, ySpeed: 0, maxXSpeed: 0, maxYSpeed: 0)))
+    var spiders: [EnemySpider] = []
     var toDie: Int = 3
     
     var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
@@ -64,7 +64,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "Spider"){
             toDie -= 1
             if toDie == 0{
-                spider.transition(to: .charging)
+                for idx in 0..<spiders.count{
+                    var spider = spiders[idx]
+                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                        spider.transition(to: .charging)
+                    }
+                    spiders[idx] = spider
+                }
             }
             player.transition(to: .idle)
             print("foi")
@@ -80,6 +86,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
 //        player.move(direction: [.right, .up])
         camera?.position = player.position
+        for spider in spiders{
+            spider.moveAI(player: player.sprite)
+        }
     }
     
     func setupButtons() {
@@ -150,8 +159,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, position: CGPoint){
-        spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: -5, ySpeed: 10, maxXSpeed: 5, maxYSpeed: 10)))
+        var spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 150, ySpeed: 10, maxXSpeed: 150, maxYSpeed: 10), attackRange: frame.width * 0.3))
         spider.sprite.position = position
+        spiders.append(spider)
         addChild(spider.sprite)
     }
 }
