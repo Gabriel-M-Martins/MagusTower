@@ -17,6 +17,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var movementInput = SKShapeNode()
     private var combosInput = SKShapeNode()
     
+    private var movementStartPosition: CGPoint?
+    private var directionsToMove: [Directions] = []
+    
     private func isOnNode(_ nodeName: String, location: CGPoint, action: () -> Void) -> Bool{
         let node = atPoint(location)
         
@@ -47,7 +50,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
+        let pos = recognizer.location(in: view)
         
+//        if recognizer.state == .began {
+//            let _ = isOnNode("movementInput", location: convertPoint(fromView: pos)) {
+//                movementStartPosition = pos
+//            }
+//
+//            // other verifications
+//
+//            return
+//        }
+//
+//        guard let start = movementStartPosition else { return }
+//
+//        var vector = pos - start
+//        vector.normalize()
+//        vector = CGPoint(x: vector.x, y: -vector.y)
+//
+//        directionsToMove = Directions.calculateDirections(vector).filter { dir in
+//            dir != .down
+//        }
+        
+        switch recognizer.state {
+        
+        case .began:
+            let _ = isOnNode("movementInput", location: convertPoint(fromView: pos)) {
+                movementStartPosition = pos
+            }
+        
+        case .changed:
+            guard let start = movementStartPosition else { return }
+            
+            var vector = pos - start
+            
+            guard vector.size() >= 20 else { return }
+            
+            vector.normalize()
+            vector = CGPoint(x: vector.x, y: -vector.y)
+            
+            directionsToMove = Directions.calculateDirections(vector).filter { dir in
+                dir != .down
+            }
+        
+        case .ended:
+            directionsToMove = []
+        
+        default:
+            return
+        }
     }
     
     
@@ -81,19 +132,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 spider.transition(to: .charging)
             }
             player.transition(to: .idle)
-            print("foi")
         }
         
         if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
-            print(player.currentState)
             player.transition(to: .idle)
-            print(player.currentState)
         }
     }
     
     override func update(_ currentTime: TimeInterval) {
         //        player.move(direction: [.right, .up])
         camera?.position = player.position
+        
+        if !directionsToMove.isEmpty {
+            player.move(direction: directionsToMove)
+        }
     }
     
     func setupButtons() {
@@ -139,6 +191,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
         platform.physicsBody?.contactTestBitMask = Constants.groundMask
+        platform.physicsBody?.friction = 0.7
         addChild(platform)
     }
     

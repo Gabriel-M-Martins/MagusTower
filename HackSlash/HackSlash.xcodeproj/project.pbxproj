@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A75915982A02EA3A00D953C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
+		A795A8692A0984EF00FF21A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A795A8682A0984EF00FF21A3 /* Extensions.swift */; };
 		A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B12A02C98A005FF90B /* StateMachine.swift */; };
 		A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */; };
 		A7B6B1B82A02E732005FF90B /* AnimationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B72A02E732005FF90B /* AnimationInfo.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A795A8682A0984EF00FF21A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A7B6B1AF2A02C461005FF90B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A7B6B1B12A02C98A005FF90B /* StateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
 		A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachineable.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				F99499D52A02CD3800E3807D /* Directions.swift */,
+				A795A8682A0984EF00FF21A3 /* Extensions.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 				F99499D42A02CC0E00E3807D /* Move.swift in Sources */,
 				A7CDC3152A0424880030A92B /* VelocityInfo.swift in Sources */,
 				A7C1200A2A01A0F500DF0C6A /* Player.swift in Sources */,
+				A795A8692A0984EF00FF21A3 /* Extensions.swift in Sources */,
 				A7C1669B29F71DC1003B096D /* GameViewController.swift in Sources */,
 				A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */,
 				F99499D62A02CD3800E3807D /* Directions.swift in Sources */,

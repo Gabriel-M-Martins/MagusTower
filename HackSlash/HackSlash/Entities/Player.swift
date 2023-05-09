@@ -36,10 +36,11 @@ class Player: StateMachine, Move, Attributes, DetectsCollision{
         self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 60, height: 120), center: self.sprite.position)
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
+        self.sprite.physicsBody?.allowsRotation = false
         self.sprite.name = "Player"
         self.currentState = .idle
 
-        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 5, ySpeed: 200, maxXSpeed: 20, maxYSpeed: 500))
+        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 200, ySpeed: 200, maxXSpeed: 500, maxYSpeed: 500))
         self.changeMask(bit: Constants.playerMask)
         self.changeMask(bit: Constants.enemiesMask)
         self.changeMask(bit: Constants.groundMask)
