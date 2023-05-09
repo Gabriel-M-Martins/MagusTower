@@ -84,10 +84,62 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-//        player.move(direction: [.right, .up])
         camera?.position = player.position
         for spider in spiders{
             spider.moveAI(player: player.sprite)
+        }
+        updtatePlayerState()
+        updtateSpidersState()
+    }
+    
+    func updtatePlayerState(){
+        if player.currentState == .jump {
+            if player.physicsBody.velocity.dy < 0{
+                player.currentState = .airborne
+            }
+            player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask & (1111111111 - Constants.groundMask)
+            player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask & (1111111111 - Constants.groundMask)
+        }
+        if player.currentState == .airborne{
+            if player.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0 {
+                var hasCollided = false
+                for platform in platforms {
+                    if platform.intersects(player.sprite){
+                        hasCollided = true
+                    }
+                }
+                if !hasCollided {
+                    player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask + Constants.groundMask
+                    player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask + Constants.groundMask
+                }
+            }
+        }
+    }
+    
+    
+    func updtateSpidersState(){
+        for spider in spiders{
+            if spider.currentState == .goingUp{
+                if spider.physicsBody.velocity.dy < 0{
+                    spider.currentState = .attack
+                }
+                spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask & (1111111111 - Constants.groundMask)
+                spider.physicsBody.contactTestBitMask = spider.physicsBody.contactTestBitMask & (1111111111 - Constants.groundMask)
+            }
+            if spider.currentState == .attack{
+                if spider.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0 {
+                    var hasCollided = false
+                    for platform in platforms {
+                        if platform.intersects(spider.sprite){
+                            hasCollided = true
+                        }
+                    }
+                    if !hasCollided {
+                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask + Constants.groundMask
+                        spider.physicsBody.contactTestBitMask = spider.physicsBody.contactTestBitMask + Constants.groundMask
+                    }
+                }
+            }
         }
     }
     
@@ -130,7 +182,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 2))
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
+        platform.zPosition = -1
         platform.physicsBody?.contactTestBitMask = Constants.groundMask
+        platform.physicsBody?.collisionBitMask = Constants.groundMask
+        platform.physicsBody?.categoryBitMask = Constants.groundMask
+        platforms.append(platform)
         addChild(platform)
     }
     
@@ -144,11 +200,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //cria plataforma direita
         createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "UnderGroundReal")
         // ------------------------------------------------------------------------
-        
-        // adicionando todas as plataformas como childs da cena
-        for i in platforms {
-            addChild(i)
-        }
     }
     
     func setupPlayer(){

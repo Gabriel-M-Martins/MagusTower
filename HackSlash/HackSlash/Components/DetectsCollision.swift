@@ -15,6 +15,7 @@ protocol DetectsCollision{
 extension DetectsCollision{
     func changeMask(bit: UInt32){
         self.physicsBody.contactTestBitMask = physicsBody.contactTestBitMask | bit
+        self.physicsBody.collisionBitMask = physicsBody.collisionBitMask | bit
     }
 }
 

@@ -39,6 +39,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         self.changeMask(bit: Constants.playerMask)
         self.changeMask(bit: Constants.enemiesMask)
         self.changeMask(bit: Constants.groundMask)
+        self.physicsBody.categoryBitMask = Constants.enemiesMask
     }
     
     func moveAI(player: SKSpriteNode){
