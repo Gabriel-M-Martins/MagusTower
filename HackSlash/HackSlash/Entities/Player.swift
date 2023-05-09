@@ -40,7 +40,7 @@ class Player: StateMachine, Move, Attributes, DetectsCollision{
         self.sprite.name = "Player"
         self.currentState = .idle
 
-        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 200, ySpeed: 200, maxXSpeed: 500, maxYSpeed: 500))
+        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 200, ySpeed: 300, maxXSpeed: 500, maxYSpeed: 600))
         self.changeMask(bit: Constants.playerMask)
         self.changeMask(bit: Constants.enemiesMask)
         self.changeMask(bit: Constants.groundMask)

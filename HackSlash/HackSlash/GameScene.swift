@@ -19,6 +19,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var movementStartPosition: CGPoint?
     private var directionsToMove: [Directions] = []
+    private var jumpCounter = 0
+    private var jumped = false
     
     private func isOnNode(_ nodeName: String, location: CGPoint, action: () -> Void) -> Bool{
         let node = atPoint(location)
@@ -52,26 +54,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
         let pos = recognizer.location(in: view)
         
-//        if recognizer.state == .began {
-//            let _ = isOnNode("movementInput", location: convertPoint(fromView: pos)) {
-//                movementStartPosition = pos
-//            }
-//
-//            // other verifications
-//
-//            return
-//        }
-//
-//        guard let start = movementStartPosition else { return }
-//
-//        var vector = pos - start
-//        vector.normalize()
-//        vector = CGPoint(x: vector.x, y: -vector.y)
-//
-//        directionsToMove = Directions.calculateDirections(vector).filter { dir in
-//            dir != .down
-//        }
-        
         switch recognizer.state {
         
         case .began:
@@ -86,13 +68,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             guard vector.size() >= 20 else { return }
             
-            vector.normalize()
             vector = CGPoint(x: vector.x, y: -vector.y)
             
             directionsToMove = Directions.calculateDirections(vector).filter { dir in
                 dir != .down
             }
-        
+            
         case .ended:
             directionsToMove = []
         
@@ -131,20 +112,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if toDie == 0{
                 spider.transition(to: .charging)
             }
+            
+            self.jumpCounter = 0
             player.transition(to: .idle)
         }
         
         if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
+
+            self.jumpCounter = 0
             player.transition(to: .idle)
         }
     }
     
     override func update(_ currentTime: TimeInterval) {
-        //        player.move(direction: [.right, .up])
         camera?.position = player.position
         
-        if !directionsToMove.isEmpty {
-            player.move(direction: directionsToMove)
+        guard !directionsToMove.isEmpty else { return }
+        
+        foo()
+        
+        if player.currentState == .jump || (player.currentState == .airborne && jumpCounter >= 3) {
+            directionsToMove.removeAll { dir in
+                dir == .up
+            }
+        }
+        
+        if directionsToMove.contains(.up) {
+            player.transition(to: .jump)
+            jumpCounter += 1
+        }
+        
+        player.move(direction: directionsToMove)
+    }
+    
+    // rename and shit
+    func foo() {
+        if player.currentState == .jump {
+            if player.physicsBody.velocity.dy < 0{
+                player.currentState = .airborne
+            }
         }
     }
     
