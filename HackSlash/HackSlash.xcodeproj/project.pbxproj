@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A75915982A02EA3A00D953C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
+		A7980EF72A09EBE8008B4CA9 /* map1.txt in Resources */ = {isa = PBXBuildFile; fileRef = A7980EF62A09EBE8008B4CA9 /* map1.txt */; };
+		A7980EF92A09EC17008B4CA9 /* MapInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7980EF82A09EC17008B4CA9 /* MapInterpreter.swift */; };
 		A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B12A02C98A005FF90B /* StateMachine.swift */; };
 		A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */; };
 		A7B6B1B82A02E732005FF90B /* AnimationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B72A02E732005FF90B /* AnimationInfo.swift */; };
@@ -35,6 +37,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A7980EF62A09EBE8008B4CA9 /* map1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = map1.txt; sourceTree = "<group>"; };
+		A7980EF82A09EC17008B4CA9 /* MapInterpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInterpreter.swift; sourceTree = "<group>"; };
 		A7B6B1AF2A02C461005FF90B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A7B6B1B12A02C98A005FF90B /* StateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
 		A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachineable.swift; sourceTree = "<group>"; };
@@ -78,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				F99499D52A02CD3800E3807D /* Directions.swift */,
+				A7980EF82A09EC17008B4CA9 /* MapInterpreter.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -101,6 +106,14 @@
 				F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		A7980EF52A09EAFF008B4CA9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A7980EF62A09EBE8008B4CA9 /* map1.txt */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		A7B6B1B32A02E6BF005FF90B /* Protocols */ = {
@@ -152,6 +165,7 @@
 		A7C1669129F71DC1003B096D /* HackSlash */ = {
 			isa = PBXGroup;
 			children = (
+				A7980EF52A09EAFF008B4CA9 /* Resources */,
 				A75915992A02EA4300D953C2 /* Entities */,
 				A75915972A02EA2000D953C2 /* Components */,
 				A75915962A02EA0E00D953C2 /* Utility */,
@@ -229,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */,
+				A7980EF72A09EBE8008B4CA9 /* map1.txt in Resources */,
 				A7C1669529F71DC1003B096D /* GameScene.sks in Resources */,
 				A7C166A029F71DC2003B096D /* Assets.xcassets in Resources */,
 				A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */,
@@ -243,6 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7980EF92A09EC17008B4CA9 /* MapInterpreter.swift in Sources */,
 				F9CB0BAB2A041D47004A0661 /* StatesSpider.swift in Sources */,
 				F9CB0BAF2A043EE0004A0661 /* DetectsCollision.swift in Sources */,
 				F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */,
