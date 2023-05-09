@@ -67,11 +67,11 @@ class GameScene: SKScene {
     
     
     @objc private func handleGesture(_ recognizer: UIPanGestureRecognizer) {
-        let location = scn.convertPoint(fromView: recognizer.location(in: view))
+        let location = convertPoint(fromView: recognizer.location(in: view))
         
         switch recognizer.state {
         case .failed:
-            print(scn.convertPoint(fromView: recognizer.location(in: view)))
+            print(convertPoint(fromView: recognizer.location(in: view)))
         case .began:
             guard location.x >= (rect.position.x - rect.frame.width/2) && location.x <= (rect.position.x + rect.frame.width/2) &&
                     location.y >= (rect.position.y - rect.frame.height/2) && location.y <= (rect.position.y + rect.frame.height/2) else {
@@ -86,7 +86,8 @@ class GameScene: SKScene {
             
             let v = CGVector(location - start).normalized()
             
-            let at = calcAngle(v)
+            let at = atan2(v.dy, v.dx)
+            print(at * 180/CGFloat.pi)
             
             let arrowActionSequence = SKAction.sequence([
                 SKAction.group([
@@ -99,6 +100,7 @@ class GameScene: SKScene {
             self.start = nil
             
             let dir =  Direction.map4(Float(at))
+            print(dir)
             directions.append(dir)
             
             if directions.count == 3 {
@@ -261,6 +263,14 @@ enum Direction {
     
     static func map4(_ radians: Float) -> Direction {
         let degrees = radians * 180 / Float.pi
+
+        if degrees < -135 {
+            return .west
+        }
+
+        if degrees < -45 {
+            return .south
+        }
         
         if degrees <= 45 {
             return .east

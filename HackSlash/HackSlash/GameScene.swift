@@ -5,7 +5,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var constants: Constants {
         return Constants(frame: frame)
     }
-
+    
     // lista de plataformas existentes na cena. todas sao desenhadas no começo do jogo
     var platforms: [SKSpriteNode] = []
     var player: Player = Player(sprite: "")
@@ -17,26 +17,72 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var movementInput = SKShapeNode()
     private var combosInput = SKShapeNode()
     
-    @objc private func handleTap(_ recognizer: UITapGestureRecognizer) {
-        let tappedNode = atPoint(convertPoint(fromView: recognizer.location(in: view)))
+    private var movementStartPosition: CGPoint?
+    private var directionsToMove: [Directions] = []
+    private var jumpCounter = 0
+    private var jumped = false
+    
+    private func isOnNode(_ nodeName: String, location: CGPoint, action: () -> Void) -> Bool{
+        let node = atPoint(location)
         
-        guard let nodeName = tappedNode.name else { return }
+        guard let name = node.name else { return false }
         
-        if nodeName == "movementInput" {
-            print(player.currentState)
-            player.move(direction: [.up])
-            player.transition(to: .jump)
-            print(player.currentState)
-            return
+        if name == nodeName {
+            action()
+            return true
         }
         
-        if nodeName == "combosInput" {
-            // implement attack stuff
+        return false
+    }
+    
+    @objc private func handleTap(_ recognizer: UITapGestureRecognizer) {
+        let pos = convertPoint(fromView: recognizer.location(in: view))
+        
+        let result = isOnNode("movementInput", location: pos) {
+            player.move(direction: [.up])
+            player.transition(to: .jump)
+        }
+        
+        if !result {
+            let _ = isOnNode("combosInput", location: pos) {
+                //implement combo
+            }
+        }
+    }
+    
+    
+    @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
+        let pos = recognizer.location(in: view)
+        
+        switch recognizer.state {
+        
+        case .began:
+            let _ = isOnNode("movementInput", location: convertPoint(fromView: pos)) {
+                movementStartPosition = pos
+            }
+        
+        case .changed:
+            guard let start = movementStartPosition else { return }
+            
+            var vector = pos - start
+            
+            guard vector.size() >= 20 else { return }
+            
+            vector = CGPoint(x: vector.x, y: -vector.y)
+            
+            directionsToMove = Directions.calculateDirections(vector).filter { dir in
+                dir != .down
+            }
+            
+        case .ended:
+            directionsToMove = []
+        
+        default:
             return
         }
     }
     
-
+    
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
@@ -52,11 +98,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupCamera()
         // ------------------------------------------------------------------------
         setupSpider(spriteName: "VillainFinal2", position: CGPoint(x: frame.midX, y: frame.midY - 200))
-
+        
         setupButtons()
         // ------------------------------------------------------------------------
         setupGestures()
-
+        
     }
     
     
@@ -72,14 +118,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     spiders[idx] = spider
                 }
             }
+            
+            self.jumpCounter = 0
             player.transition(to: .idle)
-            print("foi")
         }
         
         if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
-            print(player.currentState)
+
+            self.jumpCounter = 0
             player.transition(to: .idle)
-            print(player.currentState)
         }
     }
     
@@ -90,6 +137,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         updtatePlayerState()
         updtateSpidersState()
+        
+        guard !directionsToMove.isEmpty else { return }
+        if player.currentState == .jump || (player.currentState == .airborne && jumpCounter >= 3) {
+            directionsToMove.removeAll { dir in
+                dir == .up
+            }
+        }
+        
+        if directionsToMove.contains(.up) {
+            player.transition(to: .jump)
+            jumpCounter += 1
+        }
+        
+        player.move(direction: directionsToMove)
     }
     
     func updtatePlayerState(){
@@ -148,7 +209,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         movementInput.name = "movementInput"
         movementInput.position = CGPoint(x: frame.minX + 250, y: frame.minY + 250)
         movementInput.strokeColor = .red
-
+        
         combosInput = SKShapeNode(rectOf: CGSize(width: 200, height: 200))
         combosInput.name = "combosInput"
         combosInput.position = CGPoint(x: frame.maxX - 250, y: frame.minY + 250)
@@ -162,6 +223,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tap.numberOfTapsRequired = 1
         view?.addGestureRecognizer(tap)
+        
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        view?.addGestureRecognizer(pan)
     }
     
     func setupCamera() {
@@ -187,6 +251,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.physicsBody?.collisionBitMask = Constants.groundMask
         platform.physicsBody?.categoryBitMask = Constants.groundMask
         platforms.append(platform)
+        platform.physicsBody?.friction = 0.7
         addChild(platform)
     }
     
