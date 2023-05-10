@@ -58,7 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.touches.append((t, 0))
             }
             
-            if combosInputThreshold.contains(pos) {
+            if combosInput.contains(pos) {
                 combosStartPosition = pos
                 self.touches.append((t, 1))
             }
