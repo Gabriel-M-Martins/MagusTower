@@ -146,10 +146,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         player.move(direction: directionsToMove)
+        
     }
     
     func updtatePlayerState(){
-        print(player.currentState)
         if player.currentState == .jump {
             if player.physicsBody.velocity.dy < 0{
                 player.transition(to: .airborne)
@@ -180,14 +180,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if spider.currentState == .attack{
                 if spider.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0 {
                     var hasCollided = false
+                    let fakeNode = SKSpriteNode(color: .black, size: CGSize.zero)
+                    fakeNode.anchorPoint = CGPoint(x: 0.5, y: -1)
+                    fakeNode.physicsBody = SKPhysicsBody(rectangleOf: Constants.spiderSize, center: spider.position)
                     for platform in platforms {
-                        if platform.intersects(spider.sprite){
+                        if platform.intersects(fakeNode){
                             hasCollided = true
                         }
                     }
                     if !hasCollided {
-                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask + Constants.groundMask
-                        spider.physicsBody.contactTestBitMask = spider.physicsBody.contactTestBitMask + Constants.groundMask
+                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.groundMask
+                        spider.physicsBody.contactTestBitMask = spider.physicsBody.contactTestBitMask | Constants.groundMask
                     }
                 }
             }
@@ -229,16 +232,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let platform = SKSpriteNode(imageNamed: sprite)
         platform.size = size
         // settando o anchor point para ser no meio horizontal e no baixo na vertical
-        platform.anchorPoint = CGPoint(x: 0.5, y: 0)
+        platform.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         // posicao do platform é zero no x e o mais baixo no y
         platform.position = position
         // criando o physicsbody e settando que nao é dinamico p nenhuma força poder ser aplicada contra ele
-        platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 2))
+        platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height))
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
         platform.zPosition = -5
-        platform.physicsBody?.contactTestBitMask = Constants.groundMask
-        platform.physicsBody?.collisionBitMask = Constants.groundMask
         platform.physicsBody?.categoryBitMask = Constants.groundMask
         platforms.append(platform)
         platform.physicsBody?.friction = 0.7

@@ -31,8 +31,8 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
     
     init(sprite: String, attributes: AttributesInfo, player: Player) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
-        self.sprite.size = CGSize(width: 200, height: 100)
-        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: self.sprite.size, center: self.sprite.position)
+        self.sprite.size = Constants.spiderSize
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: Constants.spiderSize.width, height: Constants.spiderSize.height), center: self.sprite.position)
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
         self.attributes = attributes
@@ -44,6 +44,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         self.changeMask(bit: Constants.enemiesMask)
         self.changeMask(bit: Constants.groundMask)
         self.physicsBody.categoryBitMask = Constants.enemiesMask
+        self.physicsBody.mass = 0.888888955116272
         
     }
     
@@ -78,7 +79,8 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
                     let gravity: CGFloat = -9.8
                     self.attributes.velocity.maxXSpeed *= 100
                     self.attributes.velocity.maxYSpeed *= 100
-                    self.physicsBody.applyImpulse(CGVector(dx: (self.player.sprite.position.x - self.sprite.position.x), dy: (self.player.sprite.position.y - self.sprite.position.y) + (desiredHeight * self.sprite.size.height) - (40.0 * gravity)))
+                    let direction: CGFloat = self.sprite.position.x > self.player.sprite.position.x ? -1 : 1
+                    self.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.playerSize.width/2 + Constants.spiderSize.width/2)) + (self.player.sprite.position.x - self.sprite.position.x), dy: abs(Constants.playerSize.height - Constants.spiderSize.height) + (self.player.sprite.position.y - self.sprite.position.y) + (desiredHeight * self.sprite.size.height) - (40.0 * gravity)))
                 }
                 self.physicsBody.velocity.dx = 0
             }

@@ -14,6 +14,9 @@ struct Constants {
     static let groundMask: UInt32 = 2
     static let playerMask: UInt32 = 4
     
+    static let playerSize: CGSize = CGSize(width: 104, height: 111)
+    static let spiderSize: CGSize = CGSize(width: 60, height: 30)
+    
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22
     static var playerJumpTexture: [SKTexture] {
