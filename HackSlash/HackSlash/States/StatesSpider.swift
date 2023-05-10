@@ -23,15 +23,15 @@ enum StatesSpider: StateMachineable {
         case .idle:
             return AnimationInfo(textures: [Constants.spiderIdleTexture], duration: 1, repeating: true)
         case .walkingLeft:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
+            return AnimationInfo(textures: [Constants.spiderIdleTexture], duration: 1, repeating: true)
         case .walkingRight:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
+            return AnimationInfo(textures: [Constants.spiderIdleTexture], duration: 1, repeating: true)
         case .charging:
             return AnimationInfo(textures: [SKTexture(imageNamed: "DeadVillain")], duration: 1)
         case .goingUp:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
+            return AnimationInfo(textures: [SKTexture(imageNamed: "DeadVillain")], duration: 1)
         case .attack:
-            return AnimationInfo(textures: [], duration: 0)
+            return AnimationInfo(textures: [SKTexture(imageNamed: "DeadVillain")], duration: 0)
         }
     }
     
@@ -44,7 +44,7 @@ enum StatesSpider: StateMachineable {
         case .walkingRight:
             return [.idle, .walkingLeft, .charging, .attack].contains(target)
         case .charging:
-            return [.goingUp].contains(target)
+            return [.idle, .goingUp, .attack].contains(target)
         case .goingUp:
             return [.attack].contains(target)
         case .attack:

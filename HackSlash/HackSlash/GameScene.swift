@@ -132,26 +132,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact:SKPhysicsContact){
-        if (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "Spider"){
-            toDie -= 1
-            if toDie == 0{
-                for idx in 0..<spiders.count{
-                    var spider = spiders[idx]
-                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
-                        spider.transition(to: .charging)
-                    }
-                    spiders[idx] = spider
-                }
-            }
-            
+        if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
             self.jumpCounter = 0
+            player.transition(to: .landing)
             player.transition(to: .idle)
         }
-        
-        if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
-
-            self.jumpCounter = 0
-            player.transition(to: .idle)
+        else if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "platform"){
+            for spider in spiders{
+                if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                    if spider.currentState == .attack{
+                        var copy = spider
+                        copy.transition(to: .idle)
+                        copy.attributes.velocity.maxYSpeed /= 100
+                        copy.attributes.velocity.maxXSpeed /= 100
+                    }
+                }
+            }
         }
     }
     
@@ -176,12 +172,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         player.move(direction: directionsToMove)
+        
+        if player.sprite.physicsBody!.velocity.dx < 0{
+            player.sprite.xScale = -1
+        }
+        else{
+            player.sprite.xScale = 1
+        }
     }
     
     func updtatePlayerState(){
         if player.currentState == .jump {
             if player.physicsBody.velocity.dy < 0{
-                player.currentState = .airborne
+                player.transition(to: .airborne)
+                
             }
             player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask & (1111111111 - Constants.groundMask)
             player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask & (1111111111 - Constants.groundMask)
@@ -200,29 +204,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        
+//        if player.currentState == .idle {
+//            if player.physicsBody.velocity.dx != 0{
+//                player.transition(to: .walking)
+//            }
+//        }
+//
+//        if player.currentState == .walking {
+//            if player.physicsBody.velocity.dx == 0{
+//                player.transition(to: .idle)
+//            }
+//        }
     }
     
     
     func updtateSpidersState(){
         for spider in spiders{
-            if spider.currentState == .goingUp{
-                if spider.physicsBody.velocity.dy < 0{
-                    spider.currentState = .attack
-                }
-                spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask & (1111111111 - Constants.groundMask)
-                spider.physicsBody.contactTestBitMask = spider.physicsBody.contactTestBitMask & (1111111111 - Constants.groundMask)
-            }
             if spider.currentState == .attack{
                 if spider.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0 {
                     var hasCollided = false
+                    let fakeNode = SKSpriteNode(color: .black, size: CGSize.zero)
+                    fakeNode.anchorPoint = CGPoint(x: 0.5, y: -1)
+                    fakeNode.physicsBody = SKPhysicsBody(rectangleOf: Constants.spiderSize, center: spider.position)
                     for platform in platforms {
-                        if platform.intersects(spider.sprite){
+                        if platform.intersects(fakeNode){
                             hasCollided = true
                         }
                     }
                     if !hasCollided {
-                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask + Constants.groundMask
-                        spider.physicsBody.contactTestBitMask = spider.physicsBody.contactTestBitMask + Constants.groundMask
+                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.groundMask
+                        spider.physicsBody.contactTestBitMask = spider.physicsBody.contactTestBitMask | Constants.groundMask
                     }
                 }
             }
@@ -232,6 +244,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupButtons() {
         let sqrSize: CGFloat = 200
         let sqrPos: CGFloat = 250
+        
         movementInput = SKShapeNode(rectOf: CGSize(width: sqrSize, height: sqrSize))
         movementInputThreshold = SKShapeNode(rectOf: CGSize(width: sqrSize * 2, height: sqrSize * 2))
         
@@ -272,16 +285,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let platform = SKSpriteNode(imageNamed: sprite)
         platform.size = size
         // settando o anchor point para ser no meio horizontal e no baixo na vertical
-        platform.anchorPoint = CGPoint(x: 0.5, y: 0)
+        platform.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         // posicao do platform é zero no x e o mais baixo no y
         platform.position = position
         // criando o physicsbody e settando que nao é dinamico p nenhuma força poder ser aplicada contra ele
-        platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 2))
+        platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 0.9))
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
-        platform.zPosition = -1
-        platform.physicsBody?.contactTestBitMask = Constants.groundMask
-        platform.physicsBody?.collisionBitMask = Constants.groundMask
+        platform.zPosition = -5
         platform.physicsBody?.categoryBitMask = Constants.groundMask
         platforms.append(platform)
         platform.physicsBody?.friction = 0.7
@@ -290,13 +301,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupGround(){
         //cria o chao
-        createPlatform(size: CGSize(width: frame.width, height: frame.height/4), position: CGPoint(x: 0, y: frame.minY), sprite: "UnderGroundReal")
+        createPlatform(size: CGSize(width: frame.width, height: frame.height/4), position: CGPoint(x: 0, y: frame.minY), sprite: "Plataform1")
         // ------------------------------------------------------------------------
         //cria plataforma esquerda
-        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.minX + frame.width/6, y: frame.midY), sprite: "UnderGroundReal")
+        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.minX + frame.width/6, y: frame.midY), sprite: "Plataform3")
         // ------------------------------------------------------------------------
         //cria plataforma direita
-        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "UnderGroundReal")
+        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "Plataform2")
         // ------------------------------------------------------------------------
     }
     
@@ -308,7 +319,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, position: CGPoint){
-        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 150, ySpeed: 10, maxXSpeed: 150, maxYSpeed: 10), attackRange: frame.width * 0.3))
+        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3), player: player)
+
         spider.sprite.position = position
         spiders.append(spider)
         addChild(spider.sprite)
