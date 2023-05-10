@@ -38,15 +38,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc private func handleTap(_ recognizer: UITapGestureRecognizer) {
         let pos = convertPoint(fromView: recognizer.location(in: view))
         
-        let result = isOnNode("movementInput", location: pos) {
-            player.move(direction: [.up])
-            player.transition(to: .jump)
-        }
-        
-        if !result {
-            let _ = isOnNode("combosInput", location: pos) {
-                //implement combo
-            }
+        let result = isOnNode("combosInput", location: pos) {
+            //implement combo
         }
     }
     
@@ -109,6 +102,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact:SKPhysicsContact){
         if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
             self.jumpCounter = 0
+            player.transition(to: .landing)
             player.transition(to: .idle)
         }
         else if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "platform"){
@@ -146,6 +140,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         player.move(direction: directionsToMove)
+        
+        if player.sprite.physicsBody!.velocity.dx < 0{
+            player.sprite.xScale = -1
+        }
+        else{
+            player.sprite.xScale = 1
+        }
     }
     
     func updtatePlayerState(){
@@ -172,6 +173,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        
+//        if player.currentState == .idle {
+//            if player.physicsBody.velocity.dx != 0{
+//                player.transition(to: .walking)
+//            }
+//        }
+//
+//        if player.currentState == .walking {
+//            if player.physicsBody.velocity.dx == 0{
+//                player.transition(to: .idle)
+//            }
+//        }
     }
     
     
@@ -247,13 +260,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupGround(){
         //cria o chao
-        createPlatform(size: CGSize(width: frame.width, height: frame.height/4), position: CGPoint(x: 0, y: frame.minY), sprite: "UnderGroundReal")
+        createPlatform(size: CGSize(width: frame.width, height: frame.height/4), position: CGPoint(x: 0, y: frame.minY), sprite: "Plataform1")
         // ------------------------------------------------------------------------
         //cria plataforma esquerda
-        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.minX + frame.width/6, y: frame.midY), sprite: "UnderGroundReal")
+        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.minX + frame.width/6, y: frame.midY), sprite: "Plataform3")
         // ------------------------------------------------------------------------
         //cria plataforma direita
-        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "UnderGroundReal")
+        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "Plataform2")
         // ------------------------------------------------------------------------
     }
     

@@ -16,10 +16,11 @@ struct Constants {
     
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22
+    
     static var playerJumpTexture: [SKTexture] {
         var texture: [SKTexture] = []
         for n in 0...18{
-            texture.append(SKTexture(imageNamed: "Mago Pulo Frente \(n)"))
+            texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
         }
         return texture
     }
@@ -27,10 +28,27 @@ struct Constants {
     static var playerAirborneTexture: [SKTexture] {
         var texture: [SKTexture] = []
         for n in 19...22{
-            texture.append(SKTexture(imageNamed: "Mago Pulo Frente \(n)"))
+            texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
         }
         return texture
     }
+    
+    static var playerRunTexture: [SKTexture] {
+        var texture: [SKTexture] = []
+        for n in 0...5{
+            texture.append(SKTexture(imageNamed: "MagoCorrendoRight\(n)"))
+        }
+        return texture
+    }
+    
+    static var playerLandingTexture: [SKTexture] {
+        var texture: [SKTexture] = []
+        for n in 0...4{
+            texture.append(SKTexture(imageNamed: "MagoPousandoRight\(n)"))
+        }
+        return texture
+    }
+    
     static let spiderIdleTexture: SKTexture = SKTexture(imageNamed: "Spider")
     
     init(frame: CGRect) {

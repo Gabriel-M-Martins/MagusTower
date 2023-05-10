@@ -10,8 +10,7 @@ import Foundation
 enum StatesPlayer: StateMachineable {
     case attack
     case idle
-    case walkingLeft
-    case walkingRight
+    case walking
     case jump
     case airborne
     case landing
@@ -22,29 +21,25 @@ enum StatesPlayer: StateMachineable {
             return AnimationInfo(textures: [Constants.playerIdleTexture], duration: 5)
         case .attack:
             return AnimationInfo(textures: [], duration: 0)
-        case .walkingRight:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
-        case .walkingLeft:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
+        case .walking:
+            return AnimationInfo(textures: Constants.playerRunTexture, duration: 0, repeating: true)
         case .jump:
             return AnimationInfo(textures: Constants.playerJumpTexture, duration: 0.8)
         case .airborne:
             return AnimationInfo(textures: Constants.playerAirborneTexture, duration: 0.5)
         case .landing:
-            return AnimationInfo(textures: [], duration: 0)
+            return AnimationInfo(textures: Constants.playerLandingTexture, duration: 0.3)
         }
     }
     
     func ValidateTransition(to target: StatesPlayer) -> Bool {
         switch self {
         case .idle:
-            return [.attack, .jump, .walkingLeft, .walkingRight].contains(target)
+            return [.attack, .jump, .walking].contains(target)
         case .attack:
-            return [.idle, .walkingLeft, .walkingRight, .airborne].contains(target)
-        case .walkingLeft:
-            return [.idle, .attack, .jump, .walkingRight].contains(target)
-        case .walkingRight:
-            return [.idle, .attack, .jump, .walkingRight].contains(target)
+            return [.idle, .walking, .airborne].contains(target)
+        case .walking:
+            return [.idle, .attack, .jump, .walking].contains(target)
         case .jump:
             return [.airborne, .idle].contains(target)
         case .airborne:
