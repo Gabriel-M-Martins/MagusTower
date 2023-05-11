@@ -11,6 +11,7 @@
 		A75915982A02EA3A00D953C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
 		A795A8692A0984EF00FF21A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A795A8682A0984EF00FF21A3 /* Extensions.swift */; };
 		A7AF3E5D2A0D5AEB00E36A42 /* Magics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AF3E5C2A0D5AEB00E36A42 /* Magics.swift */; };
+		A7AF3E5B2A0D2B8300E36A42 /* map1.txt in Resources */ = {isa = PBXBuildFile; fileRef = A7AF3E5A2A0D2B8300E36A42 /* map1.txt */; };
 		A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B12A02C98A005FF90B /* StateMachine.swift */; };
 		A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */; };
 		A7B6B1B82A02E732005FF90B /* AnimationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B72A02E732005FF90B /* AnimationInfo.swift */; };
@@ -46,6 +47,7 @@
 		A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapInterpreter.swift; sourceTree = "<group>"; };
 		A795A8682A0984EF00FF21A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A7AF3E5C2A0D5AEB00E36A42 /* Magics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magics.swift; sourceTree = "<group>"; };
+		A7AF3E5A2A0D2B8300E36A42 /* map1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map1.txt; sourceTree = "<group>"; };
 		A7B6B1AF2A02C461005FF90B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A7B6B1B12A02C98A005FF90B /* StateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
 		A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachineable.swift; sourceTree = "<group>"; };
@@ -121,6 +123,14 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
+		A7AF3E592A0D2B6800E36A42 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A7AF3E5A2A0D2B8300E36A42 /* map1.txt */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		A7B6B1B32A02E6BF005FF90B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +183,7 @@
 			children = (
 				A7C1669F29F71DC2003B096D /* Assets.xcassets */,
 				F98E2CEE2A0D6ADF003273AA /* Particles */,
+				A7AF3E592A0D2B6800E36A42 /* Resources */,
 				A75915992A02EA4300D953C2 /* Entities */,
 				A75915972A02EA2000D953C2 /* Components */,
 				A75915962A02EA0E00D953C2 /* Utility */,
@@ -263,6 +274,7 @@
 				F98E2CF12A0D6AED003273AA /* LightiningParticle.sks in Resources */,
 				F98E2CF72A0D6AFA003273AA /* FireParticle.sks in Resources */,
 				A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */,
+				A7AF3E5B2A0D2B8300E36A42 /* map1.txt in Resources */,
 				A7C1669529F71DC1003B096D /* GameScene.sks in Resources */,
 				A7C166A029F71DC2003B096D /* Assets.xcassets in Resources */,
 				A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */,

@@ -20,6 +20,11 @@ struct Constants {
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22
     
+    static func randomPlatformSprite() -> String {
+        let sprites = ["Plataform1", "Plataform2", "Plataform3"]
+        return sprites.randomElement()!
+    }
+    
     static var playerJumpTexture: [SKTexture] {
         var texture: [SKTexture] = []
         for n in 0...18{

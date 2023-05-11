@@ -128,17 +128,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(background)
         
         // ------------------------------------------------------------------------
-        setupGround()
+        setupCamera()
+        // ------------------------------------------------------------------------
+        setupGround2()
         // ------------------------------------------------------------------------
         setupPlayer()
-        // ------------------------------------------------------------------------
-        setupCamera()
         // ------------------------------------------------------------------------
         setupSpider(spriteName: "VillainFinal2", position: CGPoint(x: frame.midX, y: frame.midY - 200))
         // ------------------------------------------------------------------------
         setupButtons()
+        
+        let b = SKShapeNode(rectOf: frame.size)
+        b.strokeColor = .cyan
+        b.zPosition = 100
+        addChild(b)
     }
     
+    private func setupGround2() {
+        let rects = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight)?.rects
+        
+        guard let rects = rects else { return }
+        for i in rects {
+            self.createPlatform(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
+        }
+    }
     
     func didBegin(_ contact:SKPhysicsContact){
         if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
@@ -284,7 +297,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func setupCamera() {
         let camera = SKCameraNode()
-        camera.setScale(0.7)
+//        camera.setScale(0.7)
+        camera.setScale(1)
         self.camera = camera
         addChild(camera)
     }
@@ -293,11 +307,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let platform = SKSpriteNode(imageNamed: sprite)
         platform.size = size
         // settando o anchor point para ser no meio horizontal e no baixo na vertical
-        platform.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        platform.anchorPoint = CGPoint(x: 0, y: 0)
         // posicao do platform é zero no x e o mais baixo no y
         platform.position = position
         // criando o physicsbody e settando que nao é dinamico p nenhuma força poder ser aplicada contra ele
         platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 0.9))
+        print(platform.physicsBody)
+        print(platform.frame.origin)
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
         platform.zPosition = -5
