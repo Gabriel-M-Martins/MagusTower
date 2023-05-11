@@ -1,6 +1,11 @@
 import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    enum ButtonAssociation {
+        case movementAnalog
+        case combosAnalog
+    }
+    
     /// struct constants vai ter todos os valores constantes ao longo do jogo, cores e etc
     var constants: Constants {
         return Constants(frame: frame)
@@ -14,7 +19,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
     
-    private var touches: [(UITouch, Int)] = []
+    private var touches: [(UITouch, ButtonAssociation)] = []
     
     private var movementInput = SKShapeNode()
     private var movementInputThreshold = SKShapeNode()
@@ -34,19 +39,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var jumpCounter = 0
     private var jumped = false
     
-    private func isOnNode(_ nodeName: String, location: CGPoint, action: () -> Void) -> Bool{
-        let node = atPoint(location)
-        
-        guard let name = node.name else { return false }
-        
-        if name == nodeName {
-            action()
-            return true
-        }
-        
-        return false
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let camera = camera else { return }
         
@@ -55,12 +47,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if movementInput.contains(pos) {
                 movementStartPosition = pos
-                self.touches.append((t, 0))
+                self.touches.append((t, .movementAnalog))
             }
             
             if combosInput.contains(pos) {
                 combosStartPosition = pos
-                self.touches.append((t, 1))
+                self.touches.append((t, .combosAnalog))
             }
         }
     }
@@ -71,7 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for t in self.touches {
             let pos = t.0.location(in: camera)
             
-            if t.1 == 0 {
+            if t.1 == .movementAnalog {
                 guard let start = movementStartPosition else { return }
                 
                 let vector = pos - start
@@ -89,10 +81,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.touches = self.touches.filter({ (t, i) in
             guard touches.contains(t) else { return true }
             
-            if i == 0 {
+            if i == .movementAnalog {
                 directionsToMove = []
                 movementStartPosition = nil
-            } else if i == 1 {
+            } else if i == .combosAnalog {
                 //implement combo execution
                 let pos = t.location(in: camera)
                 
