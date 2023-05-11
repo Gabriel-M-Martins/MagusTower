@@ -145,7 +145,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func setupGround2() {
-        let rects = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight)?.rects
+        let rects = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3)?.rects
         
         guard let rects = rects else { return }
         for i in rects {
@@ -258,7 +258,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }
-            print(spider.currentState)
         }
     }
     
@@ -307,7 +306,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let platform = SKSpriteNode(imageNamed: sprite)
         platform.size = size
         // settando o anchor point para ser no meio horizontal e no baixo na vertical
-        platform.anchorPoint = CGPoint(x: 0, y: 0)
+        platform.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         // posicao do platform é zero no x e o mais baixo no y
         platform.position = position
         // criando o physicsbody e settando que nao é dinamico p nenhuma força poder ser aplicada contra ele

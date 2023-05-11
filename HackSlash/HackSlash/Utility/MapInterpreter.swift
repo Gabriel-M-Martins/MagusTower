@@ -10,14 +10,14 @@ import Foundation
 struct MapInterpreter {
     var rects: [(size: CGSize, position: CGPoint)]
     
-    init?(map: CGRect, platformHeightDistance: CGFloat, platformHeight: CGFloat) {
+    init?(map: CGRect, platformHeightDistance: CGFloat, platformHeight: CGFloat, scale: CGFloat) {
         let path = Bundle.main.url(forResource: "map1", withExtension: "txt")
         
         guard let path = path else { return nil }
         guard let text = try? String(contentsOf: path) else { return nil }
         
         let coords = MapInterpreter.parseCoordinates(text)
-        let platformWidth = map.width / CGFloat(coords.1 /* *10 */)
+        let platformWidth = (map.width * scale) / CGFloat(coords.1 /* *10 */)
 
         rects = []
         
@@ -25,7 +25,7 @@ struct MapInterpreter {
         for line in coords.0.reversed() {
             for coord in line {
                 let width = platformWidth * CGFloat(coord.size)
-                let posX = map.minX + (platformWidth * CGFloat(coord.start))
+                let posX = (map.minX * scale) + (platformWidth * CGFloat(coord.start)) + width/2
                 
                 rects.append((CGSize(width: width, height: platformHeight), CGPoint(x: posX, y: currentHeight)))
             }
