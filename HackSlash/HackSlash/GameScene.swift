@@ -28,7 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var combosInputThreshold = SKShapeNode()
     
     private var combosStartPosition: CGPoint?
-    private var directionsCombos: [[Directions]] = []
+    private var directionsCombos: [Directions] = []
     
     private var movementStartPosition: CGPoint?
     
@@ -66,10 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if t.1 == .movementAnalog {
                 guard let start = movementStartPosition else { return }
                 
-                let vector = pos - start
-                directionsToMove = Directions.calculateDirections(vector).filter { dir in
-                    dir != .down
-                }
+                handleMovement(start: start, pos: pos)
             }
             
         }
@@ -81,25 +78,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.touches = self.touches.filter({ (t, i) in
             guard touches.contains(t) else { return true }
             
-            if i == .movementAnalog {
+            switch i {
+                
+            case .movementAnalog:
                 directionsToMove = []
                 movementStartPosition = nil
-            } else if i == .combosAnalog {
-                //implement combo execution
-                let pos = t.location(in: camera)
                 
+            case .combosAnalog:
+                let pos = t.location(in: camera)
                 guard let start = combosStartPosition else { return true }
                 
-                let vector = pos - start
-
-                let directions = Directions.calculateDirections(vector)
-                print(directions)
-                
-                combosStartPosition = nil
+                handleCombo(start: start, pos: pos)
             }
             
             return false
         })
+    }
+    
+    private func handleMovement(start: CGPoint, pos: CGPoint) {
+        let vector = pos - start
+        
+        directionsToMove = Directions.calculateDirections(vector).filter { dir in
+            dir != .down
+        }
+    }
+    
+    private func handleCombo(start: CGPoint, pos: CGPoint) {
+        let vector = pos - start
+        let directions = Directions.calculateDirections(vector)
+        
+        if directionsCombos.count == 2 {
+            let normalizedVector = vector.normalized()
+            let magic = Magics.magic(primary: directionsCombos[0], secondary: directionsCombos[1])
+            
+            // MARK: call combo with vector and magic
+        } else {
+            directionsCombos.append(directions[0])
+        }
+        
+        combosStartPosition = nil
     }
     
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
