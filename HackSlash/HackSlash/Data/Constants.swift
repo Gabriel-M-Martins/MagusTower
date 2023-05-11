@@ -15,7 +15,7 @@ struct Constants {
     static let playerMask: UInt32 = 4
     
     static let playerSize: CGSize = CGSize(width: 104, height: 111)
-    static let spiderSize: CGSize = CGSize(width: 60, height: 30)
+    static let spiderSize: CGSize = CGSize(width: 90, height: 60)
     
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22
@@ -39,7 +39,7 @@ struct Constants {
     static var playerRunTexture: [SKTexture] {
         var texture: [SKTexture] = []
         for n in 0...5{
-            texture.append(SKTexture(imageNamed: "MagoCorrendoRight\(n)"))
+            texture.append(SKTexture(imageNamed: "MagoCorrendoLado\(n)"))
         }
         return texture
     }
@@ -53,6 +53,18 @@ struct Constants {
     }
     
     static let spiderIdleTexture: SKTexture = SKTexture(imageNamed: "Spider")
+    
+    static let spiderAttackTexture: SKTexture = SKTexture(imageNamed: "SpiderAttack")
+    
+    static let spiderChargingTexture: SKTexture = SKTexture(imageNamed: "SpiderPreparingJump")
+    
+    static var spiderWalkingTexture: [SKTexture] {
+        var texture: [SKTexture] = []
+        for n in 0...4{
+            texture.append(SKTexture(imageNamed: "AranhaCorrendo\(n)"))
+        }
+        return texture
+    }
     
     init(frame: CGRect) {
         self.frame = frame

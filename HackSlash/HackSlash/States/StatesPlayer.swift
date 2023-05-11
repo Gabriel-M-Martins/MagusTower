@@ -22,7 +22,7 @@ enum StatesPlayer: StateMachineable {
         case .attack:
             return AnimationInfo(textures: [], duration: 0)
         case .walking:
-            return AnimationInfo(textures: Constants.playerRunTexture, duration: 0, repeating: true)
+            return AnimationInfo(textures: Constants.playerRunTexture, duration: 0.2, repeating: true)
         case .jump:
             return AnimationInfo(textures: Constants.playerJumpTexture, duration: 0.8)
         case .airborne:
