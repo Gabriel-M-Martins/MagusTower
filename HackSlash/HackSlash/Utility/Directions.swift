@@ -43,15 +43,19 @@ enum Directions{
     static func calculateDirections(_ vector: CGPoint) -> [Self] {
         let degrees = atan2(vector.y, vector.x) * 180 / CGFloat.pi
         
-        if degrees < -145 {
+        if degrees <= -145 {
             return [.left]
         }
         
-        if degrees < -105 {
+        if degrees <= -105 {
             return [.left, .down]
         }
         
         if degrees <= -75 {
+            return [.down]
+        }
+        
+        if degrees <= -35 {
             return [.right, .down]
         }
         
@@ -70,11 +74,7 @@ enum Directions{
         if degrees <= 145 {
             return [.left, .up]
         }
-        
-        if degrees <= 180 {
-            return [.left]
-        }
-        
-        return [.right]
+            
+        return [.left]
     }
 }
