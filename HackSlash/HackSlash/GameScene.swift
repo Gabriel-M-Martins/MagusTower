@@ -25,11 +25,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var movementInputThreshold = SKShapeNode()
     
     private var combosInput = SKShapeNode()
+    private var numberEnemies = Int.random(in: 1..<5)
     private var combosInputThreshold = SKShapeNode()
     
     private var combosStartPosition: CGPoint?
     private var directionsCombos: [Directions] = []
-    
     private var movementStartPosition: CGPoint?
     
     private var analogicInputMinThreshold: CGFloat = 20 // quanto maior o valor, maior o movimento para registrar input
@@ -134,11 +134,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------
         setupCamera()
         // ------------------------------------------------------------------------
-        setupSpider(spriteName: "VillainFinal2", position: CGPoint(x: frame.midX, y: frame.midY - 200))
-        // ------------------------------------------------------------------------
+        for i in 1...2{
+            delayWithSeconds(5.0 * Double(i)) { [self] in
+                self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "VillainFinal2")
+            }
+        }
+        //         ------------------------------------------------------------------------
         setupButtons()
     }
     
+    func delayWithSeconds(_ seconds: Double, completion: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            completion()
+        }
+    }
     
     func didBegin(_ contact:SKPhysicsContact){
         if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
@@ -281,6 +290,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         camera?.addChild(combosInput)
         camera?.addChild(combosInputThreshold)
     }
+    //Constants.spiderIdleTexture
+    func setupSpawn(position: CGPoint, spriteName: String){
+        if(spriteName == "VillainFinal2"){
+            let enemy = setupSpider(spriteName: "VillainFinal2")
+            enemy.sprite.position = position
+            spiders.append(enemy)
+            addChild(enemy.sprite)
+        }
+    }
 
     func setupCamera() {
         let camera = SKCameraNode()
@@ -326,11 +344,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(player.sprite)
     }
     
-    func setupSpider(spriteName: String, position: CGPoint){
+    func setupSpider(spriteName: String) -> EnemySpider{
         let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3), player: player)
-
-        spider.sprite.position = position
-        spiders.append(spider)
-        addChild(spider.sprite)
+        return spider
     }
 }
