@@ -314,7 +314,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupPlayer(){
         //Creates player and adds it to the scene
         player = Player(sprite: "MagoFrente")
-        player.sprite.position.y += frame.maxY
+        player.sprite.position.y += frame.midY + frame.midY/2
         addChild(player.sprite)
     }
     

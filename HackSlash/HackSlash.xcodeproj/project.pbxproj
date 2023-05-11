@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A71EEAB92A0D284B0063BC77 /* MapInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */; };
 		A75915982A02EA3A00D953C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
 		A795A8692A0984EF00FF21A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A795A8682A0984EF00FF21A3 /* Extensions.swift */; };
 		A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B12A02C98A005FF90B /* StateMachine.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapInterpreter.swift; sourceTree = "<group>"; };
 		A795A8682A0984EF00FF21A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A7B6B1AF2A02C461005FF90B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A7B6B1B12A02C98A005FF90B /* StateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		A75915962A02EA0E00D953C2 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */,
 				F99499D52A02CD3800E3807D /* Directions.swift */,
 				A795A8682A0984EF00FF21A3 /* Extensions.swift */,
 			);
@@ -249,6 +252,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A71EEAB92A0D284B0063BC77 /* MapInterpreter.swift in Sources */,
 				F9CB0BAB2A041D47004A0661 /* StatesSpider.swift in Sources */,
 				F9CB0BAF2A043EE0004A0661 /* DetectsCollision.swift in Sources */,
 				F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */,
