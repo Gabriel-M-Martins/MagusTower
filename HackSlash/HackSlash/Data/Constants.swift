@@ -30,7 +30,7 @@ struct Constants {
     
     static var playerAirborneTexture: [SKTexture] {
         var texture: [SKTexture] = []
-        for n in 19...22{
+        for n in 19...20{
             texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
         }
         return texture
@@ -46,8 +46,8 @@ struct Constants {
     
     static var playerLandingTexture: [SKTexture] {
         var texture: [SKTexture] = []
-        for n in 0...4{
-            texture.append(SKTexture(imageNamed: "MagoPousandoRight\(n)"))
+        for n in 21...22{
+            texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
         }
         return texture
     }
