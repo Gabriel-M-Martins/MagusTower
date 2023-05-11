@@ -172,6 +172,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        if player.currentState == .idle {
+            if player.physicsBody.velocity.dx != 0 {
+                player.transition(to: .walking)
+            }
+        }
+        else if player.currentState == .walking {
+            if player.physicsBody.velocity.dx == 0 {
+                player.transition(to: .idle)
+            }
+        }
+        print(player.currentState)
     }
     
     
