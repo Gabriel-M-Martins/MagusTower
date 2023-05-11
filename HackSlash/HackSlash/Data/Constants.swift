@@ -39,7 +39,7 @@ struct Constants {
     static var playerRunTexture: [SKTexture] {
         var texture: [SKTexture] = []
         for n in 0...5{
-            texture.append(SKTexture(imageNamed: "MagoCorrendoRight\(n)"))
+            texture.append(SKTexture(imageNamed: "MagoCorrendoLado\(n)"))
         }
         return texture
     }
@@ -53,6 +53,18 @@ struct Constants {
     }
     
     static let spiderIdleTexture: SKTexture = SKTexture(imageNamed: "Spider")
+    
+    static let spiderAttackTexture: SKTexture = SKTexture(imageNamed: "SpiderAttack")
+    
+    static let spiderChargingTexture: SKTexture = SKTexture(imageNamed: "SpiderPreparingJump")
+    
+    static var spiderWalkingTexture: [SKTexture] {
+        var texture: [SKTexture] = []
+        for n in 0...4{
+            texture.append(SKTexture(imageNamed: "AranhaCorrendo\(n)"))
+        }
+        return texture
+    }
     
     init(frame: CGRect) {
         self.frame = frame

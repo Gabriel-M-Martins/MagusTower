@@ -110,7 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     if spider.currentState == .attack{
                         var copy = spider
-                        copy.transition(to: .idle)
+                        copy.transition(to: .walking)
                         copy.attributes.velocity.maxYSpeed /= 100
                         copy.attributes.velocity.maxXSpeed /= 100
                     }
@@ -182,7 +182,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player.transition(to: .idle)
             }
         }
-        print(player.currentState)
     }
     
     
@@ -205,6 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }
+            print(spider.currentState)
         }
     }
     
