@@ -134,9 +134,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------
         setupCamera()
         // ------------------------------------------------------------------------
-        for i in 1...2{
+        for i in 1...20{
             delayWithSeconds(5.0 * Double(i)) { [self] in
-                self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "VillainFinal2")
+                self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider")
             }
         }
         //         ------------------------------------------------------------------------
@@ -292,8 +292,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     //Constants.spiderIdleTexture
     func setupSpawn(position: CGPoint, spriteName: String){
-        if(spriteName == "VillainFinal2"){
-            let enemy = setupSpider(spriteName: "VillainFinal2")
+        if(spriteName == "Spider"){
+            let enemy = setupSpider(spriteName: "Spider")
             enemy.sprite.position = position
             spiders.append(enemy)
             addChild(enemy.sprite)
@@ -341,6 +341,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Creates player and adds it to the scene
         player = Player(sprite: "MagoFrente")
         player.sprite.position.y += frame.maxY
+        player.setEffect(effect: "DirtParticle")
         addChild(player.sprite)
     }
     
