@@ -18,7 +18,10 @@ protocol StateMachine {
 
 extension StateMachine {
     mutating func transition(to target: STM) {
-        guard currentState.ValidateTransition(to: target) else { return }
+        guard currentState.ValidateTransition(to: target) else {
+            print("Estado inválido")
+            return
+        }
         
         let targetInfo = target.StateInfo()
         guard !targetInfo.textures.isEmpty else { return }

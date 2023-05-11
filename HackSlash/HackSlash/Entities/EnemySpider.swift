@@ -29,10 +29,12 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
     
     var player: Player
     
+    var changeSide = true
+    
     init(sprite: String, attributes: AttributesInfo, player: Player) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
-        self.sprite.size = CGSize(width: 200, height: 100)
-        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: self.sprite.size, center: self.sprite.position)
+        self.sprite.size = Constants.spiderSize
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: Constants.spiderSize.width, height: Constants.spiderSize.height), center: self.sprite.position)
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
         self.attributes = attributes
@@ -44,6 +46,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         self.changeMask(bit: Constants.enemiesMask)
         self.changeMask(bit: Constants.groundMask)
         self.physicsBody.categoryBitMask = Constants.enemiesMask
+        self.physicsBody.mass = 0.888888955116272
         
     }
     
@@ -52,19 +55,23 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         
         //Checa se a aranha está no ar ou no meio de um ataque
         switch self.currentState{
-        case .idle, .walkingRight, .walkingLeft:
-            if player.position.x > self.sprite.position.x {
+        case .idle, .walking:
+            if player.position.x > self.sprite.position.x   || sprite.position.x - player.position.x > self.attributes.attackRange * 1.2{
+                
                 move(direction: [.left])
-                if currentState != .walkingLeft{
-                    var tmpSelf = self
-                    tmpSelf.transition(to: .walkingLeft)
-                }
+                var tmpSelf = self
+                tmpSelf.transition(to: .walking)
+                sprite.xScale = -1
+                changeSide = true
+                
             } else {
+                
                 move(direction: [.right])
-                if currentState != .walkingRight{
-                    var tmpSelf = self
-                    tmpSelf.transition(to: .walkingRight)
-                }
+                var tmpSelf = self
+                tmpSelf.transition(to: .walking)
+                sprite.xScale = 1
+                changeSide = true
+                
             }
             if abs(player.position.x - sprite.position.x) >= self.attributes.attackRange && abs(player.position.x - sprite.position.x) <= self.attributes.attackRange * 1.2{
                 var tmpSelf = self
@@ -78,26 +85,38 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
                     let gravity: CGFloat = -9.8
                     self.attributes.velocity.maxXSpeed *= 100
                     self.attributes.velocity.maxYSpeed *= 100
-                    self.physicsBody.applyImpulse(CGVector(dx: (self.player.sprite.position.x - self.sprite.position.x), dy: (self.player.sprite.position.y - self.sprite.position.y) + (desiredHeight * self.sprite.size.height) - (40.0 * gravity)))
+                    let direction: CGFloat = self.sprite.position.x > self.player.sprite.position.x ? -1 : 1
+                    self.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.playerSize.width/2 + Constants.spiderSize.width/2)) + (self.player.sprite.position.x - self.sprite.position.x), dy: abs(Constants.playerSize.height - Constants.spiderSize.height) + (self.player.sprite.position.y - self.sprite.position.y) + (desiredHeight * self.sprite.size.height) - (40.0 * gravity)))
                 }
                 self.physicsBody.velocity.dx = 0
             }
+            
         case .charging:
             move(direction: [player.position.x > self.sprite.position.x ? .left : .right], power: 0.03)
+            
+            if changeSide {
+                changeSide = false
+                if sprite.xScale == -1{
+                    sprite.xScale = 1
+                }
+                else{
+                    sprite.xScale = -1
+                }
+            }
+            
         case .goingUp:
             if self.physicsBody.velocity.dy < 0{
                 self.currentState = .attack
             }
             self.physicsBody.collisionBitMask = self.physicsBody.collisionBitMask & (1111111111 - Constants.groundMask)
             self.physicsBody.contactTestBitMask = self.physicsBody.contactTestBitMask & (1111111111 - Constants.groundMask)
+            
         case .attack:
             if self.sprite.intersects(self.player.sprite){
                 self.player.move(direction: [self.physicsBody.velocity.dx > 0 ? .right : .left], power: 1)
                 //Causa dano no player
                 
             }
-        default:
-            break
         }
     }
 }
