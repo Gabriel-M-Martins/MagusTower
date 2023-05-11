@@ -192,13 +192,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func updtatePlayerState(){
         if player.currentState == .jump {
-            if player.physicsBody.velocity.dy < 0{
-                player.transition(to: .airborne)
-                
-            }
             player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask & (1111111111 - Constants.groundMask)
             player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask & (1111111111 - Constants.groundMask)
         }
+        
+        if player.physicsBody.velocity.dy < 0{
+            player.transition(to: .airborne)
+        }
+        
         if player.currentState == .airborne{
             if player.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0 {
                 var hasCollided = false
@@ -245,7 +246,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }
-            print(spider.currentState)
         }
     }
     
