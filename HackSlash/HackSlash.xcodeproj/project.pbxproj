@@ -35,7 +35,6 @@
 		F9CB0BAF2A043EE0004A0661 /* DetectsCollision.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BAE2A043EE0004A0661 /* DetectsCollision.swift */; };
 		F9CB0BD62A0B0528004A0661 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BD52A0B0528004A0661 /* Global.swift */; };
 		F9CB0BF42A0D5FA9004A0661 /* FireParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9CB0BEF2A0D5FA9004A0661 /* FireParticle Godinho.sks */; };
-		F9CB0BF52A0D5FA9004A0661 /* MagicParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9CB0BF02A0D5FA9004A0661 /* MagicParticle Godinho.sks */; };
 		F9CB0BF62A0D5FA9004A0661 /* LightiningParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9CB0BF12A0D5FA9004A0661 /* LightiningParticle Godinho.sks */; };
 		F9CB0BF72A0D5FA9004A0661 /* DirtParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9CB0BF22A0D5FA9004A0661 /* DirtParticle Godinho.sks */; };
 		F9CB0BF82A0D5FA9004A0661 /* IceParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9CB0BF32A0D5FA9004A0661 /* IceParticle Godinho.sks */; };
@@ -71,7 +70,6 @@
 		F9CB0BAE2A043EE0004A0661 /* DetectsCollision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectsCollision.swift; sourceTree = "<group>"; };
 		F9CB0BD52A0B0528004A0661 /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		F9CB0BEF2A0D5FA9004A0661 /* FireParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "FireParticle Godinho.sks"; sourceTree = "<group>"; };
-		F9CB0BF02A0D5FA9004A0661 /* MagicParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "MagicParticle Godinho.sks"; sourceTree = "<group>"; };
 		F9CB0BF12A0D5FA9004A0661 /* LightiningParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "LightiningParticle Godinho.sks"; sourceTree = "<group>"; };
 		F9CB0BF22A0D5FA9004A0661 /* DirtParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "DirtParticle Godinho.sks"; sourceTree = "<group>"; };
 		F9CB0BF32A0D5FA9004A0661 /* IceParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "IceParticle Godinho.sks"; sourceTree = "<group>"; };
@@ -191,7 +189,6 @@
 			isa = PBXGroup;
 			children = (
 				F9CB0BEF2A0D5FA9004A0661 /* FireParticle Godinho.sks */,
-				F9CB0BF02A0D5FA9004A0661 /* MagicParticle Godinho.sks */,
 				F9CB0BF12A0D5FA9004A0661 /* LightiningParticle Godinho.sks */,
 				F9CB0BF22A0D5FA9004A0661 /* DirtParticle Godinho.sks */,
 				F9CB0BF32A0D5FA9004A0661 /* IceParticle Godinho.sks */,
@@ -258,7 +255,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9CB0BF52A0D5FA9004A0661 /* MagicParticle Godinho.sks in Resources */,
 				A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */,
 				F9CB0BF72A0D5FA9004A0661 /* DirtParticle Godinho.sks in Resources */,
 				A7C1669529F71DC1003B096D /* GameScene.sks in Resources */,
