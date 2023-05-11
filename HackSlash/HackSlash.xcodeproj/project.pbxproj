@@ -28,16 +28,16 @@
 		A7CDC3132A0424720030A92B /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC3122A0424720030A92B /* Elements.swift */; };
 		A7CDC3152A0424880030A92B /* VelocityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC3142A0424880030A92B /* VelocityInfo.swift */; };
 		A7CDC3172A0424CC0030A92B /* AttributesInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC3162A0424CC0030A92B /* AttributesInfo.swift */; };
+		F98E2CF12A0D6AED003273AA /* LightiningParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F98E2CEF2A0D6AED003273AA /* LightiningParticle.sks */; };
+		F98E2CF62A0D6AFA003273AA /* DirtParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F98E2CF32A0D6AFA003273AA /* DirtParticle.sks */; };
+		F98E2CF72A0D6AFA003273AA /* FireParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F98E2CF42A0D6AFA003273AA /* FireParticle.sks */; };
+		F98E2CF82A0D6AFA003273AA /* IceParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F98E2CF52A0D6AFA003273AA /* IceParticle.sks */; };
 		F99499D42A02CC0E00E3807D /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D32A02CC0E00E3807D /* Move.swift */; };
 		F99499D62A02CD3800E3807D /* Directions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D52A02CD3800E3807D /* Directions.swift */; };
 		F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */; };
 		F9CB0BAB2A041D47004A0661 /* StatesSpider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BAA2A041D47004A0661 /* StatesSpider.swift */; };
 		F9CB0BAF2A043EE0004A0661 /* DetectsCollision.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BAE2A043EE0004A0661 /* DetectsCollision.swift */; };
 		F9CB0BD62A0B0528004A0661 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BD52A0B0528004A0661 /* Global.swift */; };
-		F9CB0BF42A0D5FA9004A0661 /* FireParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9CB0BEF2A0D5FA9004A0661 /* FireParticle Godinho.sks */; };
-		F9CB0BF62A0D5FA9004A0661 /* LightiningParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9CB0BF12A0D5FA9004A0661 /* LightiningParticle Godinho.sks */; };
-		F9CB0BF72A0D5FA9004A0661 /* DirtParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9CB0BF22A0D5FA9004A0661 /* DirtParticle Godinho.sks */; };
-		F9CB0BF82A0D5FA9004A0661 /* IceParticle Godinho.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9CB0BF32A0D5FA9004A0661 /* IceParticle Godinho.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,16 +63,16 @@
 		A7CDC3122A0424720030A92B /* Elements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
 		A7CDC3142A0424880030A92B /* VelocityInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityInfo.swift; sourceTree = "<group>"; };
 		A7CDC3162A0424CC0030A92B /* AttributesInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributesInfo.swift; sourceTree = "<group>"; };
+		F98E2CEF2A0D6AED003273AA /* LightiningParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightiningParticle.sks; sourceTree = "<group>"; };
+		F98E2CF32A0D6AFA003273AA /* DirtParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DirtParticle.sks; sourceTree = "<group>"; };
+		F98E2CF42A0D6AFA003273AA /* FireParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireParticle.sks; sourceTree = "<group>"; };
+		F98E2CF52A0D6AFA003273AA /* IceParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = IceParticle.sks; sourceTree = "<group>"; };
 		F99499D32A02CC0E00E3807D /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		F99499D52A02CD3800E3807D /* Directions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directions.swift; sourceTree = "<group>"; };
 		F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemySpider.swift; sourceTree = "<group>"; };
 		F9CB0BAA2A041D47004A0661 /* StatesSpider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatesSpider.swift; sourceTree = "<group>"; };
 		F9CB0BAE2A043EE0004A0661 /* DetectsCollision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectsCollision.swift; sourceTree = "<group>"; };
 		F9CB0BD52A0B0528004A0661 /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
-		F9CB0BEF2A0D5FA9004A0661 /* FireParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "FireParticle Godinho.sks"; sourceTree = "<group>"; };
-		F9CB0BF12A0D5FA9004A0661 /* LightiningParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "LightiningParticle Godinho.sks"; sourceTree = "<group>"; };
-		F9CB0BF22A0D5FA9004A0661 /* DirtParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "DirtParticle Godinho.sks"; sourceTree = "<group>"; };
-		F9CB0BF32A0D5FA9004A0661 /* IceParticle Godinho.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "IceParticle Godinho.sks"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,7 +165,8 @@
 		A7C1669129F71DC1003B096D /* HackSlash */ = {
 			isa = PBXGroup;
 			children = (
-				F9CB0BEE2A0D5FA9004A0661 /* Particulas Godinho */,
+				A7C1669F29F71DC2003B096D /* Assets.xcassets */,
+				F98E2CEE2A0D6ADF003273AA /* Particles */,
 				A75915992A02EA4300D953C2 /* Entities */,
 				A75915972A02EA2000D953C2 /* Components */,
 				A75915962A02EA0E00D953C2 /* Utility */,
@@ -179,22 +180,20 @@
 				F9CB0BD52A0B0528004A0661 /* Global.swift */,
 				A7C1669A29F71DC1003B096D /* GameViewController.swift */,
 				A7C1669C29F71DC1003B096D /* Main.storyboard */,
-				A7C1669F29F71DC2003B096D /* Assets.xcassets */,
 				A7C166A129F71DC2003B096D /* LaunchScreen.storyboard */,
 			);
 			path = HackSlash;
 			sourceTree = "<group>";
 		};
-		F9CB0BEE2A0D5FA9004A0661 /* Particulas Godinho */ = {
+		F98E2CEE2A0D6ADF003273AA /* Particles */ = {
 			isa = PBXGroup;
 			children = (
-				F9CB0BEF2A0D5FA9004A0661 /* FireParticle Godinho.sks */,
-				F9CB0BF12A0D5FA9004A0661 /* LightiningParticle Godinho.sks */,
-				F9CB0BF22A0D5FA9004A0661 /* DirtParticle Godinho.sks */,
-				F9CB0BF32A0D5FA9004A0661 /* IceParticle Godinho.sks */,
+				F98E2CF32A0D6AFA003273AA /* DirtParticle.sks */,
+				F98E2CF42A0D6AFA003273AA /* FireParticle.sks */,
+				F98E2CF52A0D6AFA003273AA /* IceParticle.sks */,
+				F98E2CEF2A0D6AED003273AA /* LightiningParticle.sks */,
 			);
-			name = "Particulas Godinho";
-			path = "../../../Particulas Godinho";
+			path = Particles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,15 +254,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F98E2CF12A0D6AED003273AA /* LightiningParticle.sks in Resources */,
+				F98E2CF72A0D6AFA003273AA /* FireParticle.sks in Resources */,
 				A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */,
-				F9CB0BF72A0D5FA9004A0661 /* DirtParticle Godinho.sks in Resources */,
 				A7C1669529F71DC1003B096D /* GameScene.sks in Resources */,
 				A7C166A029F71DC2003B096D /* Assets.xcassets in Resources */,
 				A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */,
+				F98E2CF82A0D6AFA003273AA /* IceParticle.sks in Resources */,
+				F98E2CF62A0D6AFA003273AA /* DirtParticle.sks in Resources */,
 				A7C1669729F71DC1003B096D /* Actions.sks in Resources */,
-				F9CB0BF82A0D5FA9004A0661 /* IceParticle Godinho.sks in Resources */,
-				F9CB0BF62A0D5FA9004A0661 /* LightiningParticle Godinho.sks in Resources */,
-				F9CB0BF42A0D5FA9004A0661 /* FireParticle Godinho.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
