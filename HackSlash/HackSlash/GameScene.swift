@@ -124,7 +124,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         background.zPosition = -10
-        background.size = CGSize(width: frame.width * 2, height: frame.height * 2)
+        background.anchorPoint = CGPoint(x: 0.5, y: 0)
+        background.size = CGSize(width: frame.width * 3, height: frame.height * 3)
+        background.position.y = frame.minY - 185
         addChild(background)
         
         // ------------------------------------------------------------------------
