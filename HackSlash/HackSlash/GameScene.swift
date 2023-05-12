@@ -159,10 +159,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //         ------------------------------------------------------------------------
         setupButtons()
         
-        let b = SKShapeNode(rectOf: frame.size)
-        b.strokeColor = .cyan
-        b.zPosition = 100
-        addChild(b)
+//        let b = SKShapeNode(rectOf: frame.size)
+//        b.strokeColor = .cyan
+//        b.zPosition = 100
+//        addChild(b)
     }
     
     private func setupGround2() {

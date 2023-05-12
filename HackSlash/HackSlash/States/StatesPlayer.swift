@@ -35,7 +35,7 @@ enum StatesPlayer: StateMachineable {
     func ValidateTransition(to target: StatesPlayer) -> Bool {
         switch self {
         case .idle:
-            return [.attack, .jump, .walking, .airborne].contains(target)
+            return [.attack, .jump, .walking].contains(target)
         case .attack:
             return [.idle, .walking, .airborne].contains(target)
         case .walking:
