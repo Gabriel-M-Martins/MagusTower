@@ -136,15 +136,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         background.zPosition = -10
-        background.size = CGSize(width: frame.width * 2, height: frame.height * 2)
+        background.anchorPoint = CGPoint(x: 0.5, y: 0)
+        background.size = CGSize(width: frame.width * 3, height: frame.height * 3)
+        background.position.y = frame.minY - 185
         addChild(background)
         
         // ------------------------------------------------------------------------
-        setupGround()
-        // ------------------------------------------------------------------------
         setupPlayer()
+
         // ------------------------------------------------------------------------
         setupCamera()
+        
+        // ------------------------------------------------------------------------
+        setupGround2()
+        
         // ------------------------------------------------------------------------
         for i in 1...20{
             delayWithSeconds(5.0 * Double(i)) { [self] in
@@ -153,6 +158,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         //         ------------------------------------------------------------------------
         setupButtons()
+        
+        let b = SKShapeNode(rectOf: frame.size)
+        b.strokeColor = .cyan
+        b.zPosition = 100
+        addChild(b)
+    }
+    
+    private func setupGround2() {
+        let rects = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3)?.rects
+        
+        guard let rects = rects else { return }
+        for i in rects {
+            self.createPlatform(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
+        }
     }
     
     func delayWithSeconds(_ seconds: Double, completion: @escaping () -> ()) {
@@ -333,7 +352,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func setupCamera() {
         let camera = SKCameraNode()
-        camera.setScale(0.7)
+//        camera.setScale(0.7)
+        camera.setScale(1)
         self.camera = camera
         addChild(camera)
     }
@@ -347,6 +367,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.position = position
         // criando o physicsbody e settando que nao é dinamico p nenhuma força poder ser aplicada contra ele
         platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 0.9))
+        print(platform.physicsBody)
+        print(platform.frame.origin)
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
         platform.zPosition = -5
@@ -365,14 +387,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------
         //cria plataforma direita
         createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "Plataform2")
-        // ------------------------------------------------------------------------
+        player.sprite.position.y += frame.maxY
+        player.setEffect(effect: "DirtParticle")
     }
     
     func setupPlayer(){
         //Creates player and adds it to the scene
         player = Player(sprite: "MagoFrente")
-        player.sprite.position.y += frame.maxY
-        player.setEffect(effect: "DirtParticle")
+        player.sprite.position.y += frame.midY + frame.midY/2
         addChild(player.sprite)
     }
     
