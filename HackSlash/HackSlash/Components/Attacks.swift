@@ -26,7 +26,5 @@ extension Attacks {
         if let debuffAction = debuffAction {
             debuffAction(target)
         }
-        
-        attack.action()
     }
 }

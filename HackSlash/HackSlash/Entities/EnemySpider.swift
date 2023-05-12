@@ -43,8 +43,8 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         self.player = player
         self.physicsBody.allowsRotation = false
         self.changeMask(bit: Constants.playerMask)
-        self.changeMask(bit: Constants.enemiesMask)
         self.changeMask(bit: Constants.groundMask)
+        self.physicsBody.collisionBitMask -= Constants.magicMask
         self.physicsBody.categoryBitMask = Constants.enemiesMask
         self.physicsBody.mass = 0.888888955116272
         
