@@ -36,3 +36,5 @@ enum Magics {
         }
     }
 }
+
+

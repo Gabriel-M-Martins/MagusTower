@@ -19,7 +19,7 @@ protocol StateMachine {
 extension StateMachine {
     mutating func transition(to target: STM) {
         guard currentState.ValidateTransition(to: target) else {
-            print("Estado inválido")
+//            print("Estado inválido")
             return
         }
         
