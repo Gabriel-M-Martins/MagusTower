@@ -22,7 +22,7 @@ enum StatesPlayer: StateMachineable {
         case .attack:
             return AnimationInfo(textures: [], duration: 0)
         case .walking:
-            return AnimationInfo(textures: Constants.playerRunTexture, duration: 0, repeating: true)
+            return AnimationInfo(textures: Constants.playerRunTexture, duration: 0.2, repeating: true)
         case .jump:
             return AnimationInfo(textures: Constants.playerJumpTexture, duration: 0.8)
         case .airborne:
@@ -35,11 +35,11 @@ enum StatesPlayer: StateMachineable {
     func ValidateTransition(to target: StatesPlayer) -> Bool {
         switch self {
         case .idle:
-            return [.attack, .jump, .walking].contains(target)
+            return [.attack, .jump, .walking, .airborne].contains(target)
         case .attack:
             return [.idle, .walking, .airborne].contains(target)
         case .walking:
-            return [.idle, .attack, .jump, .walking].contains(target)
+            return [.idle, .attack, .jump, .walking, .airborne].contains(target)
         case .jump:
             return [.airborne, .idle].contains(target)
         case .airborne:

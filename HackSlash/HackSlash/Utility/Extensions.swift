@@ -31,6 +31,11 @@ extension CGPoint {
         return CGPoint(x: lhs.x * CGFloat(rhs), y: lhs.y * CGFloat(rhs))
     }
     
+    func normalized() -> CGPoint {
+        let divisor = self.size()
+        return CGPoint(x: self.x/divisor, y: self.y/divisor)
+    }
+    
     mutating func normalize() {
         let divisor = self.size()
         self.x /= divisor

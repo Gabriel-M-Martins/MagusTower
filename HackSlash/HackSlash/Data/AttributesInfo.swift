@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SpriteKit
 
 struct AttributesInfo {
     var health: Int
@@ -13,4 +14,5 @@ struct AttributesInfo {
     var weakness: Set<Elements>
     var velocity: VelocityInfo
     var attackRange: CGFloat
+    var effect: SKEmitterNode?
 }
