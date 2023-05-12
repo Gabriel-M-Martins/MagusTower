@@ -13,9 +13,21 @@ struct Constants {
     static let enemiesMask: UInt32 = 1
     static let groundMask: UInt32 = 2
     static let playerMask: UInt32 = 4
+    static let magicMask: UInt32 = 8
+    
+    static let playerDamage: Int = 10
     
     static let playerSize: CGSize = CGSize(width: 104, height: 111)
     static let spiderSize: CGSize = CGSize(width: 90, height: 60)
+    
+    static let fireballSize: CGVector = CGVector(dx: 38, dy: 15)
+    static let fireballVelocity: VelocityInfo = VelocityInfo(xSpeed: 500, ySpeed: 500, maxXSpeed: 150, maxYSpeed: 150)
+    static let fireballDamage: AttackInfo = AttackInfo(damage: Constants.playerDamage, element: .fire, activateEffects: (false, false))
+    
+    static let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
+    static let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 500, ySpeed: 500, maxXSpeed: 200, maxYSpeed: 200)
+    static let iceballDamage: AttackInfo = AttackInfo(damage: Constants.playerDamage, element: .fire, activateEffects: (false, false))
+    
     
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22

@@ -101,7 +101,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let vector = pos - start
 
                 let directions = Directions.calculateDirections(vector)
-                print(directions)
                 
                 combosStartPosition = nil
             }
@@ -152,6 +151,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        if  Double.random(in: 0...1) > 0.95{
+            if Double.random(in: 0...1) > 0.5{
+                let fireball = Fireball(angle: 45, player: player)
+                addChild(fireball.node)
+            } else {
+                let iceball = Iceball(angle: 0, player: player)
+                addChild(iceball.node)
+            }
+            
+        }
         camera?.position = player.position
         for spider in spiders{
             spider.moveAI(player: player.sprite)
