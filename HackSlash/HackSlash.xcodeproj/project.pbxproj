@@ -10,8 +10,8 @@
 		A71EEAB92A0D284B0063BC77 /* MapInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */; };
 		A75915982A02EA3A00D953C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
 		A795A8692A0984EF00FF21A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A795A8682A0984EF00FF21A3 /* Extensions.swift */; };
-		A7AF3E5D2A0D5AEB00E36A42 /* Magics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AF3E5C2A0D5AEB00E36A42 /* Magics.swift */; };
 		A7AF3E5B2A0D2B8300E36A42 /* map1.txt in Resources */ = {isa = PBXBuildFile; fileRef = A7AF3E5A2A0D2B8300E36A42 /* map1.txt */; };
+		A7AF3E5D2A0D5AEB00E36A42 /* Magics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AF3E5C2A0D5AEB00E36A42 /* Magics.swift */; };
 		A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B12A02C98A005FF90B /* StateMachine.swift */; };
 		A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */; };
 		A7B6B1B82A02E732005FF90B /* AnimationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1B72A02E732005FF90B /* AnimationInfo.swift */; };
@@ -50,8 +50,8 @@
 /* Begin PBXFileReference section */
 		A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapInterpreter.swift; sourceTree = "<group>"; };
 		A795A8682A0984EF00FF21A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		A7AF3E5C2A0D5AEB00E36A42 /* Magics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magics.swift; sourceTree = "<group>"; };
 		A7AF3E5A2A0D2B8300E36A42 /* map1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map1.txt; sourceTree = "<group>"; };
+		A7AF3E5C2A0D5AEB00E36A42 /* Magics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magics.swift; sourceTree = "<group>"; };
 		A7B6B1AF2A02C461005FF90B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A7B6B1B12A02C98A005FF90B /* StateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
 		A7B6B1B42A02E6D7005FF90B /* StateMachineable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachineable.swift; sourceTree = "<group>"; };
@@ -485,7 +485,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 856F4M2786;
+				DEVELOPMENT_TEAM = 73DNAYF2TM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -499,7 +499,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlas;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -514,7 +514,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 856F4M2786;
+				DEVELOPMENT_TEAM = 73DNAYF2TM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -528,7 +528,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlas;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
