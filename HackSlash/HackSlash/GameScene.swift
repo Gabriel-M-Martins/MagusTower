@@ -15,6 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var platforms: [SKSpriteNode] = []
     var player: Player = Player(sprite: "")
     var spiders: [EnemySpider] = []
+    var magics: [MagicProjetile] = []
     var toDie: Int = 3
     
     var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
@@ -90,7 +91,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 handleCombo(start: start, pos: pos)
             }
-            
             return false
         })
     }
@@ -106,12 +106,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func handleCombo(start: CGPoint, pos: CGPoint) {
         let vector = pos - start
         let directions = Directions.calculateDirections(vector)
-        
         if directionsCombos.count == 2 {
             let normalizedVector = vector.normalized()
             let magic = Magics.magic(primary: directionsCombos[0], secondary: directionsCombos[1])
-            
+            let angle = atan2(normalizedVector.y, normalizedVector.x)
             // MARK: call combo with vector and magic
+            switch magic{
+            case .A(.fire):
+                let fireball = Fireball(angle: angle, player: player)
+                magics.append(fireball)
+                addChild(fireball.node)
+            case .A(.ice):
+                let iceball = Iceball(angle: 0, player: player)
+                magics.append(iceball)
+                addChild(iceball.node)
+            default:
+                break
+            }
+            directionsCombos = []
         } else {
             directionsCombos.append(directions[0])
         }
@@ -186,19 +198,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        else if (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "Magic"){
+            for spider in spiders{
+                if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                    for magic in magics{
+                        if magic.physicsBody === contact.bodyA || magic.physicsBody === contact.bodyB{
+                            magic.onTouch(touched: &spider.attributes)
+                            spider.attributes.velocity.maxYSpeed *= 10
+                            spider.attributes.velocity.maxXSpeed *= 10
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                spider.attributes.velocity.maxYSpeed /= 10
+                                spider.attributes.velocity.maxXSpeed /= 10
+                            }
+                            spider.physicsBody.applyImpulse(CGVector(dx: Constants.spiderSize.width * cos(magic.angle) * 6, dy: Constants.spiderSize.height * sin(magic.angle) * 6))
+                            magic.node.removeFromParent()
+                        }
+                    }
+                }
+            }
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
-        if  Double.random(in: 0...1) > 0.95{
-            if Double.random(in: 0...1) > 0.5{
-                let fireball = Fireball(angle: 45, player: player)
-                addChild(fireball.node)
-            } else {
-                let iceball = Iceball(angle: 0, player: player)
-                addChild(iceball.node)
-            }
-            
-        }
         camera?.position = player.position
         for spider in spiders{
             spider.moveAI(player: player.sprite)

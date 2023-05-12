@@ -30,8 +30,8 @@ class MagicProjetile: Projectile, DetectsCollision{
         self.changeMask(bit: Constants.enemiesMask, collision: false)
     }
     
-    func onTouch(touched: inout Attributes){
-        touched.attributes.health -= self.damage.damage
+    func onTouch(touched: inout AttributesInfo){
+        touched.health -= self.damage.damage
         self.node.removeFromParent()
     }
 }
