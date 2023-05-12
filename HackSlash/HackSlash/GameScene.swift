@@ -117,7 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 magics.append(fireball)
                 addChild(fireball.node)
             case .A(.ice):
-                let iceball = Iceball(angle: 0, player: player)
+                let iceball = Iceball(angle: angle, player: player)
                 magics.append(iceball)
                 addChild(iceball.node)
             default:
