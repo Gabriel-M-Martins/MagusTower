@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9202EB022A0EAD0500F5A109 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EAFA2A0EAD0500F5A109 /* MenuView.swift */; };
+		9202EB032A0EAD0500F5A109 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9202EAFB2A0EAD0500F5A109 /* Info.plist */; };
+		9202EB042A0EAD0500F5A109 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 9202EAFC2A0EAD0500F5A109 /* Fonts */; };
+		9202EB052A0EAD0500F5A109 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EAFD2A0EAD0500F5A109 /* SettingsView.swift */; };
+		9202EB062A0EAD0500F5A109 /* menuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EAFE2A0EAD0500F5A109 /* menuApp.swift */; };
+		9202EB072A0EAD0500F5A109 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EAFF2A0EAD0500F5A109 /* ContentView.swift */; };
+		9202EB082A0EAD0500F5A109 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB002A0EAD0500F5A109 /* PauseView.swift */; };
+		9202EB092A0EAD0500F5A109 /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB012A0EAD0500F5A109 /* CreditsView.swift */; };
+		9202EB0B2A0EAD0F00F5A109 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB0A2A0EAD0F00F5A109 /* CustomSlider.swift */; };
 		A71EEAB92A0D284B0063BC77 /* MapInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */; };
 		A75915982A02EA3A00D953C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
 		A795A8692A0984EF00FF21A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A795A8682A0984EF00FF21A3 /* Extensions.swift */; };
@@ -48,6 +57,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9202EAFA2A0EAD0500F5A109 /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		9202EAFB2A0EAD0500F5A109 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9202EAFC2A0EAD0500F5A109 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		9202EAFD2A0EAD0500F5A109 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		9202EAFE2A0EAD0500F5A109 /* menuApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = menuApp.swift; sourceTree = "<group>"; };
+		9202EAFF2A0EAD0500F5A109 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		9202EB002A0EAD0500F5A109 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
+		9202EB012A0EAD0500F5A109 /* CreditsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
+		9202EB0A2A0EAD0F00F5A109 /* CustomSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapInterpreter.swift; sourceTree = "<group>"; };
 		A795A8682A0984EF00FF21A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A7AF3E5A2A0D2B8300E36A42 /* map1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map1.txt; sourceTree = "<group>"; };
@@ -100,6 +118,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9202EAF92A0EAC6900F5A109 /* Menus */ = {
+			isa = PBXGroup;
+			children = (
+				9202EB0A2A0EAD0F00F5A109 /* CustomSlider.swift */,
+				9202EAFF2A0EAD0500F5A109 /* ContentView.swift */,
+				9202EB012A0EAD0500F5A109 /* CreditsView.swift */,
+				9202EAFC2A0EAD0500F5A109 /* Fonts */,
+				9202EAFB2A0EAD0500F5A109 /* Info.plist */,
+				9202EAFE2A0EAD0500F5A109 /* menuApp.swift */,
+				9202EAFA2A0EAD0500F5A109 /* MenuView.swift */,
+				9202EB002A0EAD0500F5A109 /* PauseView.swift */,
+				9202EAFD2A0EAD0500F5A109 /* SettingsView.swift */,
+			);
+			path = Menus;
+			sourceTree = "<group>";
+		};
 		A75915962A02EA0E00D953C2 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				A7C1669F29F71DC2003B096D /* Assets.xcassets */,
+				9202EAF92A0EAC6900F5A109 /* Menus */,
 				F98E2CEE2A0D6ADF003273AA /* Particles */,
 				A7AF3E592A0D2B6800E36A42 /* Resources */,
 				A75915992A02EA4300D953C2 /* Entities */,
@@ -294,11 +329,13 @@
 				F98E2CF12A0D6AED003273AA /* LightiningParticle.sks in Resources */,
 				F98E2CF72A0D6AFA003273AA /* FireParticle.sks in Resources */,
 				A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */,
+				9202EB042A0EAD0500F5A109 /* Fonts in Resources */,
 				A7AF3E5B2A0D2B8300E36A42 /* map1.txt in Resources */,
 				A7C1669529F71DC1003B096D /* GameScene.sks in Resources */,
 				A7C166A029F71DC2003B096D /* Assets.xcassets in Resources */,
 				A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */,
 				F98E2CF82A0D6AFA003273AA /* IceParticle.sks in Resources */,
+				9202EB032A0EAD0500F5A109 /* Info.plist in Resources */,
 				F98E2CF62A0D6AFA003273AA /* DirtParticle.sks in Resources */,
 				A7C1669729F71DC1003B096D /* Actions.sks in Resources */,
 			);
@@ -312,13 +349,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				A71EEAB92A0D284B0063BC77 /* MapInterpreter.swift in Sources */,
+				9202EB0B2A0EAD0F00F5A109 /* CustomSlider.swift in Sources */,
 				F9CB0BAB2A041D47004A0661 /* StatesSpider.swift in Sources */,
+				9202EB072A0EAD0500F5A109 /* ContentView.swift in Sources */,
 				F9CB0BAF2A043EE0004A0661 /* DetectsCollision.swift in Sources */,
 				F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */,
 				A7B6B1BB2A02E785005FF90B /* StatesPlayer.swift in Sources */,
 				A75915982A02EA3A00D953C2 /* Constants.swift in Sources */,
 				A7CDC30F2A04241C0030A92B /* Attacks.swift in Sources */,
 				F9CB0BD62A0B0528004A0661 /* Global.swift in Sources */,
+				9202EB082A0EAD0500F5A109 /* PauseView.swift in Sources */,
 				A7CDC3112A0424320030A92B /* AttackInfo.swift in Sources */,
 				A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */,
 				A7B6B1B82A02E732005FF90B /* AnimationInfo.swift in Sources */,
@@ -326,15 +366,19 @@
 				A7C1669929F71DC1003B096D /* GameScene.swift in Sources */,
 				F99499D42A02CC0E00E3807D /* Move.swift in Sources */,
 				A7CDC3152A0424880030A92B /* VelocityInfo.swift in Sources */,
+				9202EB052A0EAD0500F5A109 /* SettingsView.swift in Sources */,
 				A7C1200A2A01A0F500DF0C6A /* Player.swift in Sources */,
 				A795A8692A0984EF00FF21A3 /* Extensions.swift in Sources */,
+				9202EB022A0EAD0500F5A109 /* MenuView.swift in Sources */,
 				F98E2CFA2A0D6F1A003273AA /* Projectile.swift in Sources */,
 				F98E2CFF2A0D7104003273AA /* Fireball.swift in Sources */,
 				F98E2D012A0D8453003273AA /* Iceball.swift in Sources */,
 				A7C1669B29F71DC1003B096D /* GameViewController.swift in Sources */,
+				9202EB062A0EAD0500F5A109 /* menuApp.swift in Sources */,
 				A7AF3E5D2A0D5AEB00E36A42 /* Magics.swift in Sources */,
 				A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */,
 				F99499D62A02CD3800E3807D /* Directions.swift in Sources */,
+				9202EB092A0EAD0500F5A109 /* CreditsView.swift in Sources */,
 				A7CDC30D2A0419EF0030A92B /* Attributes.swift in Sources */,
 				A7C1669329F71DC1003B096D /* AppDelegate.swift in Sources */,
 				A7CDC3172A0424CC0030A92B /* AttributesInfo.swift in Sources */,
