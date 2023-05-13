@@ -41,7 +41,7 @@ enum StatesSpider: StateMachineable {
         case .charging:
             return [.idle, .goingUp, .attack].contains(target)
         case .goingUp:
-            return [.attack].contains(target)
+            return [.attack, .walking].contains(target)
         case .attack:
             return [.idle, .walking].contains(target)
         }

@@ -184,6 +184,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     if spider.currentState == .attack{
                         var copy = spider
+                        print("foi")
                         copy.transition(to: .walking)
                         copy.attributes.velocity.maxYSpeed /= 100
                         copy.attributes.velocity.maxXSpeed /= 100
@@ -213,12 +214,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        for spider in spiders {
+            print(spider.currentState)
+        }
         camera?.position = player.position
         for spider in spiders{
             spider.moveAI(player: player.sprite)
         }
-        updtatePlayerState()
-        updtateSpidersState()
+        updatePlayerState()
+        updateSpidersState()
         
         guard !directionsMovement.isEmpty else { return }
         if player.currentState == .jump || (player.currentState == .airborne && jumpCounter >= 3) {
@@ -242,10 +246,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func updtatePlayerState(){
+    func updatePlayerState(){
         if player.currentState == .jump {
-            player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask & (1111111111 - Constants.groundMask)
-            player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask & (1111111111 - Constants.groundMask)
+            player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask & (UInt32.max - Constants.groundMask)
+            player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask & (UInt32.max - Constants.groundMask)
         }
         
         if player.physicsBody.velocity.dy < 0{
@@ -279,22 +283,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    func updtateSpidersState(){
+    func updateSpidersState(){
         for spider in spiders{
             if spider.currentState == .attack{
                 if spider.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0 {
                     var hasCollided = false
-                    let fakeNode = SKSpriteNode(color: .black, size: CGSize.zero)
-                    fakeNode.anchorPoint = CGPoint(x: 0.5, y: -1)
-                    fakeNode.physicsBody = SKPhysicsBody(rectangleOf: Constants.spiderSize, center: spider.position)
                     for platform in platforms {
-                        if platform.intersects(fakeNode){
+                        if platform.intersects(spider.sprite){
                             hasCollided = true
                         }
                     }
                     if !hasCollided {
                         spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.groundMask
-                        spider.physicsBody.contactTestBitMask = spider.physicsBody.contactTestBitMask | Constants.groundMask
                     }
                 }
             }
