@@ -18,6 +18,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var magics: [MagicProjetile] = []
     var toDie: Int = 3
     
+    //var points: Int = 0
+    
     var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
     
     private var touches: [(UITouch, ButtonAssociation)] = []
@@ -151,9 +153,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupGround2()
         
         // ------------------------------------------------------------------------
-        for i in 1...20{
+        for i in 1...2{
             delayWithSeconds(5.0 * Double(i)) { [self] in
-                self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider")
+                self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
             }
         }
         //         ------------------------------------------------------------------------
@@ -200,6 +202,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         else if (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "Magic"){
             for spider in spiders{
+                if spider.attributes.health<=0 {
+                    if spider.currentState != .death{
+                        var copy = spider
+                        copy.transition(to: .death)
+                        delayWithSeconds(spider.despawnTime, completion: {
+                            self.spiders.remove(at: spider.idSpider)
+                        })
+                        //points += 1
+                        //spiders.remove
+                    }
+                }
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     for magic in magics{
                         if magic.physicsBody === contact.bodyA || magic.physicsBody === contact.bodyB{
@@ -341,9 +354,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         camera?.addChild(combosInputThreshold)
     }
     //Constants.spiderIdleTexture
-    func setupSpawn(position: CGPoint, spriteName: String){
+    func setupSpawn(position: CGPoint, spriteName: String, idSpawn: Int){
         if(spriteName == "Spider"){
-            let enemy = setupSpider(spriteName: "Spider")
+            let enemy = setupSpider(spriteName: "Spider", idSpider: (idSpawn-1))
             enemy.sprite.position = position
             spiders.append(enemy)
             addChild(enemy.sprite)
@@ -398,8 +411,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(player.sprite)
     }
     
-    func setupSpider(spriteName: String) -> EnemySpider{
-        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3), player: player)
+    func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
+        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3), player: player, idSpider: idSpider)
         return spider
     }
 }

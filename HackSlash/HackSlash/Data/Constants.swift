@@ -71,9 +71,13 @@ struct Constants {
     
     static let spiderIdleTexture: SKTexture = SKTexture(imageNamed: "Spider")
     
+    static let spiderDeadTexture: SKTexture = SKTexture(imageNamed: "DeadSpider")
+    
     static let spiderAttackTexture: SKTexture = SKTexture(imageNamed: "SpiderAttack")
     
     static let spiderChargingTexture: SKTexture = SKTexture(imageNamed: "SpiderPreparingJump")
+    
+    static let deathDespawn: Double = 5.0
     
     static var spiderWalkingTexture: [SKTexture] {
         var texture: [SKTexture] = []

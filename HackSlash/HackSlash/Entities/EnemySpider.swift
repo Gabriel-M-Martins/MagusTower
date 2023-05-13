@@ -31,7 +31,11 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
     
     var changeSide = true
     
-    init(sprite: String, attributes: AttributesInfo, player: Player) {
+    var despawnTime = Constants.deathDespawn
+    
+    var idSpider: Int
+    
+    init(sprite: String, attributes: AttributesInfo, player: Player, idSpider: Int) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
         self.sprite.size = Constants.spiderSize
         self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: Constants.spiderSize.width, height: Constants.spiderSize.height), center: self.sprite.position)
@@ -41,6 +45,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         self.sprite.name = "Spider"
         self.currentState = .idle
         self.player = player
+        self.idSpider = idSpider
         self.physicsBody.allowsRotation = false
         self.changeMask(bit: Constants.playerMask)
         self.changeMask(bit: Constants.groundMask)
@@ -115,8 +120,9 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
             if self.sprite.intersects(self.player.sprite){
                 self.player.move(direction: [self.physicsBody.velocity.dx > 0 ? .right : .left], power: 1)
                 //Causa dano no player
-                
             }
+        case .death:
+            return
         }
     }
 }
