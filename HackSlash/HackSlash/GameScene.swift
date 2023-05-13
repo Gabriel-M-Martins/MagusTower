@@ -11,7 +11,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return Constants(frame: frame)
     }
     
-    // lista de plataformas existentes na cena. todas sao desenhadas no começo do jogo
     var platforms: [SKSpriteNode] = []
     var player: Player = Player(sprite: "")
     var spiders: [EnemySpider] = []
@@ -23,22 +22,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var touches: [(UITouch, ButtonAssociation)] = []
     
     private var movementInput = SKShapeNode()
-    private var movementInputThreshold = SKShapeNode()
-    
     private var combosInput = SKShapeNode()
+    
     private var numberEnemies = Int.random(in: 1..<5)
-    private var combosInputThreshold = SKShapeNode()
     
     private var combosStartPosition: CGPoint?
-    private var directionsCombos: [Directions] = []
     private var movementStartPosition: CGPoint?
     
-    private var analogicInputMinThreshold: CGFloat = 20 // quanto maior o valor, maior o movimento para registrar input
-    private var analogicInputMaxThreshold: CGFloat = 150 // quanto maior o valor, maior o movimento para registrar input
+    private var directionsCombos: [Directions] = []
+    private var directionsMovement: [Directions] = []
     
-    private var directionsToMove: [Directions] = []
     private var jumpCounter = 0
-    private var jumped = false
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let camera = camera else { return }
@@ -82,7 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch i {
                 
             case .movementAnalog:
-                directionsToMove = []
+                directionsMovement = []
                 movementStartPosition = nil
                 
             case .combosAnalog:
@@ -98,7 +92,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func handleMovement(start: CGPoint, pos: CGPoint) {
         let vector = pos - start
         
-        directionsToMove = Directions.calculateDirections(vector).filter { dir in
+        directionsMovement = Directions.calculateDirections(vector).filter { dir in
             dir != .down
         }
     }
@@ -227,19 +221,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         updtatePlayerState()
         updtateSpidersState()
         
-        guard !directionsToMove.isEmpty else { return }
+        guard !directionsMovement.isEmpty else { return }
         if player.currentState == .jump || (player.currentState == .airborne && jumpCounter >= 3) {
-            directionsToMove.removeAll { dir in
+            directionsMovement.removeAll { dir in
                 dir == .up
             }
         }
         
-        if directionsToMove.contains(.up) {
+        if directionsMovement.contains(.up) {
             player.transition(to: .jump)
             jumpCounter += 1
         }
         
-        player.move(direction: directionsToMove)
+        player.move(direction: directionsMovement)
         
         if player.sprite.physicsBody!.velocity.dx < 0{
             player.sprite.xScale = -1
@@ -313,32 +307,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let sqrPos: CGFloat = 250
         
         movementInput = SKShapeNode(rectOf: CGSize(width: sqrSize, height: sqrSize))
-        movementInputThreshold = SKShapeNode(rectOf: CGSize(width: sqrSize * 2, height: sqrSize * 2))
-        
         movementInput.position = CGPoint(x: frame.minX + sqrPos, y: frame.minY + sqrPos)
-        movementInputThreshold.position = CGPoint(x: frame.minX + sqrPos, y: frame.minY + sqrPos)
-        
         movementInput.strokeColor = .red
-        movementInputThreshold.strokeColor = .red // set to clear
     
         // ------------------------------------------------------------------------------------------
         
         combosInput = SKShapeNode(rectOf: CGSize(width: sqrSize, height: sqrSize))
-        combosInputThreshold = SKShapeNode(rectOf: CGSize(width: sqrSize * 2, height: sqrSize * 2))
-
         combosInput.position = CGPoint(x: frame.maxX - sqrPos, y: frame.minY + sqrPos)
-        combosInputThreshold.position = CGPoint(x: frame.maxX - sqrPos, y: frame.minY + sqrPos)
-        
         combosInput.strokeColor = .blue
-        combosInputThreshold.strokeColor = .blue // set to clear
         
         // ------------------------------------------------------------------------------------------
         
         camera?.addChild(movementInput)
-        camera?.addChild(movementInputThreshold)
-        
         camera?.addChild(combosInput)
-        camera?.addChild(combosInputThreshold)
     }
     //Constants.spiderIdleTexture
     func setupSpawn(position: CGPoint, spriteName: String){
