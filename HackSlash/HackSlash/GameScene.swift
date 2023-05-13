@@ -7,15 +7,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     /// struct constants vai ter todos os valores constantes ao longo do jogo, cores e etc
-    var constants: Constants {
+    private var constants: Constants {
         return Constants(frame: frame)
     }
     
-    var platforms: [SKSpriteNode] = []
-    var player: Player = Player(sprite: "")
-    var spiders: [EnemySpider] = []
-    var magics: [MagicProjetile] = []
-    var toDie: Int = 3
+    private var platforms: [SKSpriteNode] = []
+    private var player: Player = Player(sprite: "")
+    private var spiders: [EnemySpider] = []
+    private var magics: [MagicProjetile] = []
     
     var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
     
@@ -348,8 +347,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.position = position
         // criando o physicsbody e settando que nao é dinamico p nenhuma força poder ser aplicada contra ele
         platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 0.9))
-        print(platform.physicsBody)
-        print(platform.frame.origin)
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
         platform.zPosition = -5
