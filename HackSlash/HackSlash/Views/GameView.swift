@@ -8,7 +8,7 @@
 import SwiftUI
 import SpriteKit
 
-struct MainView: View {
+struct GameView: View {
     @State var scene: SKScene
     
     init() {
@@ -25,6 +25,6 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        GameView()
     }
 }
