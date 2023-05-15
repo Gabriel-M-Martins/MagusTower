@@ -37,6 +37,8 @@ class EnemySpider: Status, StateMachine, Move, Attributes, DetectsCollision{
     
     var idSpider: Int
     
+    var damage: Bool = false
+    
     init(sprite: String, attributes: AttributesInfo, player: Player, idSpider: Int) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
         self.sprite.size = Constants.spiderSize
@@ -65,6 +67,10 @@ class EnemySpider: Status, StateMachine, Move, Attributes, DetectsCollision{
         //Checa se a aranha está no ar ou no meio de um ataque
         switch self.currentState{
         case .idle, .walking:
+            if damage{
+                damage = false
+            }
+            
             if player.position.x > self.sprite.position.x || sprite.position.x - player.position.x > self.attributes.attackRange * 1.2{
                 
                 move(direction: [.left])
@@ -92,10 +98,13 @@ class EnemySpider: Status, StateMachine, Move, Attributes, DetectsCollision{
                     let desiredHeight: CGFloat = 1.5
                     //so pra caso a gravidade mude, muda isso aqui ou faz ser igual o valor nas constantes
                     let gravity: CGFloat = -9.8
+                    
                     self.attributes.velocity.maxXSpeed *= 100
                     self.attributes.velocity.maxYSpeed *= 100
                     let direction: CGFloat = self.sprite.position.x > self.player.sprite.position.x ? -1 : 1
-                    self.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.playerSize.width/2 + Constants.spiderSize.width/2)) + (self.player.sprite.position.x - self.sprite.position.x), dy: abs(Constants.playerSize.height - Constants.spiderSize.height) + (self.player.sprite.position.y - self.sprite.position.y) + (desiredHeight * self.sprite.size.height) - (45.0 * gravity)))
+                    if self.currentState != .death{
+                        self.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.playerSize.width/2 + Constants.spiderSize.width/2)) + (self.player.sprite.position.x - self.sprite.position.x), dy: abs(Constants.playerSize.height - Constants.spiderSize.height) + (self.player.sprite.position.y - self.sprite.position.y) + (desiredHeight * self.sprite.size.height) - (45.0 * gravity)))
+                    }
                 }
                 self.physicsBody.velocity.dx = 0
             }
@@ -118,10 +127,15 @@ class EnemySpider: Status, StateMachine, Move, Attributes, DetectsCollision{
                 self.currentState = .attack
             }
             self.physicsBody.collisionBitMask = self.physicsBody.collisionBitMask & (UInt32.max - Constants.groundMask)
+            
         case .attack:
             if self.sprite.intersects(self.player.sprite){
                 self.player.move(direction: [self.physicsBody.velocity.dx > 0 ? .right : .left], power: 1)
-                //Causa dano no player
+                if !damage{
+                    damage = true
+                    self.player.attributes.health = self.player.attributes.health - Constants.spiderDamage
+                    Constants.notificationCenter.post(name: Notification.Name("playerDamage"), object: nil)
+                }
             }
         case .death:
             return
