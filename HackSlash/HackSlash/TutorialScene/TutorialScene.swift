@@ -1,6 +1,6 @@
 import GameplayKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class TutorialScene: SKScene, SKPhysicsContactDelegate {
     enum ButtonAssociation {
         case movementAnalog
         case combosAnalog
@@ -15,6 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var player: Player = Player(sprite: "")
     private var spiders: [EnemySpider] = []
     private var magics: [MagicProjetile] = []
+    
     //var points: Int = 0
     
     var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
@@ -114,9 +115,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let iceball = Iceball(angle: angle, player: player)
                 magics.append(iceball)
                 addChild(iceball.node)
-            case .A(.earth):
-                let stoneWall = StoneWall(player: player, angle: angle)
-                addChild(stoneWall.sprite)
             default:
                 break
             }
@@ -131,10 +129,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
-        myFrame.myVariables.frame = self.size
-        myFrame.myVariables.scene = self
         physicsWorld.contactDelegate = self
-        background.zPosition = -30
+        background.zPosition = -10
         background.anchorPoint = CGPoint(x: 0.5, y: 0)
         background.size = CGSize(width: frame.width * 3, height: frame.height * 3)
         background.position.y = frame.minY - 185
@@ -372,7 +368,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 0.9))
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
-        platform.zPosition = -25
+        platform.zPosition = -5
         platform.physicsBody?.categoryBitMask = Constants.groundMask
         platforms.append(platform)
         platform.physicsBody?.friction = 0.7

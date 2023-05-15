@@ -42,6 +42,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
         self.attributes = attributes
+        self.attributes.attackRange *= Double.random(in: 0.8...1.2)
         self.sprite.name = "Spider"
         self.currentState = .idle
         self.player = player
