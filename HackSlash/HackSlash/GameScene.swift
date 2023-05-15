@@ -15,14 +15,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var player: Player = Player(sprite: "")
     private var spiders: [EnemySpider] = []
     private var magics: [MagicProjetile] = []
-    //var points: Int = 0
     
     var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
     
     private var touches: [(UITouch, ButtonAssociation)] = []
     
     private var movementInput = SKShapeNode()
+    private var movementAnalogic = SKShapeNode()
+    
     private var combosInput = SKShapeNode()
+    private var combosAnalogic = SKShapeNode()
     
     private var numberEnemies = Int.random(in: 1..<5)
     
@@ -42,6 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if movementInput.contains(pos) {
                 movementStartPosition = pos
+                movementAnalogic.run(SKAction.move(to: pos, duration: 0.1))
                 self.touches.append((t, .movementAnalog))
             }
             
@@ -54,16 +57,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let camera = camera else { return }
-        
+
         for t in self.touches {
+            
             let pos = t.0.location(in: camera)
             
-            if t.1 == .movementAnalog {
+            switch t.1 {
+            case .movementAnalog:
                 guard let start = movementStartPosition else { return }
-                
                 handleMovement(start: start, pos: pos)
+                
+                if movementInput.contains(pos) {
+                    movementAnalogic.run(.move(to: pos, duration: 0.1))
+                } else {
+                    let limitedPos = (pos - movementInput.position).normalized() * 100
+                    movementAnalogic.run(.move(to: movementInput.position + limitedPos, duration: 0.1))
+                }
+                
+            case .combosAnalog:
+                if combosInput.contains(pos) {
+                    combosAnalogic.run(.move(to: pos, duration: 0.1))
+                } else {
+                    let limitedPos = (pos - combosInput.position).normalized() * 100
+                    combosAnalogic.run(.move(to: combosInput.position + limitedPos, duration: 0.1))
+                }
             }
-            
         }
     }
     
@@ -76,6 +94,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch i {
                 
             case .movementAnalog:
+                movementAnalogic.run(SKAction.move(to: movementInput.position, duration: 0.1))
+                
                 directionsMovement = []
                 movementStartPosition = nil
                 
@@ -84,6 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 guard let start = combosStartPosition else { return true }
                 
                 handleCombo(start: start, pos: pos)
+                combosAnalogic.run(SKAction.move(to: combosInput.position, duration: 0.1))
             }
             return false
         })
@@ -150,7 +171,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupGround2()
         
         // ------------------------------------------------------------------------
-        for i in 1...2{
+        for i in 1...20{
             delayWithSeconds(5.0 * Double(i)) { [self] in
                 self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
             }
@@ -158,10 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //         ------------------------------------------------------------------------
         setupButtons()
         
-//        let b = SKShapeNode(rectOf: frame.size)
-//        b.strokeColor = .cyan
-//        b.zPosition = 100
-//        addChild(b)
+        view.isMultipleTouchEnabled = true
     }
     
     private func setupGround2() {
@@ -190,7 +208,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     if spider.currentState == .attack{
                         var copy = spider
-                        print("foi")
                         copy.transition(to: .walking)
                         copy.attributes.velocity.maxYSpeed /= 100
                         copy.attributes.velocity.maxXSpeed /= 100
@@ -237,9 +254,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        for spider in spiders {
-            print(spider.currentState)
-        }
         camera?.position = player.position
         for spider in spiders{
             spider.moveAI(player: player.sprite)
@@ -325,23 +339,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupButtons() {
-        let sqrSize: CGFloat = 200
-        let sqrPos: CGFloat = 250
+        let buttonRadius: CGFloat = 120
+        let positionOffset: CGFloat = 250
         
-        movementInput = SKShapeNode(rectOf: CGSize(width: sqrSize, height: sqrSize))
-        movementInput.position = CGPoint(x: frame.minX + sqrPos, y: frame.minY + sqrPos)
+        // ------------------------------------------------------------------------------------------ movement
+        movementInput = SKShapeNode(circleOfRadius: buttonRadius)
+        movementInput.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
         movementInput.strokeColor = .red
-    
-        // ------------------------------------------------------------------------------------------
         
-        combosInput = SKShapeNode(rectOf: CGSize(width: sqrSize, height: sqrSize))
-        combosInput.position = CGPoint(x: frame.maxX - sqrPos, y: frame.minY + sqrPos)
+        // --------------------------------------------
+        movementAnalogic = SKShapeNode(circleOfRadius: 25)
+        movementAnalogic.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
+        movementAnalogic.fillColor = .red
+    
+        // ------------------------------------------------------------------------------------------ combos
+        combosInput = SKShapeNode(circleOfRadius: buttonRadius)
+        combosInput.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
         combosInput.strokeColor = .blue
         
-        // ------------------------------------------------------------------------------------------
+        // --------------------------------------------
+        combosAnalogic = SKShapeNode(circleOfRadius: 25)
+        combosAnalogic.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
+        combosAnalogic.fillColor = .blue
         
+        // ------------------------------------------------------------------------------------------ add to scene
         camera?.addChild(movementInput)
+        camera?.addChild(movementAnalogic)
+        
         camera?.addChild(combosInput)
+        camera?.addChild(combosAnalogic)
     }
     //Constants.spiderIdleTexture
     func setupSpawn(position: CGPoint, spriteName: String, idSpawn: Int){
