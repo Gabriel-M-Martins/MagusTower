@@ -216,24 +216,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         else if (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "Magic"){
-            for spider in spiders{
-                if spider.attributes.health<=0 {
-                    if spider.currentState != .death{
-                        var copy = spider
-                        copy.transition(to: .death)
-                        delayWithSeconds(spider.despawnTime, completion: {
-                            for s in self.spiders{
-                                if s.idSpider > spider.idSpider{
-                                    s.idSpider -= 1
-                                }
-                            }
-                            self.spiders.remove(at: spider.idSpider)
-                            //remover aranha da cena
-                            spider.sprite.removeFromParent()
-                        })
-                        //points += 1
-                    }
-                }
+            for idx in 0..<spiders.count{
+                let spider = spiders[idx]
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     for magic in magics{
                         if magic.physicsBody === contact.bodyA || magic.physicsBody === contact.bodyB{
@@ -247,6 +231,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             spider.physicsBody.applyImpulse(CGVector(dx: Constants.spiderSize.width * cos(magic.angle) * 6, dy: Constants.spiderSize.height * sin(magic.angle) * 6))
                             magic.node.removeFromParent()
                         }
+                    }
+                }
+                if spider.attributes.health<=0 {
+                    if spider.currentState != .death{
+                        var copy = spider
+                        copy.transition(to: .death)
+                        spiders.remove(at: idx)
+                        delayWithSeconds(spider.despawnTime, completion: {
+                            for s in self.spiders{
+                                if s.idSpider > spider.idSpider{
+                                    s.idSpider -= 1
+                                }
+                            }
+                            //remover aranha da cena
+                            spider.sprite.removeFromParent()
+                        })
+                        //points += 1
+                        break
                     }
                 }
             }
