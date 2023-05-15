@@ -350,12 +350,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------------------------ combos
         combosInput = SKShapeNode(circleOfRadius: buttonRadius)
         combosInput.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
-        combosInput.strokeColor = .blue
+        combosInput.strokeColor = .clear
+        
+        let earth = SKSpriteNode(texture: Constants.earthPowerTexture)
+        earth.anchorPoint = CGPoint(x: 0, y: 0)
+        earth.zPosition = 10
+        combosInput.addChild(earth)
+        
+        let eletric = SKSpriteNode(texture: Constants.eletricPowerTexture)
+        eletric.anchorPoint = CGPoint(x: 0, y: 1)
+        eletric.zPosition = 10
+        combosInput.addChild(eletric)
+        
+        let fire = SKSpriteNode(texture: Constants.firePowerTexture)
+        fire.anchorPoint = CGPoint(x: 1, y: 1)
+        fire.zPosition = 10
+        combosInput.addChild(fire)
+        
+        let ice = SKSpriteNode(texture: Constants.icePowerTexture)
+        ice.anchorPoint = CGPoint(x: 1, y: 0)
+        ice.zPosition = 10
+        combosInput.addChild(ice)
+        
+        let scale = 1.4
+        combosInput.setScale(scale)
+        combosInput.alpha = 0.4
         
         // --------------------------------------------
         combosAnalogic = SKShapeNode(circleOfRadius: 25)
         combosAnalogic.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
         combosAnalogic.fillColor = .blue
+        combosAnalogic.zPosition = 11
         
         // ------------------------------------------------------------------------------------------ add to scene
         camera?.addChild(movementInput)

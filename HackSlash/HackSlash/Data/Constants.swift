@@ -28,6 +28,11 @@ struct Constants {
     static let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 500, ySpeed: 500, maxXSpeed: 200, maxYSpeed: 200)
     static let iceballDamage: AttackInfo = AttackInfo(damage: Constants.playerDamage, element: .fire, activateEffects: (false, false))
     
+    static let earthPowerTexture: SKTexture = SKTexture(imageNamed: "EarthPowers")
+    static let eletricPowerTexture: SKTexture = SKTexture(imageNamed: "EletricPowers")
+    static let icePowerTexture: SKTexture = SKTexture(imageNamed: "IcePowers")
+    static let firePowerTexture: SKTexture = SKTexture(imageNamed: "FirePowers")
+    
     
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22
