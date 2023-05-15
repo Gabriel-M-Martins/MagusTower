@@ -77,7 +77,7 @@ struct Constants {
     
     static let spiderChargingTexture: SKTexture = SKTexture(imageNamed: "SpiderPreparingJump")
     
-    static let deathDespawn: Double = 5.0
+    static let deathDespawn: Double = 2.0
     
     static var spiderWalkingTexture: [SKTexture] {
         var texture: [SKTexture] = []

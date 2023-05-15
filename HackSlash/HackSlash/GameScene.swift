@@ -207,10 +207,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         var copy = spider
                         copy.transition(to: .death)
                         delayWithSeconds(spider.despawnTime, completion: {
+                            for s in self.spiders{
+                                if s.idSpider > spider.idSpider{
+                                    s.idSpider -= 1
+                                }
+                            }
                             self.spiders.remove(at: spider.idSpider)
+                            //remover aranha da cena
+                            spider.sprite.removeFromParent()
                         })
                         //points += 1
-                        //spiders.remove
                     }
                 }
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{

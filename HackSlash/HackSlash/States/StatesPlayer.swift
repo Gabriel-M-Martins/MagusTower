@@ -39,7 +39,7 @@ enum StatesPlayer: StateMachineable {
         case .attack:
             return [.idle, .walking, .airborne].contains(target)
         case .walking:
-            return [.idle, .attack, .jump, .walking, .airborne].contains(target)
+            return [.idle, .attack, .jump, .walking].contains(target)
         case .jump:
             return [.airborne, .idle].contains(target)
         case .airborne:
