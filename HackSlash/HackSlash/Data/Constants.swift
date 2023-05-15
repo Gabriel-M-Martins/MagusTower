@@ -33,6 +33,9 @@ struct Constants {
     static let icePowerTexture: SKTexture = SKTexture(imageNamed: "IcePowers")
     static let firePowerTexture: SKTexture = SKTexture(imageNamed: "FirePowers")
     
+    static let combosSpritesScale: CGFloat = 1.4
+    static let combosSpritesAlpha: CGFloat = 0.4
+    static let combosSpritesAnimationDuration: CGFloat = 0.1
     
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22

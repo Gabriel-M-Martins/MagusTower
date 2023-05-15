@@ -28,8 +28,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var numberEnemies = Int.random(in: 1..<5)
     
-    private var combosStartPosition: CGPoint?
     private var movementStartPosition: CGPoint?
+    private var combosStartPosition: CGPoint?
     
     private var directionsCombos: [Directions] = []
     private var directionsMovement: [Directions] = []
@@ -81,6 +81,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let limitedPos = (pos - combosInput.position).normalized() * 100
                     combosAnalogic.run(.move(to: combosInput.position + limitedPos, duration: 0.1))
                 }
+                
+                for i in combosInput.children {
+                    if i.contains(i.convert(combosAnalogic.position, from: camera)) {
+                        i.run(.group([
+                            .scale(to: Constants.combosSpritesScale, duration: Constants.combosSpritesAnimationDuration),
+                            .fadeAlpha(to: 2, duration: Constants.combosSpritesAnimationDuration)
+                        ]))
+                        
+                    } else {
+                        i.run(.group([
+                            .scale(to: 1, duration: Constants.combosSpritesAnimationDuration),
+                            .fadeAlpha(to: Constants.combosSpritesAlpha, duration: Constants.combosSpritesAnimationDuration)
+                        ]))
+                    }
+                }
+                
             }
         }
     }
@@ -105,6 +121,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 handleCombo(start: start, pos: pos)
                 combosAnalogic.run(SKAction.move(to: combosInput.position, duration: 0.1))
+                
+                for i in combosInput.children {
+                    i.run(.group([
+                        .scale(to: 1, duration: Constants.combosSpritesAnimationDuration),
+                        .fadeAlpha(to: Constants.combosSpritesAlpha, duration: Constants.combosSpritesAnimationDuration)
+                    ]))
+                }
             }
             return false
         })
@@ -372,9 +395,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ice.zPosition = 10
         combosInput.addChild(ice)
         
-        let scale = 1.4
-        combosInput.setScale(scale)
-        combosInput.alpha = 0.4
+        combosInput.setScale(Constants.combosSpritesScale)
+        combosInput.alpha = Constants.combosSpritesAlpha
         
         // --------------------------------------------
         combosAnalogic = SKShapeNode(circleOfRadius: 25)
