@@ -6,6 +6,7 @@
 //
 import Foundation
 import SpriteKit
+import UserNotifications
 
 struct Constants {
     private let frame: CGRect
@@ -77,7 +78,7 @@ struct Constants {
     
     static let spiderChargingTexture: SKTexture = SKTexture(imageNamed: "SpiderPreparingJump")
     
-    static let deathDespawn: Double = 2.0
+    static let deathDespawn: Double = 5.0
     
     static var spiderWalkingTexture: [SKTexture] {
         var texture: [SKTexture] = []
@@ -94,4 +95,13 @@ struct Constants {
     var platformsHeight: CGFloat {
         frame.height/18
     }
+    
+    static var spiderDamage: Int = 5
+    
+//    static let lifeBarTexture: SKTexture = SKTexture(imageNamed: "life_bar")
+//    
+//    static let lifeFillTexture: SKTexture = SKTexture(imageNamed: "life_fill")
+    
+    static let notificationCenter = NotificationCenter.default
+
 }

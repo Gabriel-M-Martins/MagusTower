@@ -1,4 +1,5 @@
 import GameplayKit
+import UserNotifications
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     enum ButtonAssociation {
@@ -32,6 +33,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var directionsCombos: [Directions] = []
     private var directionsMovement: [Directions] = []
+//
+//    private let lifeBar = SKSpriteNode(texture: Constants.lifeBarTexture)
+//    private let lifeFill = SKSpriteNode(texture: Constants.lifeFillTexture)
     
     private var jumpCounter = 0
     
@@ -151,8 +155,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
             }
         }
-        //         ------------------------------------------------------------------------
+        //------------------------------------------------------------------------
         setupButtons()
+        
+        //------------------------------------------------------------------------
+        //setupLifeBar()
         
 //        let b = SKShapeNode(rectOf: frame.size)
 //        b.strokeColor = .cyan
@@ -176,6 +183,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact:SKPhysicsContact){
+        if player.attributes.health <= 0 {
+            Constants.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
+        }
+        //lifeFill.xScale = CGFloat(player.attributes.health) / CGFloat(player.attributes.maxHealth)
+        
         if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
             self.jumpCounter = 0
             player.transition(to: .landing)
@@ -186,7 +198,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     if spider.currentState == .attack{
                         var copy = spider
-                        print("foi")
                         copy.transition(to: .walking)
                         copy.attributes.velocity.maxYSpeed /= 100
                         copy.attributes.velocity.maxXSpeed /= 100
@@ -233,9 +244,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        for spider in spiders {
-            print(spider.currentState)
-        }
         camera?.position = player.position
         for spider in spiders{
             spider.moveAI(player: player.sprite)
@@ -396,7 +404,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
-        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3), player: player, idSpider: idSpider)
+        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 10), player: player, idSpider: idSpider)
         return spider
     }
+    
+//    func setupLifeBar(){
+//        camera?.addChild(lifeBar)
+//        lifeBar.addChild(lifeFill)
+//        lifeFill.anchorPoint = CGPoint(x: 0.0, y: 0.5)
+//        lifeFill.position = CGPoint(x: -lifeBar.size.width / 2, y: 0.0)
+//        lifeFill.xScale = 1
+//    }
 }

@@ -9,48 +9,51 @@ import SwiftUI
 
 struct PauseView: View {
     @State var showSettings: Bool = false
+    @Binding var paused: Bool
     
     var body: some View {
-        GeometryReader { geo in
-            ZStack{
-                Color.black.opacity(0.4)
-                Group{
-                    Button(action:{
+        NavigationStack {
+            GeometryReader { geo in
+                ZStack{
+                    Color.black.opacity(0.4)
+                    Group{
+                        NavigationLink(destination: {
+                            MainMenuView()
+                        }, label: {
+                            Image("Back Paused")
+                        })
+                        .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.70)
                         
-                    }, label:{
-                        Image("Back Paused")
-                    })
-                    .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.70)
-                    
-                    Button(action:{
-                        showSettings = !showSettings
-                    }, label:{
-                        Image("Settings Paused")
-                    })
-                    .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.53)
-                    
-                    Button(action:{
+                        Button(action:{
+                            showSettings = !showSettings
+                        }, label:{
+                            Image("Settings Paused")
+                        })
+                        .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.53)
                         
-                    }, label:{
-                        Image("Resume")
-                    })
-                    .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.36)
+                        Button(action:{
+                            paused = false
+                        }, label:{
+                            Image("Resume")
+                        })
+                        .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.36)
+                    }
+                    
+                    Image("Paused Sign").edgesIgnoringSafeArea(.all)
+                        .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.12)
+                    
+                    if(showSettings){
+                        SettingsView(showSettings: $showSettings)
+                    }
                 }
-                
-                Image("Paused Sign").edgesIgnoringSafeArea(.all)
-                    .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.12)
-                
-                if(showSettings){
-                    SettingsView(showSettings: $showSettings)
-                }
-            }
-        }.edgesIgnoringSafeArea(.all)
+            }.edgesIgnoringSafeArea(.all)
+        }
     }
 }
 
 struct PauseView_Previews: PreviewProvider {
     static var previews: some View {
-        PauseView()
+        PauseView(paused: GameView().$paused)
             .previewInterfaceOrientation(.landscapeRight)
     }
 }

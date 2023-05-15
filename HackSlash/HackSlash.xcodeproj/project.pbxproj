@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7CDBB2D72A12B561003EC549 /* HPBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBB2D62A12B561003EC549 /* HPBar.swift */; };
 		9202EB022A0EAD0500F5A109 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EAFA2A0EAD0500F5A109 /* MainMenuView.swift */; };
 		9202EB042A0EAD0500F5A109 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 9202EAFC2A0EAD0500F5A109 /* Fonts */; };
 		9202EB052A0EAD0500F5A109 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EAFD2A0EAD0500F5A109 /* SettingsView.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7CDBB2D62A12B561003EC549 /* HPBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPBar.swift; sourceTree = "<group>"; };
 		9202EAFA2A0EAD0500F5A109 /* MainMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		9202EAFC2A0EAD0500F5A109 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		9202EAFD2A0EAD0500F5A109 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				9202EB002A0EAD0500F5A109 /* PauseView.swift */,
 				9202EAFD2A0EAD0500F5A109 /* SettingsView.swift */,
 				A7F665F82A0EB22C0010C96F /* GameView.swift */,
+				7CDBB2D62A12B561003EC549 /* HPBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				F99499D62A02CD3800E3807D /* Directions.swift in Sources */,
 				9202EB092A0EAD0500F5A109 /* CreditsView.swift in Sources */,
 				A7CDC30D2A0419EF0030A92B /* Attributes.swift in Sources */,
+				7CDBB2D72A12B561003EC549 /* HPBar.swift in Sources */,
 				A7C1669329F71DC1003B096D /* AppDelegate.swift in Sources */,
 				A7CDC3172A0424CC0030A92B /* AttributesInfo.swift in Sources */,
 				A7CDC3132A0424720030A92B /* Elements.swift in Sources */,

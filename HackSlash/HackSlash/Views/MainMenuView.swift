@@ -67,7 +67,7 @@ struct MainMenuView: View {
                 }
             }
             .edgesIgnoringSafeArea(.all)
-//            .navigationBarBackButtonHidden()
+            .navigationBarBackButtonHidden()
         }
     }
 }
