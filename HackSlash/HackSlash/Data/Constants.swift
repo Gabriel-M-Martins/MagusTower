@@ -100,10 +100,6 @@ struct Constants {
     
     static var spiderDamage: Int = 5
     
-//    static let lifeBarTexture: SKTexture = SKTexture(imageNamed: "life_bar")
-//    
-//    static let lifeFillTexture: SKTexture = SKTexture(imageNamed: "life_fill")
-    
     static let notificationCenter = NotificationCenter.default
 
 }

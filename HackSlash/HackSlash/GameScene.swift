@@ -36,9 +36,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var directionsCombos: [Directions] = []
     private var directionsMovement: [Directions] = []
-//
-//    private let lifeBar = SKSpriteNode(texture: Constants.lifeBarTexture)
-//    private let lifeFill = SKSpriteNode(texture: Constants.lifeFillTexture)
     
     private var jumpCounter = 0
     
@@ -218,17 +215,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact:SKPhysicsContact){
-        if player.attributes.health <= 0 {
-            Constants.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
-        }
-        //lifeFill.xScale = CGFloat(player.attributes.health) / CGFloat(player.attributes.maxHealth)
         
         if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") || (contact.bodyA.node?.name == "floor" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "floor"){
             self.jumpCounter = 0
             player.transition(to: .landing)
             player.transition(to: .idle)
         }
-        else if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "platform"){
+        else if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "platform") || (contact.bodyA.node?.name == "floor" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "floor"){
             for spider in spiders{
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     if spider.currentState == .attack{
@@ -281,6 +274,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        if player.attributes.health <= 0 {
+            Constants.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
+        }
+        
         camera?.position = player.position
         for spider in spiders{
             spider.moveAI(player: player.sprite)
@@ -350,7 +347,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func updateSpidersState(){
         for spider in spiders{
             if spider.currentState == .attack{
-                if spider.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0 {
+                if spider.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0{
                     var hasCollided = false
                     for platform in platforms {
                         if platform.intersects(spider.sprite){
@@ -361,6 +358,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.groundMask
                     }
                 }
+//                else if spider.sprite.physicsBody!.collisionBitMask & Constants.wallMask == 0 {
+//                    var hasCollided = false
+//                    for floor in floors {
+//                        if floor.intersects(spider.sprite){
+//                            hasCollided = true
+//                        }
+//                    }
+//                    if !hasCollided {
+//                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.wallMask
+//                    }
+//                }
             }
         }
     }
@@ -435,6 +443,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createWall(size: CGSize, position: CGPoint, sprite: String){
         let wall = SKSpriteNode(imageNamed: sprite)
         wall.size = size
+        wall.zRotation = .pi / 2
         // settando o anchor point para ser no meio horizontal e no baixo na vertical
         wall.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         // posicao do wall é zero no x e o mais baixo no y
@@ -479,12 +488,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3), player: player, idSpider: idSpider)
         return spider
     }
-    
-//    func setupLifeBar(){
-//        camera?.addChild(lifeBar)
-//        lifeBar.addChild(lifeFill)
-//        lifeFill.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-//        lifeFill.position = CGPoint(x: -lifeBar.size.width / 2, y: 0.0)
-//        lifeFill.xScale = 1
-//    }
+
 }
