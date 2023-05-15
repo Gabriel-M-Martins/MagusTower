@@ -41,7 +41,7 @@ import SwiftUI
 struct HackSlashApp: App {
     var body: some Scene {
         WindowGroup {
-            MenuView()
+            MainMenuView()
         }
     }
 }

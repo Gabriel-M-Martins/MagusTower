@@ -88,7 +88,7 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(showSettings: MenuView().$showSettings)
+        SettingsView(showSettings: MainMenuView().$showSettings)
 //        SettingsView()
             .previewInterfaceOrientation(.landscapeRight)
     }

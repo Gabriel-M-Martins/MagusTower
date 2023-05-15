@@ -8,7 +8,7 @@
 import SwiftUI
 import SpriteKit
 
-struct MenuView: View {
+struct MainMenuView: View {
     @State var showSettings: Bool = false
     @State var showCredits: Bool = false
 
@@ -25,17 +25,11 @@ struct MenuView: View {
                         
                         Group{
                             NavigationLink {
-                                MainView()
+                                GameView()
                             } label: {
                                 Image("Enter")
                             }
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.31)
-//
-//                            Button(action:{
-//                            }, label:{
-//                                Image("Enter")
-//                            })
-//                            
                             
                             Button(action:{
                                 showSettings = !showSettings
@@ -80,7 +74,7 @@ struct MenuView: View {
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView()
+        MainMenuView()
             .previewInterfaceOrientation(.landscapeRight)
     }
 }
