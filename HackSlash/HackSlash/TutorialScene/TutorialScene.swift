@@ -1,7 +1,6 @@
 import GameplayKit
-import UserNotifications
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class TutorialScene: SKScene, SKPhysicsContactDelegate {
     enum ButtonAssociation {
         case movementAnalog
         case combosAnalog
@@ -17,15 +16,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var spiders: [EnemySpider] = []
     private var magics: [MagicProjetile] = []
     
+    //var points: Int = 0
+    
     var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
     
     private var touches: [(UITouch, ButtonAssociation)] = []
     
     private var movementInput = SKShapeNode()
-    private var movementAnalogic = SKShapeNode()
-    
     private var combosInput = SKShapeNode()
-    private var combosAnalogic = SKShapeNode()
     
     private var numberEnemies = Int.random(in: 1..<5)
     
@@ -34,9 +32,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var directionsCombos: [Directions] = []
     private var directionsMovement: [Directions] = []
-//
-//    private let lifeBar = SKSpriteNode(texture: Constants.lifeBarTexture)
-//    private let lifeFill = SKSpriteNode(texture: Constants.lifeFillTexture)
     
     private var jumpCounter = 0
     
@@ -48,7 +43,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if movementInput.contains(pos) {
                 movementStartPosition = pos
-                movementAnalogic.run(SKAction.move(to: pos, duration: 0.1))
                 self.touches.append((t, .movementAnalog))
             }
             
@@ -61,31 +55,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let camera = camera else { return }
-
+        
         for t in self.touches {
-            
             let pos = t.0.location(in: camera)
             
-            switch t.1 {
-            case .movementAnalog:
+            if t.1 == .movementAnalog {
                 guard let start = movementStartPosition else { return }
+                
                 handleMovement(start: start, pos: pos)
-                
-                if movementInput.contains(pos) {
-                    movementAnalogic.run(.move(to: pos, duration: 0.1))
-                } else {
-                    let limitedPos = (pos - movementInput.position).normalized() * 100
-                    movementAnalogic.run(.move(to: movementInput.position + limitedPos, duration: 0.1))
-                }
-                
-            case .combosAnalog:
-                if combosInput.contains(pos) {
-                    combosAnalogic.run(.move(to: pos, duration: 0.1))
-                } else {
-                    let limitedPos = (pos - combosInput.position).normalized() * 100
-                    combosAnalogic.run(.move(to: combosInput.position + limitedPos, duration: 0.1))
-                }
             }
+            
         }
     }
     
@@ -98,8 +77,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch i {
                 
             case .movementAnalog:
-                movementAnalogic.run(SKAction.move(to: movementInput.position, duration: 0.1))
-                
                 directionsMovement = []
                 movementStartPosition = nil
                 
@@ -108,7 +85,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 guard let start = combosStartPosition else { return true }
                 
                 handleCombo(start: start, pos: pos)
-                combosAnalogic.run(SKAction.move(to: combosInput.position, duration: 0.1))
             }
             return false
         })
@@ -139,9 +115,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let iceball = Iceball(angle: angle, player: player)
                 magics.append(iceball)
                 addChild(iceball.node)
-            case .A(.earth):
-                let stoneWall = StoneWall(player: player, angle: angle)
-                addChild(stoneWall.sprite)
             default:
                 break
             }
@@ -156,10 +129,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
-        myFrame.myVariables.frame = self.size
-        myFrame.myVariables.scene = self
         physicsWorld.contactDelegate = self
-        background.zPosition = -30
+        background.zPosition = -10
         background.anchorPoint = CGPoint(x: 0.5, y: 0)
         background.size = CGSize(width: frame.width * 3, height: frame.height * 3)
         background.position.y = frame.minY - 185
@@ -175,15 +146,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupGround2()
         
         // ------------------------------------------------------------------------
-        for i in 1...20{
+        for i in 1...2{
             delayWithSeconds(5.0 * Double(i)) { [self] in
                 self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
             }
         }
-        //------------------------------------------------------------------------
+        //         ------------------------------------------------------------------------
         setupButtons()
         
-        view.isMultipleTouchEnabled = true
+//        let b = SKShapeNode(rectOf: frame.size)
+//        b.strokeColor = .cyan
+//        b.zPosition = 100
+//        addChild(b)
     }
     
     private func setupGround2() {
@@ -202,11 +176,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact:SKPhysicsContact){
-        if player.attributes.health <= 0 {
-            Constants.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
-        }
-        //lifeFill.xScale = CGFloat(player.attributes.health) / CGFloat(player.attributes.maxHealth)
-        
         if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
             self.jumpCounter = 0
             player.transition(to: .landing)
@@ -217,6 +186,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     if spider.currentState == .attack{
                         var copy = spider
+                        print("foi")
                         copy.transition(to: .walking)
                         copy.attributes.velocity.maxYSpeed /= 100
                         copy.attributes.velocity.maxXSpeed /= 100
@@ -225,8 +195,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         else if (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "Magic"){
-            for idx in 0..<spiders.count{
-                let spider = spiders[idx]
+            for spider in spiders{
+                if spider.attributes.health<=0 {
+                    if spider.currentState != .death{
+                        var copy = spider
+                        copy.transition(to: .death)
+                        delayWithSeconds(spider.despawnTime, completion: {
+                            for s in self.spiders{
+                                if s.idSpider > spider.idSpider{
+                                    s.idSpider -= 1
+                                }
+                            }
+                            self.spiders.remove(at: spider.idSpider)
+                            //remover aranha da cena
+                            spider.sprite.removeFromParent()
+                        })
+                        //points += 1
+                    }
+                }
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     for magic in magics{
                         if magic.physicsBody === contact.bodyA || magic.physicsBody === contact.bodyB{
@@ -242,29 +228,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                 }
-                if spider.attributes.health<=0 {
-                    if spider.currentState != .death{
-                        var copy = spider
-                        copy.transition(to: .death)
-                        spiders.remove(at: idx)
-                        delayWithSeconds(spider.despawnTime, completion: {
-                            for s in self.spiders{
-                                if s.idSpider > spider.idSpider{
-                                    s.idSpider -= 1
-                                }
-                            }
-                            //remover aranha da cena
-                            spider.sprite.removeFromParent()
-                        })
-                        //points += 1
-                        break
-                    }
-                }
             }
         }
     }
     
     override func update(_ currentTime: TimeInterval) {
+        for spider in spiders {
+            print(spider.currentState)
+        }
         camera?.position = player.position
         for spider in spiders{
             spider.moveAI(player: player.sprite)
@@ -350,35 +321,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupButtons() {
-        let buttonRadius: CGFloat = 120
-        let positionOffset: CGFloat = 250
+        let sqrSize: CGFloat = 200
+        let sqrPos: CGFloat = 250
         
-        // ------------------------------------------------------------------------------------------ movement
-        movementInput = SKShapeNode(circleOfRadius: buttonRadius)
-        movementInput.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
+        movementInput = SKShapeNode(rectOf: CGSize(width: sqrSize, height: sqrSize))
+        movementInput.position = CGPoint(x: frame.minX + sqrPos, y: frame.minY + sqrPos)
         movementInput.strokeColor = .red
-        
-        // --------------------------------------------
-        movementAnalogic = SKShapeNode(circleOfRadius: 25)
-        movementAnalogic.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
-        movementAnalogic.fillColor = .red
     
-        // ------------------------------------------------------------------------------------------ combos
-        combosInput = SKShapeNode(circleOfRadius: buttonRadius)
-        combosInput.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
+        // ------------------------------------------------------------------------------------------
+        
+        combosInput = SKShapeNode(rectOf: CGSize(width: sqrSize, height: sqrSize))
+        combosInput.position = CGPoint(x: frame.maxX - sqrPos, y: frame.minY + sqrPos)
         combosInput.strokeColor = .blue
         
-        // --------------------------------------------
-        combosAnalogic = SKShapeNode(circleOfRadius: 25)
-        combosAnalogic.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
-        combosAnalogic.fillColor = .blue
+        // ------------------------------------------------------------------------------------------
         
-        // ------------------------------------------------------------------------------------------ add to scene
         camera?.addChild(movementInput)
-        camera?.addChild(movementAnalogic)
-        
         camera?.addChild(combosInput)
-        camera?.addChild(combosAnalogic)
     }
     //Constants.spiderIdleTexture
     func setupSpawn(position: CGPoint, spriteName: String, idSpawn: Int){
@@ -409,7 +368,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 0.9))
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
-        platform.zPosition = -25
+        platform.zPosition = -5
         platform.physicsBody?.categoryBitMask = Constants.groundMask
         platforms.append(platform)
         platform.physicsBody?.friction = 0.7
@@ -437,15 +396,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
-        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 10), player: player, idSpider: idSpider)
+        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3), player: player, idSpider: idSpider)
         return spider
     }
-    
-//    func setupLifeBar(){
-//        camera?.addChild(lifeBar)
-//        lifeBar.addChild(lifeFill)
-//        lifeFill.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-//        lifeFill.position = CGPoint(x: -lifeBar.size.width / 2, y: 0.0)
-//        lifeFill.xScale = 1
-//    }
 }
