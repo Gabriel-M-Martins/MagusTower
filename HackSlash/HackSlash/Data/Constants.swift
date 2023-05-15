@@ -6,6 +6,7 @@
 //
 import Foundation
 import SpriteKit
+import UserNotifications
 
 struct Constants {
     private let frame: CGRect
@@ -36,6 +37,10 @@ struct Constants {
     static let combosSpritesScale: CGFloat = 1.4
     static let combosSpritesAlpha: CGFloat = 0.4
     static let combosSpritesAnimationDuration: CGFloat = 0.1
+    
+    static let stoneWallWidth: CGFloat = 50
+    
+    static let thunderBuffVelocityBonus: CGFloat = 50
     
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22
@@ -85,7 +90,7 @@ struct Constants {
     
     static let spiderChargingTexture: SKTexture = SKTexture(imageNamed: "SpiderPreparingJump")
     
-    static let deathDespawn: Double = 2.0
+    static let deathDespawn: Double = 5.0
     
     static var spiderWalkingTexture: [SKTexture] {
         var texture: [SKTexture] = []
@@ -102,4 +107,13 @@ struct Constants {
     var platformsHeight: CGFloat {
         frame.height/18
     }
+    
+    static var spiderDamage: Int = 5
+    
+//    static let lifeBarTexture: SKTexture = SKTexture(imageNamed: "life_bar")
+//    
+//    static let lifeFillTexture: SKTexture = SKTexture(imageNamed: "life_fill")
+    
+    static let notificationCenter = NotificationCenter.default
+
 }

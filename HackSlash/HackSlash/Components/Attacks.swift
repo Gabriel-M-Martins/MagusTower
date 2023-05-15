@@ -12,7 +12,7 @@ protocol Attacks {
 }
 
 extension Attacks {
-    func executeAttack(target: any Attributes, attack idx: Int) {
+    func executeAttack(target: any Attributes & Status, attack idx: Int) {
         guard idx >= 0 && idx < attacks.count else { return }
         let attack = attacks[idx]
         

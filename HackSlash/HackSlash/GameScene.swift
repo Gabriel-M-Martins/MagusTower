@@ -1,4 +1,5 @@
 import GameplayKit
+import UserNotifications
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     enum ButtonAssociation {
@@ -31,6 +32,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var directionsCombos: [Directions] = []
     private var directionsMovement: [Directions] = []
+//
+//    private let lifeBar = SKSpriteNode(texture: Constants.lifeBarTexture)
+//    private let lifeFill = SKSpriteNode(texture: Constants.lifeFillTexture)
     
     private var jumpCounter = 0
     
@@ -174,6 +178,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let iceball = Iceball(angle: angle, player: player)
                 magics.append(iceball)
                 addChild(iceball.node)
+            case .A(.earth):
+                let stoneWall = StoneWall(player: player, angle: angle)
+                addChild(stoneWall.sprite)
             default:
                 break
             }
@@ -186,8 +193,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
+        myFrame.myVariables.frame = self.size
+        myFrame.myVariables.scene = self
         physicsWorld.contactDelegate = self
-        background.zPosition = -10
+        background.zPosition = -30
         background.anchorPoint = CGPoint(x: 0.5, y: 0)
         background.size = CGSize(width: frame.width * 3, height: frame.height * 3)
         background.position.y = frame.minY - 185
@@ -203,12 +212,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupGround2()
         
         // ------------------------------------------------------------------------
-        for i in 1...2{
+        for i in 1...20{
             delayWithSeconds(5.0 * Double(i)) { [self] in
                 self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
             }
         }
-        //         ------------------------------------------------------------------------
+        //------------------------------------------------------------------------
         setupButtons()
         
         view.isMultipleTouchEnabled = true
@@ -230,6 +239,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact:SKPhysicsContact){
+        if player.attributes.health <= 0 {
+            Constants.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
+        }
+        //lifeFill.xScale = CGFloat(player.attributes.health) / CGFloat(player.attributes.maxHealth)
+        
         if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
             self.jumpCounter = 0
             player.transition(to: .landing)
@@ -248,24 +262,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         else if (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "Magic"){
-            for spider in spiders{
-                if spider.attributes.health<=0 {
-                    if spider.currentState != .death{
-                        var copy = spider
-                        copy.transition(to: .death)
-                        delayWithSeconds(spider.despawnTime, completion: {
-                            for s in self.spiders{
-                                if s.idSpider > spider.idSpider{
-                                    s.idSpider -= 1
-                                }
-                            }
-                            self.spiders.remove(at: spider.idSpider)
-                            //remover aranha da cena
-                            spider.sprite.removeFromParent()
-                        })
-                        //points += 1
-                    }
-                }
+            for idx in 0..<spiders.count{
+                let spider = spiders[idx]
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     for magic in magics{
                         if magic.physicsBody === contact.bodyA || magic.physicsBody === contact.bodyB{
@@ -279,6 +277,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             spider.physicsBody.applyImpulse(CGVector(dx: Constants.spiderSize.width * cos(magic.angle) * 6, dy: Constants.spiderSize.height * sin(magic.angle) * 6))
                             magic.node.removeFromParent()
                         }
+                    }
+                }
+                if spider.attributes.health<=0 {
+                    if spider.currentState != .death{
+                        var copy = spider
+                        copy.transition(to: .death)
+                        spiders.remove(at: idx)
+                        delayWithSeconds(spider.despawnTime, completion: {
+                            for s in self.spiders{
+                                if s.idSpider > spider.idSpider{
+                                    s.idSpider -= 1
+                                }
+                            }
+                            //remover aranha da cena
+                            spider.sprite.removeFromParent()
+                        })
+                        //points += 1
+                        break
                     }
                 }
             }
@@ -464,7 +480,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 0.9))
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
-        platform.zPosition = -5
+        platform.zPosition = -25
         platform.physicsBody?.categoryBitMask = Constants.groundMask
         platforms.append(platform)
         platform.physicsBody?.friction = 0.7
@@ -492,7 +508,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
-        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3), player: player, idSpider: idSpider)
+        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 10), player: player, idSpider: idSpider)
         return spider
     }
+    
+//    func setupLifeBar(){
+//        camera?.addChild(lifeBar)
+//        lifeBar.addChild(lifeFill)
+//        lifeFill.anchorPoint = CGPoint(x: 0.0, y: 0.5)
+//        lifeFill.position = CGPoint(x: -lifeBar.size.width / 2, y: 0.0)
+//        lifeFill.xScale = 1
+//    }
 }
