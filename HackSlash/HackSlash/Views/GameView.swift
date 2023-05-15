@@ -10,12 +10,13 @@ import SpriteKit
 import UserNotifications
 
 struct GameView: View {
-    @State var scene: SKScene
+    @Environment(\.presentationMode) var presentation
+    
+    @State var scene: SKScene = SKScene(fileNamed: "GameScene")!
     @State var paused = false
     @ObservedObject var viewManager: GameViewManager = GameViewManager()
     
     init() {
-        scene = SKScene(fileNamed: "GameScene")!
         scene.scaleMode = .aspectFill
     }
     
@@ -46,7 +47,11 @@ struct GameView: View {
                 }
                 
                 if(viewManager.didDie){
-                    MainMenuView()
+//                    MainMenuView()
+                    ZStack {}
+                        .onAppear{
+                            self.presentation.wrappedValue.dismiss()
+                        }
                 }
             }
         }
@@ -67,7 +72,7 @@ class GameViewManager: ObservableObject{
     }
 }
 
-struct MainView_Previews: PreviewProvider {
+struct GameView_Previews: PreviewProvider {
     static var previews: some View {
         GameView().previewInterfaceOrientation(.landscapeLeft)
     }

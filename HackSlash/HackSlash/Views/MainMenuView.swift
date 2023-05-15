@@ -72,7 +72,7 @@ struct MainMenuView: View {
     }
 }
 
-struct MenuView_Previews: PreviewProvider {
+struct MainMenuView_Previews: PreviewProvider {
     static var previews: some View {
         MainMenuView()
             .previewInterfaceOrientation(.landscapeRight)
