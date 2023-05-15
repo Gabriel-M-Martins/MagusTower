@@ -13,6 +13,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private var platforms: [SKSpriteNode] = []
+    private var walls: [SKSpriteNode] = []
+    private var floors: [SKSpriteNode] = []
     private var player: Player = Player(sprite: "")
     private var spiders: [EnemySpider] = []
     private var magics: [MagicProjetile] = []
@@ -172,7 +174,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupCamera()
         
         // ------------------------------------------------------------------------
-        setupGround2()
+        setupGround()
         
         // ------------------------------------------------------------------------
         for i in 1...20{
@@ -186,12 +188,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         view.isMultipleTouchEnabled = true
     }
     
-    private func setupGround2() {
+    private func setupGround() {
         let rects = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3)?.rects
         
         guard let rects = rects else { return }
         for i in rects {
             self.createPlatform(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
+        }
+        
+        let wall = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3)?.wall
+        
+        guard let wall = wall else { return }
+        for i in wall {
+            self.createWall(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
+        }
+        
+        let floor = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3)?.floor
+        
+        guard let floor = floor else { return }
+        for i in floor {
+            self.createFloor(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
         }
     }
     
@@ -207,7 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         //lifeFill.xScale = CGFloat(player.attributes.health) / CGFloat(player.attributes.maxHealth)
         
-        if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") {
+        if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") || (contact.bodyA.node?.name == "floor" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "floor"){
             self.jumpCounter = 0
             player.transition(to: .landing)
             player.transition(to: .idle)
@@ -416,17 +432,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(platform)
     }
     
-    func setupGround(){
-        //cria o chao
-        createPlatform(size: CGSize(width: frame.width, height: frame.height/4), position: CGPoint(x: 0, y: frame.minY), sprite: "Plataform1")
-        // ------------------------------------------------------------------------
-        //cria plataforma esquerda
-        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.minX + frame.width/6, y: frame.midY), sprite: "Plataform3")
-        // ------------------------------------------------------------------------
-        //cria plataforma direita
-        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "Plataform2")
-        player.sprite.position.y += frame.maxY
-        player.setEffect(effect: "DirtParticle")
+    func createWall(size: CGSize, position: CGPoint, sprite: String){
+        let wall = SKSpriteNode(imageNamed: sprite)
+        wall.size = size
+        // settando o anchor point para ser no meio horizontal e no baixo na vertical
+        wall.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        // posicao do wall é zero no x e o mais baixo no y
+        wall.position = position
+        // criando o physicsbody e settando que nao é dinamico p nenhuma força poder ser aplicada contra ele
+        wall.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 0.9))
+        wall.physicsBody?.isDynamic = false
+        wall.name = "wall"
+        wall.zPosition = -25
+        wall.physicsBody?.categoryBitMask = Constants.wallMask
+        walls.append(wall)
+        wall.physicsBody?.friction = 0.7
+        addChild(wall)
+    }
+    
+    func createFloor(size: CGSize, position: CGPoint, sprite: String){
+        let floor = SKSpriteNode(imageNamed: sprite)
+        floor.size = size
+        // settando o anchor point para ser no meio horizontal e no baixo na vertical
+        floor.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        // posicao do floor é zero no x e o mais baixo no y
+        floor.position = position
+        // criando o physicsbody e settando que nao é dinamico p nenhuma força poder ser aplicada contra ele
+        floor.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 0.9))
+        floor.physicsBody?.isDynamic = false
+        floor.name = "floor"
+        floor.zPosition = -25
+        floor.physicsBody?.categoryBitMask = Constants.wallMask
+        floors.append(floor)
+        floor.physicsBody?.friction = 0.7
+        addChild(floor)
     }
     
     func setupPlayer(){
@@ -437,7 +476,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
-        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 10), player: player, idSpider: idSpider)
+        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3), player: player, idSpider: idSpider)
         return spider
     }
     

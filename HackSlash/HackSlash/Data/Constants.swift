@@ -15,6 +15,7 @@ struct Constants {
     static let groundMask: UInt32 = 2
     static let playerMask: UInt32 = 4
     static let magicMask: UInt32 = 8
+    static let wallMask: UInt32 = 16
     
     static let playerDamage: Int = 10
     
