@@ -8,7 +8,9 @@
 import Foundation
 import SpriteKit
 
-class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
+class EnemySpider: Status, StateMachine, Move, Attributes, DetectsCollision{
+    typealias T = SKSpriteNode
+    
     var currentState: StatesSpider
     
     var sprite: SKSpriteNode

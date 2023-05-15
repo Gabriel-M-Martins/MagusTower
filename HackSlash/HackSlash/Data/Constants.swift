@@ -30,6 +30,8 @@ struct Constants {
     
     static let stoneWallWidth: CGFloat = 50
     
+    static let thunderBuffVelocityBonus: CGFloat = 50
+    
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22
     

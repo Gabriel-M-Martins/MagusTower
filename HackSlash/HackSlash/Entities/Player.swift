@@ -8,7 +8,9 @@
 import Foundation
 import SpriteKit
 
-class Player: StateMachine, Move, Attributes, DetectsCollision{
+class Player: Status, StateMachine, Move, Attributes, DetectsCollision{
+    typealias T = SKSpriteNode
+    
     // ------------------------------------------------- state machine implementation
     var currentState: StatesPlayer
     

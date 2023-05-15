@@ -51,6 +51,7 @@
 		F9911E6E2A129CFC005F2B2C /* Collectable.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9911E6C2A129CFC005F2B2C /* Collectable.sks */; };
 		F9911E6F2A129CFC005F2B2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F9911E6D2A129CFC005F2B2C /* Assets.xcassets */; };
 		F9911E712A12A15A005F2B2C /* StoneWall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9911E702A12A15A005F2B2C /* StoneWall.swift */; };
+		F9911E7B2A12C36E005F2B2C /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9911E7A2A12C36E005F2B2C /* Status.swift */; };
 		F99499D42A02CC0E00E3807D /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D32A02CC0E00E3807D /* Move.swift */; };
 		F99499D62A02CD3800E3807D /* Directions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D52A02CD3800E3807D /* Directions.swift */; };
 		F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */; };
@@ -106,6 +107,7 @@
 		F9911E6C2A129CFC005F2B2C /* Collectable.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Collectable.sks; sourceTree = "<group>"; };
 		F9911E6D2A129CFC005F2B2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F9911E702A12A15A005F2B2C /* StoneWall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoneWall.swift; sourceTree = "<group>"; };
+		F9911E7A2A12C36E005F2B2C /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		F99499D32A02CC0E00E3807D /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		F99499D52A02CD3800E3807D /* Directions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directions.swift; sourceTree = "<group>"; };
 		F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemySpider.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 			children = (
 				F9CB0BAE2A043EE0004A0661 /* DetectsCollision.swift */,
 				A7B6B1B12A02C98A005FF90B /* StateMachine.swift */,
+				F9911E7A2A12C36E005F2B2C /* Status.swift */,
 				F99499D32A02CC0E00E3807D /* Move.swift */,
 				A7CDC30C2A0419EF0030A92B /* Attributes.swift */,
 				A7CDC30E2A04241C0030A92B /* Attacks.swift */,
@@ -369,6 +372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9911E7B2A12C36E005F2B2C /* Status.swift in Sources */,
 				A71EEAB92A0D284B0063BC77 /* MapInterpreter.swift in Sources */,
 				9202EB0B2A0EAD0F00F5A109 /* CustomSlider.swift in Sources */,
 				F9CB0BAB2A041D47004A0661 /* StatesSpider.swift in Sources */,
