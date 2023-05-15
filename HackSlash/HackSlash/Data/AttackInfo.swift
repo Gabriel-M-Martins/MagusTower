@@ -11,5 +11,4 @@ struct AttackInfo {
     var damage: Int
     var element: Elements
     var activateEffects: (buff: Bool, debuff: Bool)
-    var action: () -> Void
 }

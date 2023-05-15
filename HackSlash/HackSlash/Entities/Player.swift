@@ -30,10 +30,24 @@ class Player: StateMachine, Move, Attributes, DetectsCollision{
         sprite.position
     }
     
+    func setEffect(effect: String){
+        
+        if effect != "DirtParticle" && effect != "LightiningParticle" && effect != "IceParticle" && effect != "FireParticle"{
+            attributes.effect = nil
+            return
+        }
+        
+        attributes.effect = SKEmitterNode(fileNamed: effect)
+        guard let effectActive = attributes.effect else { return }
+        effectActive.zPosition = -1
+        self.sprite.addChild(effectActive)
+    }
+    
     init(sprite: String) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
-        self.sprite.size = CGSize(width: 60, height: 120)
-        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 60, height: 120), center: self.sprite.position)
+        self.sprite.size = Constants.playerSize
+        self.sprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: Constants.playerSize.width * 0.4, height: Constants.playerSize.height), center: self.sprite.position)
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
         self.sprite.physicsBody?.allowsRotation = false
@@ -44,5 +58,8 @@ class Player: StateMachine, Move, Attributes, DetectsCollision{
         self.changeMask(bit: Constants.playerMask)
         self.changeMask(bit: Constants.enemiesMask)
         self.changeMask(bit: Constants.groundMask)
+        self.physicsBody.mass = 0.320000022649765
+        guard let effect = attributes.effect else { return }
+        self.sprite.addChild(effect)
     }
 }

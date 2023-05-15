@@ -10,45 +10,46 @@ import SpriteKit
 
 enum StatesSpider: StateMachineable {
     case idle
-    case walkingLeft
-    case walkingRight
+    case walking
     
     //Charging é preparando, goingUp é subindo até altura máxima, attack é descendo rumo ao player p atacar
     case charging
     case goingUp
     case attack
     
+    case death
+    
     func StateInfo() -> AnimationInfo {
         switch self {
         case .idle:
             return AnimationInfo(textures: [Constants.spiderIdleTexture], duration: 1, repeating: true)
-        case .walkingLeft:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
-        case .walkingRight:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
+        case .walking:
+            return AnimationInfo(textures: Constants.spiderWalkingTexture, duration: 0.3, repeating: true)
         case .charging:
-            return AnimationInfo(textures: [SKTexture(imageNamed: "DeadVillain")], duration: 1)
+            return AnimationInfo(textures: [Constants.spiderChargingTexture], duration: 1)
         case .goingUp:
-            return AnimationInfo(textures: [], duration: 0, repeating: true)
+            return AnimationInfo(textures: [Constants.spiderAttackTexture], duration: 1)
         case .attack:
-            return AnimationInfo(textures: [], duration: 0)
+            return AnimationInfo(textures: [Constants.spiderAttackTexture], duration: 1)
+        case .death:
+            return AnimationInfo(textures: [Constants.spiderDeadTexture], duration: 1)
         }
     }
     
     func ValidateTransition(to target: StatesSpider) -> Bool {
         switch self {
         case .idle:
-            return [.walkingLeft, .walkingRight, .charging, .attack].contains(target)
-        case .walkingLeft:
-            return [.idle, .walkingRight, .charging, .attack].contains(target)
-        case .walkingRight:
-            return [.idle, .walkingLeft, .charging, .attack].contains(target)
+            return [.walking, .charging, .attack, .death].contains(target)
+        case .walking:
+            return [.idle, .charging, .attack, .death].contains(target)
         case .charging:
-            return [.goingUp].contains(target)
+            return [.idle, .goingUp, .attack, .death].contains(target)
         case .goingUp:
-            return [.attack].contains(target)
+            return [.attack, .death].contains(target)
         case .attack:
-            return [.idle, .walkingLeft, .walkingRight].contains(target)
+            return [.idle, .walking, .death].contains(target)
+        case .death:
+            return false
         }
     }
 }
