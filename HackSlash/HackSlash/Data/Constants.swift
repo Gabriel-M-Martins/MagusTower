@@ -36,6 +36,26 @@ struct Constants {
     static let icePowerTexture: SKTexture = SKTexture(imageNamed: "IcePowers")
     static let firePowerTexture: SKTexture = SKTexture(imageNamed: "FirePowers")
     
+    static let fireATexture: SKTexture = SKTexture(imageNamed: "Fireball")
+    static let fireBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    static let fireCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    static let fireDTexture: SKTexture = SKTexture(imageNamed: "Firestatus")
+    
+    static let thunderATexture: SKTexture = SKTexture(imageNamed: "Eletricbolt")
+    static let thunderBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    static let thunderCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    static let thunderDTexture: SKTexture = SKTexture(imageNamed: "Eletricstatus")
+    
+    static let iceATexture: SKTexture = SKTexture(imageNamed: "Iceshard")
+    static let iceBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    static let iceCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    static let iceDTexture: SKTexture = SKTexture(imageNamed: "Icestatus")
+    
+    static let earthATexture: SKTexture = SKTexture(imageNamed: "Earthwall")
+    static let earthBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    static let earthCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    static let earthDTexture: SKTexture = SKTexture(imageNamed: "Earthstatus")
+    
     static let combosSpritesScale: CGFloat = 1.4
     static let combosSpritesAlpha: CGFloat = 0.4
     static let combosSpritesAnimationDuration: CGFloat = 0.1

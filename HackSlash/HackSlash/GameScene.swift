@@ -19,6 +19,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var spiders: [EnemySpider] = []
     private var magics: [MagicProjetile] = []
     
+    private var elementCombo: [SKSpriteNode] = []
+    private var fireCombo: [SKSpriteNode] = []
+    private var thunderCombo: [SKSpriteNode] = []
+    private var iceCombo: [SKSpriteNode] = []
+    private var earthCombo: [SKSpriteNode] = []
+    
+    private var currentCombo: [SKSpriteNode] = []
+    
     var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
     
     private var touches: [(UITouch, ButtonAssociation)] = []
@@ -86,19 +94,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 switch directions[0] {
                 case .up:
                     combosInput.children.forEach { nd in
-                        emphasizeComboSprite(nd, name: "ice")
+                        emphasizeComboSprite(nd, name: currentCombo[0].name ?? "")
                     }
                 case .left:
                     combosInput.children.forEach { nd in
-                        emphasizeComboSprite(nd, name: "fire")
-                    }
-                case .down:
-                    combosInput.children.forEach { nd in
-                        emphasizeComboSprite(nd, name: "eletric")
+                        emphasizeComboSprite(nd, name: currentCombo[1].name ?? "")
                     }
                 case .right:
                     combosInput.children.forEach { nd in
-                        emphasizeComboSprite(nd, name: "earth")
+                        emphasizeComboSprite(nd, name: currentCombo[2].name ?? "")
+                    }
+                case .down:
+                    combosInput.children.forEach { nd in
+                        emphasizeComboSprite(nd, name: currentCombo[3].name ?? "")
                     }
                 }
             }
@@ -164,21 +172,110 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let vector = pos - start
         let directions = Directions.calculateDirections(vector)
         if directionsCombos.count == 0{
+            //elements
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 if self.directionsCombos.count <= 1 {
                     print("Miss timing!")
                     self.directionsCombos.removeAll()
                 }
             }
+            
+            for i in elementCombo{
+                i.isHidden = true
+            }
+            
+            switch directions[0]{
+            case .up:
+                for i in iceCombo{
+                    i.isHidden = false
+                    currentCombo = iceCombo
+                }
+                
+            case .down:
+                for i in thunderCombo{
+                    i.isHidden = false
+                    currentCombo = thunderCombo
+                }
+                
+            case .left:
+                for i in fireCombo{
+                    i.isHidden = false
+                    currentCombo = fireCombo
+                }
+                
+            case .right:
+                for i in earthCombo{
+                    i.isHidden = false
+                    currentCombo = earthCombo
+                }
+            }
         }
         else if directionsCombos.count == 1{
-            if directions[0] == .right{
+            //attack
+            if directions[0] == .down{
                 let magic = Magics.magic(primary: directionsCombos[0], secondary: directions[0])
                 let x = magic.getElement().getBuff()
                 x(player, 15.0)
+                
+                switch directionsCombos[0]{
+                case .up:
+                    for i in iceCombo{
+                        i.isHidden = true
+                    }
+                    
+                case .down:
+                    for i in thunderCombo{
+                        i.isHidden = true
+                    }
+                    
+                case .left:
+                    for i in fireCombo{
+                        i.isHidden = true
+                    }
+                    
+                case .right:
+                    for i in earthCombo{
+                        i.isHidden = true
+                    }
+                }
+                
+                currentCombo = elementCombo
+                for i in elementCombo{
+                    i.isHidden = false
+                }
+                
+                directionsCombos = []
+                return
             }
+            
+            switch directionsCombos[0]{
+            case .up:
+                for i in iceCombo{
+                    i.isHidden = true
+                }
+                
+            case .down:
+                for i in thunderCombo{
+                    i.isHidden = true
+                }
+                
+            case .left:
+                for i in fireCombo{
+                    i.isHidden = true
+                }
+                
+            case .right:
+                for i in earthCombo{
+                    i.isHidden = true
+                }
+            }
+            
+            combosInput.strokeColor = .blue
         }
+        
         if directionsCombos.count == 2 {
+            //direction
+            
             let normalizedVector = vector.normalized()
             let magic = Magics.magic(primary: directionsCombos[0], secondary: directionsCombos[1])
             let angle = atan2(normalizedVector.y, normalizedVector.x)
@@ -198,13 +295,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let stoneWall = StoneWall(player: player, angle: angle)
                 addChild(stoneWall.sprite)
                 directionsCombos.removeAll()
-            case .B(let element):
+            case .A(.thunder):
+                break
+                
+            case .D(let element):
                 let x = element.getBuff()
                 x(player, 15.0)
+                
+            case .C(.fire):
+                break
+            case .C(.ice):
+                break
+            case .C(.earth):
+                break
+            case .C(.thunder):
+                break
+                
+            case .B(.fire):
+                break
+            case .B(.ice):
+                break
+            case .B(.earth):
+                break
+            case .B(.thunder):
+                break
+                
             default:
                 break
             }
             directionsCombos = []
+            
+            currentCombo = elementCombo
+            for i in elementCombo{
+                i.isHidden = false
+            }
+            combosInput.strokeColor = .clear
+            
         } else {
             directionsCombos.append(directions[0])
         }
@@ -478,9 +604,132 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ice.name = "ice"
         combosInput.addChild(ice)
         
+        elementCombo = [ice, fire, earth, eletric]
+        
+        //fire
+        let fireC = SKSpriteNode(texture: Constants.fireCTexture)
+        fireC.anchorPoint = CGPoint(x: 0, y: 0.5)
+        fireC.zPosition = 10
+        fireC.name = "fireC"
+        combosInput.addChild(fireC)
+        
+        let fireD = SKSpriteNode(texture: Constants.fireDTexture)
+        fireD.anchorPoint = CGPoint(x: 0.5, y: 1)
+        fireD.zPosition = 10
+        fireD.name = "fireD"
+        combosInput.addChild(fireD)
+        
+        let fireB = SKSpriteNode(texture: Constants.fireBTexture)
+        fireB.anchorPoint = CGPoint(x: 1, y: 0.5)
+        fireB.zPosition = 10
+        fireB.name = "fireB"
+        combosInput.addChild(fireB)
+        
+        let fireA = SKSpriteNode(texture: Constants.fireATexture)
+        fireA.anchorPoint = CGPoint(x: 0.5, y: 0)
+        fireA.zPosition = 10
+        fireA.name = "fireA"
+        combosInput.addChild(fireA)
+        
+        fireCombo = [fireA, fireB, fireC, fireD]
+        
+        //earth
+        let earthC = SKSpriteNode(texture: Constants.earthCTexture)
+        earthC.anchorPoint = CGPoint(x: 0, y: 0.5)
+        earthC.zPosition = 10
+        earthC.name = "earthC"
+        combosInput.addChild(earthC)
+        
+        let earthD = SKSpriteNode(texture: Constants.earthDTexture)
+        earthD.anchorPoint = CGPoint(x: 0.5, y: 1)
+        earthD.zPosition = 10
+        earthD.name = "earthD"
+        combosInput.addChild(earthD)
+        
+        let earthB = SKSpriteNode(texture: Constants.earthBTexture)
+        earthB.anchorPoint = CGPoint(x: 1, y: 0.5)
+        earthB.zPosition = 10
+        earthB.name = "earthB"
+        combosInput.addChild(earthB)
+        
+        let earthA = SKSpriteNode(texture: Constants.earthATexture)
+        earthA.anchorPoint = CGPoint(x: 0.5, y: 0)
+        earthA.zPosition = 10
+        earthA.name = "earthA"
+        combosInput.addChild(earthA)
+        
+        earthCombo = [earthA, earthB, earthC, earthD]
+        
+        //ice
+        let iceC = SKSpriteNode(texture: Constants.iceCTexture)
+        iceC.anchorPoint = CGPoint(x: 0, y: 0.5)
+        iceC.zPosition = 10
+        iceC.name = "iceC"
+        combosInput.addChild(iceC)
+        
+        let iceD = SKSpriteNode(texture: Constants.iceDTexture)
+        iceD.anchorPoint = CGPoint(x: 0.5, y: 1)
+        iceD.zPosition = 10
+        iceD.name = "iceD"
+        combosInput.addChild(iceD)
+        
+        let iceB = SKSpriteNode(texture: Constants.iceBTexture)
+        iceB.anchorPoint = CGPoint(x: 1, y: 0.5)
+        iceB.zPosition = 10
+        iceB.name = "iceB"
+        combosInput.addChild(iceB)
+        
+        let iceA = SKSpriteNode(texture: Constants.iceATexture)
+        iceA.anchorPoint = CGPoint(x: 0.5, y: 0)
+        iceA.zPosition = 10
+        iceA.name = "iceA"
+        combosInput.addChild(iceA)
+        
+        iceCombo = [iceA, iceB, iceC, iceD]
+        
+        //thunder
+        let thunderC = SKSpriteNode(texture: Constants.thunderCTexture)
+        thunderC.anchorPoint = CGPoint(x: 0, y: 0.5)
+        thunderC.zPosition = 10
+        thunderC.name = "thunderC"
+        combosInput.addChild(thunderC)
+        
+        let thunderD = SKSpriteNode(texture: Constants.thunderDTexture)
+        thunderD.anchorPoint = CGPoint(x: 0.5, y: 1)
+        thunderD.zPosition = 10
+        thunderD.name = "thunderD"
+        combosInput.addChild(thunderD)
+        
+        let thunderB = SKSpriteNode(texture: Constants.thunderBTexture)
+        thunderB.anchorPoint = CGPoint(x: 1, y: 0.5)
+        thunderB.zPosition = 10
+        thunderB.name = "thunderB"
+        combosInput.addChild(thunderB)
+        
+        let thunderA = SKSpriteNode(texture: Constants.thunderATexture)
+        thunderA.anchorPoint = CGPoint(x: 0.5, y: 0)
+        thunderA.zPosition = 10
+        thunderA.name = "thunderA"
+        combosInput.addChild(thunderA)
+        
+        thunderCombo = [thunderA, thunderB, thunderC, thunderD]
+        
         for i in combosInput.children {
             i.setScale(Constants.combosSpritesScale)
             i.alpha = Constants.combosSpritesAlpha
+        }
+        
+        for i in fireCombo{
+            i.isHidden = true
+        }
+        for i in earthCombo{
+            i.isHidden = true
+        }
+        for i in iceCombo{
+            i.isHidden = true
+        }
+        for i in thunderCombo{
+            i.isHidden = true
         }
         
         // --------------------------------------------
@@ -496,6 +745,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         camera?.addChild(combosInput)
         camera?.addChild(combosAnalogic)
         camera?.addChild(combosInputThreshold)
+        
+        currentCombo = elementCombo
     }
     //Constants.spiderIdleTexture
     func setupSpawn(position: CGPoint, spriteName: String, idSpawn: Int){
