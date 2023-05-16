@@ -160,7 +160,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    
     private func handleCombo(start: CGPoint, pos: CGPoint) {
+        if directionsCombos.count == 0{
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    if self.directionsCombos.count <= 1 {
+                        print("Miss timing!")
+                        self.directionsCombos.removeAll()
+                    }
+            }
+        }
         let vector = pos - start
         let directions = Directions.calculateDirections(vector)
         if directionsCombos.count == 2 {
@@ -173,13 +182,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let fireball = Fireball(angle: angle, player: player)
                 magics.append(fireball)
                 addChild(fireball.node)
+                directionsCombos.removeAll()
             case .A(.ice):
                 let iceball = Iceball(angle: angle, player: player)
                 magics.append(iceball)
                 addChild(iceball.node)
+                directionsCombos.removeAll()
             case .A(.earth):
                 let stoneWall = StoneWall(player: player, angle: angle)
                 addChild(stoneWall.sprite)
+                directionsCombos.removeAll()
             case .B(let element):
                 let x = element.getBuff()
                 x(player, 15.0)
