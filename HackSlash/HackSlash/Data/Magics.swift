@@ -15,13 +15,13 @@ enum Magics {
         switch primary {
         
         case .right:
-            element = .fire
-        case .up:
-            element = .thunder
-        case .left:
-            element = .ice
-        case .down:
             element = .earth
+        case .up:
+            element = .ice
+        case .left:
+            element = .fire
+        case .down:
+            element = .thunder
         }
         
         switch secondary {
