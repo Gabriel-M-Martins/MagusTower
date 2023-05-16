@@ -27,12 +27,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var movementAnalogic = SKShapeNode()
     
     private var combosInput = SKShapeNode()
+    private var combosInputThreshold = SKShapeNode()
     private var combosAnalogic = SKShapeNode()
     
     private var numberEnemies = Int.random(in: 1..<5)
-    
-    private var combosStartPosition: CGPoint?
-    private var movementStartPosition: CGPoint?
     
     private var directionsCombos: [Directions] = []
     private var directionsMovement: [Directions] = []
@@ -46,13 +44,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let pos = t.location(in: camera)
             
             if movementInput.contains(pos) {
-                movementStartPosition = pos
                 movementAnalogic.run(SKAction.move(to: pos, duration: 0.1))
                 self.touches.append((t, .movementAnalog))
             }
             
             if combosInput.contains(pos) {
-                combosStartPosition = pos
                 self.touches.append((t, .combosAnalog))
             }
         }
@@ -67,8 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             switch t.1 {
             case .movementAnalog:
-                guard let start = movementStartPosition else { return }
-                handleMovement(start: start, pos: pos)
+                handleMovement(start: movementInput.position, pos: pos)
                 
                 if movementInput.contains(pos) {
                     movementAnalogic.run(.move(to: pos, duration: 0.1))
@@ -84,7 +79,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let limitedPos = (pos - combosInput.position).normalized() * 100
                     combosAnalogic.run(.move(to: combosInput.position + limitedPos, duration: 0.1))
                 }
+                
+                let vector = pos - combosInput.position
+                let directions = Directions.calculateDirections(vector)
+                
+                switch directions[0] {
+                case .up:
+                    combosInput.children.forEach { nd in
+                        emphasizeComboSprite(nd, name: "ice")
+                    }
+                case .left:
+                    combosInput.children.forEach { nd in
+                        emphasizeComboSprite(nd, name: "fire")
+                    }
+                case .down:
+                    combosInput.children.forEach { nd in
+                        emphasizeComboSprite(nd, name: "eletric")
+                    }
+                case .right:
+                    combosInput.children.forEach { nd in
+                        emphasizeComboSprite(nd, name: "earth")
+                    }
+                }
             }
+        }
+    }
+    
+    private func emphasizeComboSprite(_ nd: SKNode, name: String) {
+        guard let ndName = nd.name else { return }
+        
+        if ndName == name {
+            nd.run(.group([
+                .scale(to: Constants.combosSpritesScale + 0.5, duration: Constants.combosSpritesAnimationDuration),
+                .fadeAlpha(to: 2, duration: Constants.combosSpritesAnimationDuration)
+                
+            ]))
+        } else {
+            nd.run(.group([
+                .scale(to: Constants.combosSpritesScale, duration: Constants.combosSpritesAnimationDuration),
+                .fadeAlpha(to: Constants.combosSpritesAlpha, duration: Constants.combosSpritesAnimationDuration)
+            ]))
         }
     }
     
@@ -100,14 +134,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 movementAnalogic.run(SKAction.move(to: movementInput.position, duration: 0.1))
                 
                 directionsMovement = []
-                movementStartPosition = nil
                 
             case .combosAnalog:
                 let pos = t.location(in: camera)
-                guard let start = combosStartPosition else { return true }
                 
-                handleCombo(start: start, pos: pos)
+                handleCombo(start: combosInput.position, pos: pos)
                 combosAnalogic.run(SKAction.move(to: combosInput.position, duration: 0.1))
+                
+                for i in combosInput.children {
+                    i.run(.group([
+                        .scale(to: Constants.combosSpritesScale, duration: Constants.combosSpritesAnimationDuration),
+                        .fadeAlpha(to: Constants.combosSpritesAlpha, duration: Constants.combosSpritesAnimationDuration)
+                    ]))
+                }
             }
             return false
         })
@@ -141,6 +180,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             case .A(.earth):
                 let stoneWall = StoneWall(player: player, angle: angle)
                 addChild(stoneWall.sprite)
+            case .B(let element):
+                let x = element.getBuff()
+                x(player, 15.0)
             default:
                 break
             }
@@ -148,13 +190,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             directionsCombos.append(directions[0])
         }
-        
-        combosStartPosition = nil
     }
     
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
+        self.backgroundColor = .black
         myFrame.myVariables.frame = self.size
         myFrame.myVariables.scene = self
         physicsWorld.contactDelegate = self
@@ -390,12 +431,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------------------------ combos
         combosInput = SKShapeNode(circleOfRadius: buttonRadius)
         combosInput.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
-        combosInput.strokeColor = .blue
+        combosInput.strokeColor = .clear
+        
+        combosInputThreshold = SKShapeNode(circleOfRadius: buttonRadius/4)
+        combosInputThreshold.strokeColor = .clear
+        
+        let earth = SKSpriteNode(texture: Constants.earthPowerTexture)
+        earth.anchorPoint = CGPoint(x: 0, y: 0.5)
+        earth.zPosition = 10
+        earth.name = "earth"
+        combosInput.addChild(earth)
+        
+        let eletric = SKSpriteNode(texture: Constants.eletricPowerTexture)
+        eletric.anchorPoint = CGPoint(x: 0.5, y: 1)
+        eletric.zPosition = 10
+        eletric.name = "eletric"
+        combosInput.addChild(eletric)
+        
+        let fire = SKSpriteNode(texture: Constants.firePowerTexture)
+        fire.anchorPoint = CGPoint(x: 1, y: 0.5)
+        fire.zPosition = 10
+        fire.name = "fire"
+        combosInput.addChild(fire)
+        
+        let ice = SKSpriteNode(texture: Constants.icePowerTexture)
+        ice.anchorPoint = CGPoint(x: 0.5, y: 0)
+        ice.zPosition = 10
+        ice.name = "ice"
+        combosInput.addChild(ice)
+        
+        for i in combosInput.children {
+            i.setScale(Constants.combosSpritesScale)
+            i.alpha = Constants.combosSpritesAlpha
+        }
         
         // --------------------------------------------
         combosAnalogic = SKShapeNode(circleOfRadius: 25)
         combosAnalogic.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
         combosAnalogic.fillColor = .blue
+        combosAnalogic.zPosition = 11
         
         // ------------------------------------------------------------------------------------------ add to scene
         camera?.addChild(movementInput)
@@ -403,6 +477,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         camera?.addChild(combosInput)
         camera?.addChild(combosAnalogic)
+        camera?.addChild(combosInputThreshold)
     }
     //Constants.spiderIdleTexture
     func setupSpawn(position: CGPoint, spriteName: String, idSpawn: Int){
@@ -436,7 +511,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.zPosition = -25
         platform.physicsBody?.categoryBitMask = Constants.groundMask
         platforms.append(platform)
-        platform.physicsBody?.friction = 0.7
+        platform.physicsBody?.friction = 2
         addChild(platform)
     }
     
@@ -485,7 +560,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
-        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3), player: player, idSpider: idSpider)
+        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 100), player: player, idSpider: idSpider)
         return spider
     }
 

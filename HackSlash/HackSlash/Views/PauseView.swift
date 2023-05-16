@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import SpriteKit
 
 struct PauseView: View {
     @State var showSettings: Bool = false
     @Binding var paused: Bool
+    @Binding var scene: SKScene
     
     var body: some View {
         NavigationStack {
@@ -22,10 +24,14 @@ struct PauseView: View {
                         }, label: {
                             Image("Back Paused")
                         })
+                        .simultaneousGesture(TapGesture().onEnded{
+                            AudioManager.shared.playSound(named: "buttonClick.mp3")
+                        })
                         .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.70)
                         
                         Button(action:{
                             showSettings = !showSettings
+                            AudioManager.shared.playSound(named: "buttonClick.mp3")
                         }, label:{
                             Image("Settings Paused")
                         })
@@ -33,6 +39,8 @@ struct PauseView: View {
                         
                         Button(action:{
                             paused = false
+                            AudioManager.shared.playSound(named: "buttonClick.mp3")
+                            scene.view?.isPaused = paused
                         }, label:{
                             Image("Resume")
                         })
@@ -53,7 +61,7 @@ struct PauseView: View {
 
 struct PauseView_Previews: PreviewProvider {
     static var previews: some View {
-        PauseView(paused: GameView().$paused)
+        PauseView(paused: GameView().$paused, scene: GameView().$scene)
             .previewInterfaceOrientation(.landscapeRight)
     }
 }

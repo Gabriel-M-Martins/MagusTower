@@ -9,6 +9,8 @@ import Foundation
 import SpriteKit
 
 class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
+    typealias T = SKSpriteNode
+    
     var currentState: StatesSpider
     
     var sprite: SKSpriteNode
@@ -133,7 +135,11 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
                 if !damage{
                     damage = true
                     self.player.attributes.health = self.player.attributes.health - Constants.spiderDamage
+                    if self.player.attributes.defense > Constants.playerDefense{
+                        Constants.notificationCenter.post(name: Notification.Name("playerLessDamage"), object: nil)
+                    } else {
                     Constants.notificationCenter.post(name: Notification.Name("playerDamage"), object: nil)
+                    }
                 }
             }
         case .death:

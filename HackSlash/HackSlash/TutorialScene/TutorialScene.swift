@@ -385,7 +385,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         //cria plataforma direita
         createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "Plataform2")
         player.sprite.position.y += frame.maxY
-        player.setEffect(effect: "DirtParticle")
+//        player.setEffect(effect: "DirtParticle")
     }
     
     func setupPlayer(){
@@ -396,7 +396,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
-        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3), player: player, idSpider: idSpider)
+        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 50), player: player, idSpider: idSpider)
         return spider
     }
 }

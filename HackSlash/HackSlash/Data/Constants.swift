@@ -18,6 +18,7 @@ struct Constants {
     static let wallMask: UInt32 = 16
     
     static let playerDamage: Int = 10
+    static let playerDefense: Int = 5
     
     static let playerSize: CGSize = CGSize(width: 104, height: 111)
     static let spiderSize: CGSize = CGSize(width: 90, height: 60)
@@ -27,10 +28,24 @@ struct Constants {
     static let fireballDamage: AttackInfo = AttackInfo(damage: Constants.playerDamage, element: .fire, activateEffects: (false, false))
     
     static let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
-    static let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 500, ySpeed: 500, maxXSpeed: 200, maxYSpeed: 200)
+    static let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 1000, ySpeed: 500, maxXSpeed: 1000, maxYSpeed: 200)
     static let iceballDamage: AttackInfo = AttackInfo(damage: Constants.playerDamage, element: .fire, activateEffects: (false, false))
     
+    static let earthPowerTexture: SKTexture = SKTexture(imageNamed: "EarthPowers")
+    static let eletricPowerTexture: SKTexture = SKTexture(imageNamed: "EletricPowers")
+    static let icePowerTexture: SKTexture = SKTexture(imageNamed: "IcePowers")
+    static let firePowerTexture: SKTexture = SKTexture(imageNamed: "FirePowers")
+    
+    static let combosSpritesScale: CGFloat = 1.4
+    static let combosSpritesAlpha: CGFloat = 0.4
+    static let combosSpritesAnimationDuration: CGFloat = 0.1
+    
     static let stoneWallWidth: CGFloat = 50
+    
+    static let thunderBuffVelocityBonus: CGFloat = 50
+    
+    //precisa ser var pois muda de acordo com o buff
+    static var damageMultiplier: Double = 1
     
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22

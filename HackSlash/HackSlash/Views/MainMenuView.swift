@@ -12,6 +12,7 @@ struct MainMenuView: View {
     @State var showSettings: Bool = false
     @State var showCredits: Bool = false
 
+
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
@@ -29,17 +30,21 @@ struct MainMenuView: View {
                             } label: {
                                 Image("Enter")
                             }
+                            .simultaneousGesture(TapGesture().onEnded{
+                                AudioManager.shared.playSound(named: "buttonClick.mp3")
+                            })
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.31)
                             
                             Button(action:{
                                 showSettings = !showSettings
+                                AudioManager.shared.playSound(named: "buttonClick.mp3")
                             }, label:{
                                 Image("Settings")
                             })
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.72)
                             
                             Button(action:{
-                                
+                                AudioManager.shared.playSound(named: "buttonClick.mp3")
                             }, label:{
                                 Image("How")
                             })
@@ -48,6 +53,7 @@ struct MainMenuView: View {
                         
                         Button(action:{
                             showCredits = !showCredits
+                            AudioManager.shared.playSound(named: "buttonClick.mp3")
                         }, label:{
                             Image("Credits")
                         })

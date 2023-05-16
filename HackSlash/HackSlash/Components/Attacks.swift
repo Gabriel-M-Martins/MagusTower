@@ -12,7 +12,7 @@ protocol Attacks {
 }
 
 extension Attacks {
-    func executeAttack(target: any Attributes, attack idx: Int) {
+    func executeAttack(target: any Attributes & Status, attack idx: Int) {
         guard idx >= 0 && idx < attacks.count else { return }
         let attack = attacks[idx]
         
@@ -20,11 +20,11 @@ extension Attacks {
         let debuffAction = attack.activateEffects.debuff ? attack.element.getDebuff() : nil
         
         if let buffAction = buffAction {
-            buffAction(target)
+            buffAction(target, 10)
         }
         
         if let debuffAction = debuffAction {
-            debuffAction(target)
+            debuffAction(target, 10)
         }
     }
 }

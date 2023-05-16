@@ -25,6 +25,7 @@ struct SettingsView: View {
                 
                 Button(action: {
                     showSettings = false
+                    AudioManager.shared.playSound(named: "buttonClick.mp3")
                 }, label: {
                     Image("Back")
                 })

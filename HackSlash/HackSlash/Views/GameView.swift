@@ -29,6 +29,9 @@ struct GameView: View {
                 
                 Button(action: {
                     paused = !paused
+                    AudioManager.shared.playSound(named: "buttonClick.mp3")
+                    paused = true
+                    scene.view?.isPaused = paused
                 }, label: {
                     Image(paused ? "Play icon": "Pause icon").resizable()
                 })
@@ -43,7 +46,7 @@ struct GameView: View {
                 .position(x: geo.frame(in: .global).maxX - geo.frame(in: .global).width*0.18, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.12)
                 
                 if(paused){
-                    PauseView(paused: $paused)
+                    PauseView(paused: $paused, scene: $scene)
                 }
                 
                 if(viewManager.didDie){
