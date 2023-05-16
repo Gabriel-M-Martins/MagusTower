@@ -170,8 +170,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if self.directionsCombos.count <= 1 && self.spellCount < 3{
                     print("Miss timing!")
                     self.directionsCombos.removeAll()
-                    self.spellCount = 0
                 }
+                self.spellCount = 0
             }
         }
         else if directionsCombos.count == 1{
