@@ -20,11 +20,11 @@ extension Attacks {
         let debuffAction = attack.activateEffects.debuff ? attack.element.getDebuff() : nil
         
         if let buffAction = buffAction {
-            buffAction(target)
+            buffAction(target, 10)
         }
         
         if let debuffAction = debuffAction {
-            debuffAction(target)
+            debuffAction(target, 10)
         }
     }
 }

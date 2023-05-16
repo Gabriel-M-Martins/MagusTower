@@ -385,7 +385,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         //cria plataforma direita
         createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "Plataform2")
         player.sprite.position.y += frame.maxY
-        player.setEffect(effect: "DirtParticle")
+//        player.setEffect(effect: "DirtParticle")
     }
     
     func setupPlayer(){

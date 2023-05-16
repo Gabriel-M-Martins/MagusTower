@@ -181,6 +181,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             case .A(.earth):
                 let stoneWall = StoneWall(player: player, angle: angle)
                 addChild(stoneWall.sprite)
+            case .B(let element):
+                let x = element.getBuff()
+                x(player, 15.0)
             default:
                 break
             }
@@ -497,7 +500,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //cria plataforma direita
         createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "Plataform2")
         player.sprite.position.y += frame.maxY
-        player.setEffect(effect: "DirtParticle")
     }
     
     func setupPlayer(){

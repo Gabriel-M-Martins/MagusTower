@@ -14,22 +14,22 @@ enum Elements {
     case earth
     case neutral
     
-    func getBuff() -> (any Attributes & Status) -> Void {
+    func getBuff() -> (any Attributes & Status, Double) -> Void {
         switch self {
         case .fire:
-            return placeholder1
+            return fireBuff
         case .ice:
-            return placeholder1
+            return iceBuff
         case .thunder:
-            return placeholder1
+            return thunderBuff
         case .earth:
-            return placeholder1
+            return earthBuff
         case .neutral:
             return placeholder1
         }
     }
     
-    func getDebuff() -> (any Attributes) -> Void {
+    func getDebuff() -> (any Attributes & Status, Double) -> Void {
         switch self {
         case .fire:
             return placeholder2
@@ -44,27 +44,68 @@ enum Elements {
         }
     }
     
-    func placeholder1(_ attr: any Attributes & Status) {
+    func placeholder1(_ attr: any Attributes & Status, _ a: Double) {
 //        attr.attributes.
         
         print("buff")
     }
     
     func thunderBuff(_ attr: any Attributes & Status, for time: Double){
-        let emitter = SKEmitterNode(fileNamed: "thunderStatus")!
+        let emitter = SKEmitterNode(fileNamed: "DirtParticle")!
         emitter.zPosition = -3
         attr.sprite.addChild(emitter)
         var attr_ref = attr
         attr_ref.attributes.velocity.maxXSpeed += Constants.thunderBuffVelocityBonus
         attr_ref.attributes.velocity.maxYSpeed += Constants.thunderBuffVelocityBonus
+        attr_ref.attributes.velocity.xSpeed += Constants.thunderBuffVelocityBonus/2
+        attr_ref.attributes.velocity.ySpeed += Constants.thunderBuffVelocityBonus/2
         DispatchQueue.main.asyncAfter(deadline: .now() + time) {
             attr_ref.attributes.velocity.maxXSpeed -= Constants.thunderBuffVelocityBonus
             attr_ref.attributes.velocity.maxYSpeed -= Constants.thunderBuffVelocityBonus
+            attr_ref.attributes.velocity.xSpeed -= Constants.thunderBuffVelocityBonus/2
+            attr_ref.attributes.velocity.ySpeed -= Constants.thunderBuffVelocityBonus/2
             emitter.removeFromParent()
         }
     }
     
-    func placeholder2(_ attr: any Attributes) {
+    func fireBuff(_ attr: any Attributes & Status, for time: Double){
+        let emitter = SKEmitterNode(fileNamed: "DirtParticle")!
+        emitter.zPosition = -3
+        attr.sprite.addChild(emitter)
+        Constants.damageMultiplier = 1.5
+        DispatchQueue.main.asyncAfter(deadline: .now() + time) {
+            Constants.damageMultiplier = 1
+            emitter.removeFromParent()
+        }
+    }
+    
+    func earthBuff(_ attr: any Attributes & Status, for time: Double){
+        let emitter = SKEmitterNode(fileNamed: "DirtParticle")!
+        emitter.zPosition = -3
+        attr.sprite.addChild(emitter)
+        var attrCopy = attr
+        attrCopy.attributes.defense += 5
+        DispatchQueue.main.asyncAfter(deadline: .now() + time) {
+            attrCopy.attributes.defense -= 5
+            emitter.removeFromParent()
+        }
+    }
+    
+    func iceBuff(_ attr: any Attributes & Status, for time: Double){
+        let emitter = SKEmitterNode(fileNamed: "DirtParticle")!
+        emitter.zPosition = -3
+        attr.sprite.addChild(emitter)
+        for i in 1...10{
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i)) {
+                Constants.notificationCenter.post(name: Notification.Name("healPlayer"), object: nil)
+                if i == 10{
+                    emitter.removeFromParent()
+                }
+            }
+        }
+    }
+    
+    func placeholder2(_ attr: any Attributes & Status, _ a: Double) {
         print("debuff")
     }
 }

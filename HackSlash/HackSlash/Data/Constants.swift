@@ -17,6 +17,7 @@ struct Constants {
     static let magicMask: UInt32 = 8
     
     static let playerDamage: Int = 10
+    static let playerDefense: Int = 5
     
     static let playerSize: CGSize = CGSize(width: 104, height: 111)
     static let spiderSize: CGSize = CGSize(width: 90, height: 60)
@@ -41,6 +42,9 @@ struct Constants {
     static let stoneWallWidth: CGFloat = 50
     
     static let thunderBuffVelocityBonus: CGFloat = 50
+    
+    //precisa ser var pois muda de acordo com o buff
+    static var damageMultiplier: Double = 1
     
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22

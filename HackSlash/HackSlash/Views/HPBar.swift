@@ -79,9 +79,19 @@ class HPBarManager: ObservableObject{
     
     init(){
         self.notificationCenter.addObserver(self, selector: #selector(RecievedDamage), name: Notification.Name("playerDamage"), object: nil)
+        self.notificationCenter.addObserver(self, selector: #selector(RecievedLessDamage), name: Notification.Name("playerLessDamage"), object: nil)
+        self.notificationCenter.addObserver(self, selector: #selector(healPlayer), name: Notification.Name("healPlayer"), object: nil)
     }
     
     @objc func RecievedDamage(){
         value -= Double(Constants.spiderDamage)
+    }
+    
+    @objc func RecievedLessDamage(){
+        value -= Double(Constants.spiderDamage) * 0.5
+    }
+    
+    @objc func healPlayer(){
+        value = min(100, value + 1)
     }
 }
