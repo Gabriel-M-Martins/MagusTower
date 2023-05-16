@@ -11,6 +11,7 @@ import SpriteKit
 struct MainMenuView: View {
     @State var showSettings: Bool = false
     @State var showCredits: Bool = false
+//    @State var audio: AudioManager = AudioManager()
 
     var body: some View {
         NavigationStack {
@@ -68,6 +69,9 @@ struct MainMenuView: View {
             }
             .edgesIgnoringSafeArea(.all)
             .navigationBarBackButtonHidden()
+        }
+        .onAppear{
+//            audio.setMainAudioFile(_fileName: "magicCast")
         }
     }
 }

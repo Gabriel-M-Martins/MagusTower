@@ -196,6 +196,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
+        self.backgroundColor = .black
         myFrame.myVariables.frame = self.size
         myFrame.myVariables.scene = self
         physicsWorld.contactDelegate = self
@@ -486,7 +487,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.zPosition = -25
         platform.physicsBody?.categoryBitMask = Constants.groundMask
         platforms.append(platform)
-        platform.physicsBody?.friction = 0.7
+        platform.physicsBody?.friction = 2
         addChild(platform)
     }
     
