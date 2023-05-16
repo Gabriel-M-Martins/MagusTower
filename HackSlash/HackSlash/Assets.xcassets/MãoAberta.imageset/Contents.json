@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Mão Aberta de lado.png",
+      "filename" : "Mão Aberta de lado.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Mão Aberta de lado@2x.png",
+      "filename" : "Mão Aberta de lado@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Mão Aberta de lado@3x.png",
+      "filename" : "Mão Aberta de lado@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
