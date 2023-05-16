@@ -51,9 +51,10 @@ enum Elements {
     }
     
     func thunderBuff(_ attr: any Attributes & Status, for time: Double){
-        let emitter = SKEmitterNode(fileNamed: "DirtParticle")!
+        let emitter = SKEmitterNode(fileNamed: "EletricAura")!
         emitter.zPosition = -3
         attr.sprite.addChild(emitter)
+        emitter.position = CGPoint(x: 0, y: -attr.sprite.size.height*0.5)
         var attr_ref = attr
         attr_ref.attributes.velocity.maxXSpeed += Constants.thunderBuffVelocityBonus
         attr_ref.attributes.velocity.maxYSpeed += Constants.thunderBuffVelocityBonus
@@ -69,7 +70,7 @@ enum Elements {
     }
     
     func fireBuff(_ attr: any Attributes & Status, for time: Double){
-        let emitter = SKEmitterNode(fileNamed: "DirtParticle")!
+        let emitter = SKEmitterNode(fileNamed: "FireAura")!
         emitter.zPosition = -3
         attr.sprite.addChild(emitter)
         Constants.damageMultiplier = 1.5
@@ -80,7 +81,7 @@ enum Elements {
     }
     
     func earthBuff(_ attr: any Attributes & Status, for time: Double){
-        let emitter = SKEmitterNode(fileNamed: "DirtParticle")!
+        let emitter = SKEmitterNode(fileNamed: "EarthAura")!
         emitter.zPosition = -3
         attr.sprite.addChild(emitter)
         var attrCopy = attr
@@ -92,7 +93,7 @@ enum Elements {
     }
     
     func iceBuff(_ attr: any Attributes & Status, for time: Double){
-        let emitter = SKEmitterNode(fileNamed: "DirtParticle")!
+        let emitter = SKEmitterNode(fileNamed: "IceAura")!
         emitter.zPosition = -3
         attr.sprite.addChild(emitter)
         for i in 1...10{

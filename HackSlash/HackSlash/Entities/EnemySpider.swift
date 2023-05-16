@@ -132,11 +132,12 @@ class EnemySpider: Status, StateMachine, Move, Attributes, DetectsCollision{
             if self.sprite.intersects(self.player.sprite){
                 self.player.move(direction: [self.physicsBody.velocity.dx > 0 ? .right : .left], power: 1)
                 if !damage{
+                    damage = true
                     self.player.attributes.health = self.player.attributes.health - Constants.spiderDamage
                     if self.player.attributes.defense > Constants.playerDefense{
                         Constants.notificationCenter.post(name: Notification.Name("playerLessDamage"), object: nil)
                     } else {
-                        Constants.notificationCenter.post(name: Notification.Name("playerDamage"), object: nil)
+                    Constants.notificationCenter.post(name: Notification.Name("playerDamage"), object: nil)
                     }
                 }
             }
