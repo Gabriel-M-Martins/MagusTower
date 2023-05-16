@@ -14,6 +14,12 @@
 		9202EB082A0EAD0500F5A109 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB002A0EAD0500F5A109 /* PauseView.swift */; };
 		9202EB092A0EAD0500F5A109 /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB012A0EAD0500F5A109 /* CreditsView.swift */; };
 		9202EB0B2A0EAD0F00F5A109 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB0A2A0EAD0F00F5A109 /* CustomSlider.swift */; };
+		92E3DF6A2A12C62B008A1AEE /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E3DF692A12C62B008A1AEE /* AudioManager.swift */; };
+		92E3DF6D2A12CA63008A1AEE /* FireAura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF6B2A12CA63008A1AEE /* FireAura.sks */; };
+		92E3DF6E2A12CA63008A1AEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF6C2A12CA63008A1AEE /* Assets.xcassets */; };
+		92E3DF702A12CB59008A1AEE /* IceAura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF6F2A12CB59008A1AEE /* IceAura.sks */; };
+		92E3DF722A12CB9E008A1AEE /* EletricAura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF712A12CB9E008A1AEE /* EletricAura.sks */; };
+		92E3DF742A12CBE3008A1AEE /* EarthAura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF732A12CBE3008A1AEE /* EarthAura.sks */; };
 		A71EEAB92A0D284B0063BC77 /* MapInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */; };
 		A75915982A02EA3A00D953C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
 		A795A8692A0984EF00FF21A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A795A8682A0984EF00FF21A3 /* Extensions.swift */; };
@@ -63,6 +69,12 @@
 		9202EB002A0EAD0500F5A109 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
 		9202EB012A0EAD0500F5A109 /* CreditsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
 		9202EB0A2A0EAD0F00F5A109 /* CustomSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		92E3DF692A12C62B008A1AEE /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		92E3DF6B2A12CA63008A1AEE /* FireAura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireAura.sks; sourceTree = "<group>"; };
+		92E3DF6C2A12CA63008A1AEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		92E3DF6F2A12CB59008A1AEE /* IceAura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = IceAura.sks; sourceTree = "<group>"; };
+		92E3DF712A12CB9E008A1AEE /* EletricAura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = EletricAura.sks; sourceTree = "<group>"; };
+		92E3DF732A12CBE3008A1AEE /* EarthAura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = EarthAura.sks; sourceTree = "<group>"; };
 		A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapInterpreter.swift; sourceTree = "<group>"; };
 		A795A8682A0984EF00FF21A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A7AF3E5A2A0D2B8300E36A42 /* map1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map1.txt; sourceTree = "<group>"; };
@@ -137,6 +149,7 @@
 				A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */,
 				F99499D52A02CD3800E3807D /* Directions.swift */,
 				A795A8682A0984EF00FF21A3 /* Extensions.swift */,
+				92E3DF692A12C62B008A1AEE /* AudioManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -253,6 +266,11 @@
 				F98E2CF42A0D6AFA003273AA /* FireParticle.sks */,
 				F98E2CF52A0D6AFA003273AA /* IceParticle.sks */,
 				F98E2CEF2A0D6AED003273AA /* LightiningParticle.sks */,
+				92E3DF6B2A12CA63008A1AEE /* FireAura.sks */,
+				92E3DF6F2A12CB59008A1AEE /* IceAura.sks */,
+				92E3DF712A12CB9E008A1AEE /* EletricAura.sks */,
+				92E3DF732A12CBE3008A1AEE /* EarthAura.sks */,
+				92E3DF6C2A12CA63008A1AEE /* Assets.xcassets */,
 			);
 			path = Particles;
 			sourceTree = "<group>";
@@ -327,14 +345,19 @@
 			files = (
 				F98E2CF12A0D6AED003273AA /* LightiningParticle.sks in Resources */,
 				F98E2CF72A0D6AFA003273AA /* FireParticle.sks in Resources */,
+				92E3DF6D2A12CA63008A1AEE /* FireAura.sks in Resources */,
 				A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */,
 				9202EB042A0EAD0500F5A109 /* Fonts in Resources */,
 				A7AF3E5B2A0D2B8300E36A42 /* map1.txt in Resources */,
+				92E3DF6E2A12CA63008A1AEE /* Assets.xcassets in Resources */,
 				A7C1669529F71DC1003B096D /* GameScene.sks in Resources */,
 				A7C166A029F71DC2003B096D /* Assets.xcassets in Resources */,
+				92E3DF742A12CBE3008A1AEE /* EarthAura.sks in Resources */,
 				A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */,
 				F98E2CF82A0D6AFA003273AA /* IceParticle.sks in Resources */,
 				F98E2CF62A0D6AFA003273AA /* DirtParticle.sks in Resources */,
+				92E3DF722A12CB9E008A1AEE /* EletricAura.sks in Resources */,
+				92E3DF702A12CB59008A1AEE /* IceAura.sks in Resources */,
 				A7C1669729F71DC1003B096D /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,6 +375,7 @@
 				9202EB072A0EAD0500F5A109 /* ContentView.swift in Sources */,
 				F9CB0BAF2A043EE0004A0661 /* DetectsCollision.swift in Sources */,
 				F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */,
+				92E3DF6A2A12C62B008A1AEE /* AudioManager.swift in Sources */,
 				A7B6B1BB2A02E785005FF90B /* StatesPlayer.swift in Sources */,
 				A75915982A02EA3A00D953C2 /* Constants.swift in Sources */,
 				A7F665F92A0EB22C0010C96F /* MainView.swift in Sources */,
@@ -527,7 +551,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2V5RBDFH46;
+				DEVELOPMENT_TEAM = F3LPWZ43F8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -542,7 +566,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlas;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlasi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -557,7 +581,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 73DNAYF2TM;
+				DEVELOPMENT_TEAM = F3LPWZ43F8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -572,7 +596,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlash;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlashi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
