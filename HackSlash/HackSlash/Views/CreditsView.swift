@@ -18,10 +18,11 @@ struct CreditsView: View {
                 
                 Button(action: {
                     showCredits = false
+                    AudioManager.shared.playSound(named: "buttonClick.mp3")
                 }, label: {
                     Image("Back credits")
                 })
-                .position(x: geo.frame(in: .global).midX*0.65, y: geo.frame(in: .global).midY*0.44)
+                .position(x: geo.frame(in: .global).midX*0.65, y: geo.frame(in: .global).midY*0.40)
             }
         }
         .edgesIgnoringSafeArea(.all)

@@ -27,6 +27,8 @@ struct GameView: View {
                     .navigationBarBackButtonHidden()
                 
                 Button(action: {
+                    paused = !paused
+                    AudioManager.shared.playSound(named: "buttonClick.mp3")
                     paused = true
                     scene.view?.isPaused = paused
                 }, label: {

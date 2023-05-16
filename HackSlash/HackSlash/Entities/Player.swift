@@ -32,6 +32,8 @@ class Player: Status, StateMachine, Move, Attributes, DetectsCollision{
         sprite.position
     }
     
+    var isBuffed: Bool = false
+    
     init(sprite: String) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
         self.sprite.size = Constants.playerSize
