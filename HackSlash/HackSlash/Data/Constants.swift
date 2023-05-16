@@ -26,7 +26,7 @@ struct Constants {
     static let fireballDamage: AttackInfo = AttackInfo(damage: Constants.playerDamage, element: .fire, activateEffects: (false, false))
     
     static let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
-    static let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 500, ySpeed: 500, maxXSpeed: 200, maxYSpeed: 200)
+    static let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 1000, ySpeed: 500, maxXSpeed: 1000, maxYSpeed: 200)
     static let iceballDamage: AttackInfo = AttackInfo(damage: Constants.playerDamage, element: .fire, activateEffects: (false, false))
     
     static let earthPowerTexture: SKTexture = SKTexture(imageNamed: "EarthPowers")
