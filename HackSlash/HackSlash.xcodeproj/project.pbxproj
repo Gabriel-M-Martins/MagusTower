@@ -14,6 +14,12 @@
 		9202EB082A0EAD0500F5A109 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB002A0EAD0500F5A109 /* PauseView.swift */; };
 		9202EB092A0EAD0500F5A109 /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB012A0EAD0500F5A109 /* CreditsView.swift */; };
 		9202EB0B2A0EAD0F00F5A109 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB0A2A0EAD0F00F5A109 /* CustomSlider.swift */; };
+		92420C5B2A13F79500AE47A9 /* buttonClick.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 92420C5A2A13F79500AE47A9 /* buttonClick.mp3 */; };
+		92420C5D2A13F79C00AE47A9 /* magicCast.wav in Resources */ = {isa = PBXBuildFile; fileRef = 92420C5C2A13F79C00AE47A9 /* magicCast.wav */; };
+		92420C5F2A13F79F00AE47A9 /* basicAttack.wav in Resources */ = {isa = PBXBuildFile; fileRef = 92420C5E2A13F79F00AE47A9 /* basicAttack.wav */; };
+		92420C612A13F7B700AE47A9 /* spiderDying.wav in Resources */ = {isa = PBXBuildFile; fileRef = 92420C602A13F7B700AE47A9 /* spiderDying.wav */; };
+		92420C632A13F7BA00AE47A9 /* spiderAttack.wav in Resources */ = {isa = PBXBuildFile; fileRef = 92420C622A13F7BA00AE47A9 /* spiderAttack.wav */; };
+		92420C652A13F7BC00AE47A9 /* spiderSpawn.wav in Resources */ = {isa = PBXBuildFile; fileRef = 92420C642A13F7BC00AE47A9 /* spiderSpawn.wav */; };
 		92E3DF6A2A12C62B008A1AEE /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E3DF692A12C62B008A1AEE /* AudioManager.swift */; };
 		92E3DF6D2A12CA63008A1AEE /* FireAura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF6B2A12CA63008A1AEE /* FireAura.sks */; };
 		92E3DF6E2A12CA63008A1AEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF6C2A12CA63008A1AEE /* Assets.xcassets */; };
@@ -75,6 +81,12 @@
 		9202EB002A0EAD0500F5A109 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
 		9202EB012A0EAD0500F5A109 /* CreditsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
 		9202EB0A2A0EAD0F00F5A109 /* CustomSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		92420C5A2A13F79500AE47A9 /* buttonClick.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buttonClick.mp3; sourceTree = "<group>"; };
+		92420C5C2A13F79C00AE47A9 /* magicCast.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = magicCast.wav; sourceTree = "<group>"; };
+		92420C5E2A13F79F00AE47A9 /* basicAttack.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = basicAttack.wav; sourceTree = "<group>"; };
+		92420C602A13F7B700AE47A9 /* spiderDying.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = spiderDying.wav; sourceTree = "<group>"; };
+		92420C622A13F7BA00AE47A9 /* spiderAttack.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = spiderAttack.wav; sourceTree = "<group>"; };
+		92420C642A13F7BC00AE47A9 /* spiderSpawn.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = spiderSpawn.wav; sourceTree = "<group>"; };
 		92E3DF692A12C62B008A1AEE /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		92E3DF6B2A12CA63008A1AEE /* FireAura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireAura.sks; sourceTree = "<group>"; };
 		92E3DF6C2A12CA63008A1AEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -153,6 +165,19 @@
 				7CDBB2D62A12B561003EC549 /* HPBar.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		92420C592A13F76500AE47A9 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				92420C5C2A13F79C00AE47A9 /* magicCast.wav */,
+				92420C602A13F7B700AE47A9 /* spiderDying.wav */,
+				92420C622A13F7BA00AE47A9 /* spiderAttack.wav */,
+				92420C642A13F7BC00AE47A9 /* spiderSpawn.wav */,
+				92420C5E2A13F79F00AE47A9 /* basicAttack.wav */,
+				92420C5A2A13F79500AE47A9 /* buttonClick.mp3 */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 		A75915962A02EA0E00D953C2 /* Utility */ = {
@@ -249,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				A7F665F62A0EB1440010C96F /* Info.plist */,
+				92420C592A13F76500AE47A9 /* Sounds */,
 				9202EAFC2A0EAD0500F5A109 /* Fonts */,
 				A7C1669F29F71DC2003B096D /* Assets.xcassets */,
 				9202EAF92A0EAC6900F5A109 /* Views */,
@@ -373,21 +399,27 @@
 				F98E2CF72A0D6AFA003273AA /* FireParticle.sks in Resources */,
 				92E3DF6D2A12CA63008A1AEE /* FireAura.sks in Resources */,
 				F9911E692A129C5B005F2B2C /* TutorialScene.sks in Resources */,
+				92420C652A13F7BC00AE47A9 /* spiderSpawn.wav in Resources */,
 				A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */,
 				F9911E6F2A129CFC005F2B2C /* Assets.xcassets in Resources */,
 				9202EB042A0EAD0500F5A109 /* Fonts in Resources */,
 				A7AF3E5B2A0D2B8300E36A42 /* map1.txt in Resources */,
 				92E3DF6E2A12CA63008A1AEE /* Assets.xcassets in Resources */,
+				92420C5D2A13F79C00AE47A9 /* magicCast.wav in Resources */,
 				A7C1669529F71DC1003B096D /* GameScene.sks in Resources */,
 				A7C166A029F71DC2003B096D /* Assets.xcassets in Resources */,
 				92E3DF742A12CBE3008A1AEE /* EarthAura.sks in Resources */,
+				92420C612A13F7B700AE47A9 /* spiderDying.wav in Resources */,
+				92420C5F2A13F79F00AE47A9 /* basicAttack.wav in Resources */,
 				A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */,
 				F98E2CF82A0D6AFA003273AA /* IceParticle.sks in Resources */,
 				F98E2CF62A0D6AFA003273AA /* DirtParticle.sks in Resources */,
 				92E3DF722A12CB9E008A1AEE /* EletricAura.sks in Resources */,
+				92420C632A13F7BA00AE47A9 /* spiderAttack.wav in Resources */,
 				92E3DF702A12CB59008A1AEE /* IceAura.sks in Resources */,
 				F9911E6E2A129CFC005F2B2C /* Collectable.sks in Resources */,
 				A7C1669729F71DC1003B096D /* Actions.sks in Resources */,
+				92420C5B2A13F79500AE47A9 /* buttonClick.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

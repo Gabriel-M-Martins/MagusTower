@@ -28,6 +28,7 @@ struct GameView: View {
                 
                 Button(action: {
                     paused = !paused
+                    AudioManager.shared.playSound(named: "buttonClick.mp3")
                 }, label: {
                     Image(paused ? "Play icon": "Pause icon").resizable()
                 })
