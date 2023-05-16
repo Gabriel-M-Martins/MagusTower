@@ -12,6 +12,7 @@ struct MainMenuView: View {
     @State var showSettings: Bool = false
     @State var showCredits: Bool = false
 
+
     var body: some View {
         NavigationStack {
             GeometryReader { geo in
