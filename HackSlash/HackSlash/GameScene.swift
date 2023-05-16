@@ -112,7 +112,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nd.run(.group([
                 .scale(to: Constants.combosSpritesScale + 0.5, duration: Constants.combosSpritesAnimationDuration),
                 .fadeAlpha(to: 2, duration: Constants.combosSpritesAnimationDuration)
-                
             ]))
         } else {
             nd.run(.group([
@@ -162,16 +161,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     private func handleCombo(start: CGPoint, pos: CGPoint) {
-        if directionsCombos.count == 0{
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    if self.directionsCombos.count <= 1 {
-                        print("Miss timing!")
-                        self.directionsCombos.removeAll()
-                    }
-            }
-        }
         let vector = pos - start
         let directions = Directions.calculateDirections(vector)
+        if directionsCombos.count == 0{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                if self.directionsCombos.count <= 1 {
+                    print("Miss timing!")
+                    self.directionsCombos.removeAll()
+                }
+            }
+        }
+        else if directionsCombos.count == 1{
+            if directions[0] == .right{
+                let magic = Magics.magic(primary: directionsCombos[0], secondary: directions[0])
+                let x = magic.getElement().getBuff()
+                x(player, 15.0)
+            }
+        }
         if directionsCombos.count == 2 {
             let normalizedVector = vector.normalized()
             let magic = Magics.magic(primary: directionsCombos[0], secondary: directionsCombos[1])

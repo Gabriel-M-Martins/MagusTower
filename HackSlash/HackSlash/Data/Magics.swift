@@ -35,6 +35,19 @@ enum Magics {
             return .D(element)
         }
     }
+    
+    func getElement() -> Elements{
+        switch self{
+        case .A(let element):
+            return element
+        case .B(let element):
+            return element
+        case .C(let element):
+            return element
+        case .D(let element):
+            return element
+        }
+    }
 }
 
 
