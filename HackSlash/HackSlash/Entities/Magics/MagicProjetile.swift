@@ -26,8 +26,8 @@ class MagicProjetile: Projectile, DetectsCollision{
         self.angle = angle
         self.velocity = velocity
         self.damage = damage
-        self.physicsBody.categoryBitMask = Constants.magicMask
-        self.changeMask(bit: Constants.enemiesMask, collision: false)
+        self.physicsBody.categoryBitMask = Constants.singleton.magicMask
+        self.changeMask(bit: Constants.singleton.enemiesMask, collision: false)
     }
     
     func onTouch(touched: inout AttributesInfo){

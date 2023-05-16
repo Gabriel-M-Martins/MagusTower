@@ -55,11 +55,11 @@ enum Elements {
         emitter.zPosition = -3
         attr.sprite.addChild(emitter)
         var attr_ref = attr
-        attr_ref.attributes.velocity.maxXSpeed += Constants.thunderBuffVelocityBonus
-        attr_ref.attributes.velocity.maxYSpeed += Constants.thunderBuffVelocityBonus
+        attr_ref.attributes.velocity.maxXSpeed += Constants.singleton.thunderBuffVelocityBonus
+        attr_ref.attributes.velocity.maxYSpeed += Constants.singleton.thunderBuffVelocityBonus
         DispatchQueue.main.asyncAfter(deadline: .now() + time) {
-            attr_ref.attributes.velocity.maxXSpeed -= Constants.thunderBuffVelocityBonus
-            attr_ref.attributes.velocity.maxYSpeed -= Constants.thunderBuffVelocityBonus
+            attr_ref.attributes.velocity.maxXSpeed -= Constants.singleton.thunderBuffVelocityBonus
+            attr_ref.attributes.velocity.maxYSpeed -= Constants.singleton.thunderBuffVelocityBonus
             emitter.removeFromParent()
         }
     }

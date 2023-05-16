@@ -9,40 +9,48 @@ import SpriteKit
 import UserNotifications
 
 struct Constants {
-    private let frame: CGRect
-
-    static let enemiesMask: UInt32 = 1
-    static let groundMask: UInt32 = 2
-    static let playerMask: UInt32 = 4
-    static let magicMask: UInt32 = 8
+    static var singleton: Constants = .init()
     
-    static let playerDamage: Int = 10
+    static func setFrame(_ frame: CGRect) {
+        Constants.singleton.frame = frame
+    }
     
-    static let playerSize: CGSize = CGSize(width: 104, height: 111)
-    static let spiderSize: CGSize = CGSize(width: 90, height: 60)
+    private init() {}
     
-    static let fireballSize: CGVector = CGVector(dx: 38, dy: 15)
-    static let fireballVelocity: VelocityInfo = VelocityInfo(xSpeed: 500, ySpeed: 500, maxXSpeed: 150, maxYSpeed: 150)
-    static let fireballDamage: AttackInfo = AttackInfo(damage: Constants.playerDamage, element: .fire, activateEffects: (false, false))
+    var frame: CGRect = CGRect.zero
     
-    static let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
-    static let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 1000, ySpeed: 500, maxXSpeed: 1000, maxYSpeed: 200)
-    static let iceballDamage: AttackInfo = AttackInfo(damage: Constants.playerDamage, element: .fire, activateEffects: (false, false))
+    let enemiesMask: UInt32 = 1
+    let groundMask: UInt32 = 2
+    let playerMask: UInt32 = 4
+    let magicMask: UInt32 = 8
     
-    static let earthPowerTexture: SKTexture = SKTexture(imageNamed: "EarthPowers")
-    static let eletricPowerTexture: SKTexture = SKTexture(imageNamed: "EletricPowers")
-    static let icePowerTexture: SKTexture = SKTexture(imageNamed: "IcePowers")
-    static let firePowerTexture: SKTexture = SKTexture(imageNamed: "FirePowers")
+    let playerDamage: Int = 10
     
-    static let combosSpritesScale: CGFloat = 1.4
-    static let combosSpritesAlpha: CGFloat = 0.4
-    static let combosSpritesAnimationDuration: CGFloat = 0.1
+    let playerSize: CGSize = CGSize(width: 104, height: 111)
+    let spiderSize: CGSize = CGSize(width: 90, height: 60)
     
-    static let stoneWallWidth: CGFloat = 50
+    let fireballSize: CGVector = CGVector(dx: 38, dy: 15)
+    let fireballVelocity: VelocityInfo = VelocityInfo(xSpeed: 500, ySpeed: 500, maxXSpeed: 150, maxYSpeed: 150)
+    let fireballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
     
-    static let thunderBuffVelocityBonus: CGFloat = 50
+    let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
+    let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 1000, ySpeed: 500, maxXSpeed: 1000, maxYSpeed: 200)
+    let iceballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
     
-    static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
+    let earthPowerTexture: SKTexture = SKTexture(imageNamed: "EarthPowers")
+    let eletricPowerTexture: SKTexture = SKTexture(imageNamed: "EletricPowers")
+    let icePowerTexture: SKTexture = SKTexture(imageNamed: "IcePowers")
+    let firePowerTexture: SKTexture = SKTexture(imageNamed: "FirePowers")
+    
+    let combosSpritesScale: CGFloat = 1.4
+    let combosSpritesAlpha: CGFloat = 0.4
+    let combosSpritesAnimationDuration: CGFloat = 0.1
+    
+    let stoneWallWidth: CGFloat = 50
+    
+    let thunderBuffVelocityBonus: CGFloat = 50
+    
+    let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22
     
     static func randomPlatformSprite() -> String {
@@ -98,10 +106,6 @@ struct Constants {
             texture.append(SKTexture(imageNamed: "AranhaCorrendo\(n)"))
         }
         return texture
-    }
-    
-    init(frame: CGRect) {
-        self.frame = frame
     }
 
     var platformsHeight: CGFloat {

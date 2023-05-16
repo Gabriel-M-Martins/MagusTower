@@ -10,8 +10,8 @@ import Foundation
 struct MapInterpreter {
     var rects: [(size: CGSize, position: CGPoint)]
     
-    init?(map: CGRect, platformHeightDistance: CGFloat, platformHeight: CGFloat, scale: CGFloat) {
-        let path = Bundle.main.url(forResource: "map1", withExtension: "txt")
+    init?(map: CGRect, platformHeightDistance: CGFloat, platformHeight: CGFloat, scale: CGFloat, mapText: String) {
+        let path = Bundle.main.url(forResource: mapText, withExtension: "txt")
         
         guard let path = path else { return nil }
         guard let text = try? String(contentsOf: path) else { return nil }
