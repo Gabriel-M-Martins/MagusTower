@@ -159,15 +159,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    
+    //Spell count declarado aqui só p ficar mais entendível
+    var spellCount: Int = 0
     private func handleCombo(start: CGPoint, pos: CGPoint) {
+        spellCount += 1
         let vector = pos - start
         let directions = Directions.calculateDirections(vector)
         if directionsCombos.count == 0{
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                if self.directionsCombos.count <= 1 {
+                if self.directionsCombos.count <= 1 && self.spellCount < 3{
                     print("Miss timing!")
                     self.directionsCombos.removeAll()
+                    self.spellCount = 0
                 }
             }
         }
@@ -176,6 +179,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let magic = Magics.magic(primary: directionsCombos[0], secondary: directions[0])
                 let x = magic.getElement().getBuff()
                 x(player, 15.0)
+                directionsCombos = []
+                return
             }
         }
         if directionsCombos.count == 2 {
