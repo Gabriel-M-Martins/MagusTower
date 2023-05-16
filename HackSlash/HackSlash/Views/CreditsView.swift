@@ -21,7 +21,7 @@ struct CreditsView: View {
                 }, label: {
                     Image("Back credits")
                 })
-                .position(x: geo.frame(in: .global).midX*0.65, y: geo.frame(in: .global).midY*0.38)
+                .position(x: geo.frame(in: .global).midX*0.65, y: geo.frame(in: .global).midY*0.44)
             }
         }
         .edgesIgnoringSafeArea(.all)
@@ -30,7 +30,7 @@ struct CreditsView: View {
 
 struct CreditsView_Previews: PreviewProvider {
     static var previews: some View {
-        CreditsView(showCredits: MenuView().$showCredits)
+        CreditsView(showCredits: MainMenuView().$showCredits)
             .previewInterfaceOrientation(.landscapeRight)
     }
 }

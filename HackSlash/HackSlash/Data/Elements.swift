@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SpriteKit
 enum Elements {
     case fire
     case ice
@@ -14,7 +14,7 @@ enum Elements {
     case earth
     case neutral
     
-    func getBuff() -> (any Attributes) -> Void {
+    func getBuff() -> (any Attributes & Status) -> Void {
         switch self {
         case .fire:
             return placeholder1
@@ -44,10 +44,26 @@ enum Elements {
         }
     }
     
-    func placeholder1(_ attr: any Attributes) {
+    func placeholder1(_ attr: any Attributes & Status) {
 //        attr.attributes.
+        
         print("buff")
     }
+    
+    func thunderBuff(_ attr: any Attributes & Status, for time: Double){
+        let emitter = SKEmitterNode(fileNamed: "thunderStatus")!
+        emitter.zPosition = -3
+        attr.sprite.addChild(emitter)
+        var attr_ref = attr
+        attr_ref.attributes.velocity.maxXSpeed += Constants.thunderBuffVelocityBonus
+        attr_ref.attributes.velocity.maxYSpeed += Constants.thunderBuffVelocityBonus
+        DispatchQueue.main.asyncAfter(deadline: .now() + time) {
+            attr_ref.attributes.velocity.maxXSpeed -= Constants.thunderBuffVelocityBonus
+            attr_ref.attributes.velocity.maxYSpeed -= Constants.thunderBuffVelocityBonus
+            emitter.removeFromParent()
+        }
+    }
+    
     func placeholder2(_ attr: any Attributes) {
         print("debuff")
     }

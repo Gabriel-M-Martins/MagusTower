@@ -6,6 +6,7 @@
 //
 import Foundation
 import SpriteKit
+import UserNotifications
 
 struct Constants {
     private let frame: CGRect
@@ -25,9 +26,21 @@ struct Constants {
     static let fireballDamage: AttackInfo = AttackInfo(damage: Constants.playerDamage, element: .fire, activateEffects: (false, false))
     
     static let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
-    static let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 500, ySpeed: 500, maxXSpeed: 200, maxYSpeed: 200)
+    static let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 1000, ySpeed: 500, maxXSpeed: 1000, maxYSpeed: 200)
     static let iceballDamage: AttackInfo = AttackInfo(damage: Constants.playerDamage, element: .fire, activateEffects: (false, false))
     
+    static let earthPowerTexture: SKTexture = SKTexture(imageNamed: "EarthPowers")
+    static let eletricPowerTexture: SKTexture = SKTexture(imageNamed: "EletricPowers")
+    static let icePowerTexture: SKTexture = SKTexture(imageNamed: "IcePowers")
+    static let firePowerTexture: SKTexture = SKTexture(imageNamed: "FirePowers")
+    
+    static let combosSpritesScale: CGFloat = 1.4
+    static let combosSpritesAlpha: CGFloat = 0.4
+    static let combosSpritesAnimationDuration: CGFloat = 0.1
+    
+    static let stoneWallWidth: CGFloat = 50
+    
+    static let thunderBuffVelocityBonus: CGFloat = 50
     
     static let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22
@@ -71,9 +84,13 @@ struct Constants {
     
     static let spiderIdleTexture: SKTexture = SKTexture(imageNamed: "Spider")
     
+    static let spiderDeadTexture: SKTexture = SKTexture(imageNamed: "DeadSpider")
+    
     static let spiderAttackTexture: SKTexture = SKTexture(imageNamed: "SpiderAttack")
     
     static let spiderChargingTexture: SKTexture = SKTexture(imageNamed: "SpiderPreparingJump")
+    
+    static let deathDespawn: Double = 5.0
     
     static var spiderWalkingTexture: [SKTexture] {
         var texture: [SKTexture] = []
@@ -90,4 +107,13 @@ struct Constants {
     var platformsHeight: CGFloat {
         frame.height/18
     }
+    
+    static var spiderDamage: Int = 5
+    
+//    static let lifeBarTexture: SKTexture = SKTexture(imageNamed: "life_bar")
+//    
+//    static let lifeFillTexture: SKTexture = SKTexture(imageNamed: "life_fill")
+    
+    static let notificationCenter = NotificationCenter.default
+
 }

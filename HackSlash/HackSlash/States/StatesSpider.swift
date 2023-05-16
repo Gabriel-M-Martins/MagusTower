@@ -17,6 +17,8 @@ enum StatesSpider: StateMachineable {
     case goingUp
     case attack
     
+    case death
+    
     func StateInfo() -> AnimationInfo {
         switch self {
         case .idle:
@@ -29,21 +31,25 @@ enum StatesSpider: StateMachineable {
             return AnimationInfo(textures: [Constants.spiderAttackTexture], duration: 1)
         case .attack:
             return AnimationInfo(textures: [Constants.spiderAttackTexture], duration: 1)
+        case .death:
+            return AnimationInfo(textures: [Constants.spiderDeadTexture], duration: 1)
         }
     }
     
     func ValidateTransition(to target: StatesSpider) -> Bool {
         switch self {
         case .idle:
-            return [.walking, .charging, .attack].contains(target)
+            return [.walking, .charging, .attack, .death].contains(target)
         case .walking:
-            return [.idle, .charging, .attack].contains(target)
+            return [.idle, .charging, .attack, .death].contains(target)
         case .charging:
-            return [.idle, .goingUp, .attack].contains(target)
+            return [.idle, .goingUp, .attack, .death].contains(target)
         case .goingUp:
-            return [.attack].contains(target)
+            return [.attack, .death].contains(target)
         case .attack:
-            return [.idle, .walking].contains(target)
+            return [.idle, .walking, .death].contains(target)
+        case .death:
+            return false
         }
     }
 }
