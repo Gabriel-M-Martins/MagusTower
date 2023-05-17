@@ -7,6 +7,7 @@
 import Foundation
 import SpriteKit
 import UserNotifications
+import SwiftUI
 
 struct Constants {
     private let frame: CGRect
@@ -39,6 +40,39 @@ struct Constants {
     static let eletricPowerTexture: SKTexture = SKTexture(imageNamed: "EletricPowers")
     static let icePowerTexture: SKTexture = SKTexture(imageNamed: "IcePowers")
     static let firePowerTexture: SKTexture = SKTexture(imageNamed: "FirePowers")
+    
+    static let fireATexture: SKTexture = SKTexture(imageNamed: "Fireball")
+    static let fireBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    static let fireCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    static let fireDTexture: SKTexture = SKTexture(imageNamed: "Firestatus")
+    
+    static let thunderATexture: SKTexture = SKTexture(imageNamed: "Eletricbolt")
+    static let thunderBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    static let thunderCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    static let thunderDTexture: SKTexture = SKTexture(imageNamed: "Eletricstatus")
+    
+    static let iceATexture: SKTexture = SKTexture(imageNamed: "Iceshard")
+    static let iceBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    static let iceCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    static let iceDTexture: SKTexture = SKTexture(imageNamed: "Icestatus")
+    
+    static let earthATexture: SKTexture = SKTexture(imageNamed: "Earthwall")
+    static let earthBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    static let earthCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    static let earthDTexture: SKTexture = SKTexture(imageNamed: "Earthstatus")
+    
+    static let downMagicTexture: SKTexture = SKTexture(imageNamed: "Baixo")
+    static let upMagicTexture: SKTexture = SKTexture(imageNamed: "Cima")
+    static let rightMagicTexture: SKTexture = SKTexture(imageNamed: "Direita")
+    static let leftMagicTexture: SKTexture = SKTexture(imageNamed: "Esquerda")
+    static let upRMagicTexture: SKTexture = SKTexture(imageNamed: "Nordeste")
+    static let upLMagicTexture: SKTexture = SKTexture(imageNamed: "Noroeste")
+    static let downRMagicTexture: SKTexture = SKTexture(imageNamed: "Sudeste")
+    static let downLMagicTexture: SKTexture = SKTexture(imageNamed: "Sudoeste")
+    
+    static let directionsTexture: SKTexture = SKTexture(imageNamed: "DirectionsJoystickBG")
+    
+    static let magicWall: String = "Parede"
     
     static let combosSpritesScale: CGFloat = 1.4
     static let combosSpritesAlpha: CGFloat = 0.4
@@ -120,5 +154,7 @@ struct Constants {
     static var spiderDamage: Int = 5
     
     static let notificationCenter = NotificationCenter.default
+    
+    static let buttonsColor: UIColor = .white
 
 }

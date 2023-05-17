@@ -81,13 +81,11 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
                 changeSide = true
                 
             } else {
-                
                 move(direction: [.right])
                 var tmpSelf = self
                 tmpSelf.transition(to: .walking)
                 sprite.xScale = 1
                 changeSide = true
-                
             }
             if abs(player.position.x - sprite.position.x) >= self.attributes.attackRange && abs(player.position.x - sprite.position.x) <= self.attributes.attackRange * 1.2{
                 var tmpSelf = self
