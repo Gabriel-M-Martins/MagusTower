@@ -408,8 +408,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         floorBackground.zPosition = -15
         floorBackground.anchorPoint = CGPoint(x: 0.5, y: 0)
-        floorBackground.size = CGSize(width: frame.width * 3, height: frame.height * 3)
-        floorBackground.position.y = frame.minY - 185
+        floorBackground.size = CGSize(width: frame.width * 3, height: frame.height * 6)
+        floorBackground.position.y = frame.minY - (200*2)
         addChild(floorBackground)
         
         // ------------------------------------------------------------------------
