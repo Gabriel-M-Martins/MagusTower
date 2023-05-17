@@ -530,6 +530,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     if spider.currentState == .walking || spider.currentState == .idle{
                         spider.transition(to: .charging)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            spider.transition(to: .goingUp)
+                            //desiredHeight in x times the spider height
+                            let desiredHeight: CGFloat = 1.5
+                            //so pra caso a gravidade mude, muda isso aqui ou faz ser igual o valor nas constantes
+                            let gravity: CGFloat = -9.8
+                            
+                            spider.attributes.velocity.maxXSpeed *= 100
+                            spider.attributes.velocity.maxYSpeed *= 100
+                            let direction: CGFloat = spider.sprite.position.x > self.player.sprite.position.x ? -1 : 1
+                            if spider.currentState != .death{
+                                spider.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.playerSize.width/2 + Constants.spiderSize.width/2)) + (self.player.sprite.position.x - spider.sprite.position.x), dy: abs(Constants.playerSize.height - Constants.spiderSize.height) + (spider.sprite.position.y - spider.sprite.position.y) + (desiredHeight * spider.sprite.size.height) - (45.0 * gravity)))
+                            }
+                        }
                     }
                 }
             }
