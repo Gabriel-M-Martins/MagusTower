@@ -8,12 +8,18 @@ import Foundation
 import SpriteKit
 import UserNotifications
 
-struct Constants {
-    static var singleton: Constants = .init()
-    
-    static func setFrame(_ frame: CGRect) {
-        Constants.singleton.frame = frame
-    }
+/*
+ class Singleton {
+     static let shared: Singleton = {
+         let instance = Singleton()
+         // setup code
+         return instance
+     }()
+ }
+ */
+
+class Constants {
+    static let singleton: Constants = Constants()
     
     private init() {}
     
@@ -31,18 +37,18 @@ struct Constants {
     
     let fireballSize: CGVector = CGVector(dx: 38, dy: 15)
     let fireballVelocity: VelocityInfo = VelocityInfo(xSpeed: 500, ySpeed: 500, maxXSpeed: 150, maxYSpeed: 150)
-    let fireballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
+    lazy var fireballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
     
     let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
     let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 1000, ySpeed: 500, maxXSpeed: 1000, maxYSpeed: 200)
-    let iceballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
+    lazy var iceballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
     
     let earthPowerTexture: SKTexture = SKTexture(imageNamed: "EarthPowers")
     let eletricPowerTexture: SKTexture = SKTexture(imageNamed: "EletricPowers")
     let icePowerTexture: SKTexture = SKTexture(imageNamed: "IcePowers")
     let firePowerTexture: SKTexture = SKTexture(imageNamed: "FirePowers")
     
-    let combosSpritesScale: CGFloat = 1.4
+    let combosSpritesScale: CGFloat = 0.85
     let combosSpritesAlpha: CGFloat = 0.4
     let combosSpritesAnimationDuration: CGFloat = 0.1
     

@@ -20,22 +20,18 @@ struct MapInterpreter {
         let platformWidth = (map.width * scale) / CGFloat(coords.1 /* *10 */)
 
         rects = []
-        
+        let minX = -Constants.singleton.frame.width/2
         var currentHeight = map.minY
         for line in coords.0.reversed() {
             for coord in line {
                 let width = platformWidth * CGFloat(coord.size)
-                let posX = (map.minX * scale) + (platformWidth * CGFloat(coord.start)) + width/2
+                let posX = (minX * scale) + (platformWidth * CGFloat(coord.start)) + width/2
+//                let posX = (map.minX * scale) + (platformWidth * CGFloat(coord.start)) + width/2
                 
                 rects.append((CGSize(width: width, height: platformHeight), CGPoint(x: posX, y: currentHeight)))
             }
             currentHeight += platformHeightDistance
         }
-        
-        print(rects[0])
-        print(map.origin)
-        print(map.width)
-        print(map.width / CGFloat(coords.1))
     }
     
     static private func parseCoordinates(_ text: String) -> ([ [(start: Int, size: Int)] ], Int) {

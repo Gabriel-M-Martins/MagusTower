@@ -7,13 +7,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case combosAnalog
     }
     
-    init(background backgroundFileName: String, enemiesQtd: Int, levelMapFile: String, size: CGSize) {
+    init(background backgroundFileName: String, enemiesQtd: Int, levelMapFile: String) {
         self.background = SKSpriteNode(texture: SKTexture(imageNamed: backgroundFileName))
         self.numberEnemies = enemiesQtd
-        let a = CGRect(origin: CGPoint.zero, size: size)
-        Constants.setFrame(a)
-        self.mapInterpreter = MapInterpreter(map: a, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: levelMapFile)!
-        super.init(size: size)
+        
+        self.mapInterpreter = MapInterpreter(map: Constants.singleton.frame, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: levelMapFile)!
+
+        super.init(size: Constants.singleton.frame.size)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,7 +34,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var movementAnalogic = SKShapeNode()
     
     private var combosInput = SKShapeNode()
-    private var combosInputThreshold = SKShapeNode()
     private var combosAnalogic = SKShapeNode()
     
     private var numberEnemies = Int.random(in: 1..<5)
@@ -201,6 +200,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
+        view.showsPhysics = true
+        
         self.backgroundColor = .black
         myFrame.myVariables.frame = self.size
         myFrame.myVariables.scene = self
@@ -396,27 +397,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupButtons() {
-        let buttonRadius: CGFloat = 120
+        let buttonRadius: CGFloat = 75
         let positionOffset: CGFloat = 250
+        
+        let width = Constants.singleton.frame.width/3
+        let height = -Constants.singleton.frame.height/4
         
         // ------------------------------------------------------------------------------------------ movement
         movementInput = SKShapeNode(circleOfRadius: buttonRadius)
-        movementInput.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
+        movementInput.position = CGPoint(x: -width, y: height)
         movementInput.strokeColor = .red
         
         // --------------------------------------------
-        movementAnalogic = SKShapeNode(circleOfRadius: 25)
-        movementAnalogic.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
+        movementAnalogic = SKShapeNode(circleOfRadius: buttonRadius/4)
+        movementAnalogic.position = movementInput.position
         movementAnalogic.fillColor = .red
     
         // ------------------------------------------------------------------------------------------ combos
         combosInput = SKShapeNode(circleOfRadius: buttonRadius)
-        combosInput.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
-        combosInput.strokeColor = .clear
+        combosInput.position = CGPoint(x: width, y: height)
+        combosInput.strokeColor = .red
         
-        combosInputThreshold = SKShapeNode(circleOfRadius: buttonRadius/4)
-        combosInputThreshold.strokeColor = .clear
-        
+        // --------------------------------------------
         let earth = SKSpriteNode(texture: Constants.singleton.earthPowerTexture)
         earth.anchorPoint = CGPoint(x: 0, y: 0.5)
         earth.zPosition = 10
@@ -447,8 +449,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // --------------------------------------------
-        combosAnalogic = SKShapeNode(circleOfRadius: 25)
-        combosAnalogic.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
+        combosAnalogic = SKShapeNode(circleOfRadius: buttonRadius/4)
+        combosAnalogic.position = combosInput.position
         combosAnalogic.fillColor = .blue
         combosAnalogic.zPosition = 11
         
@@ -458,7 +460,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         camera?.addChild(combosInput)
         camera?.addChild(combosAnalogic)
-        camera?.addChild(combosInputThreshold)
     }
     //Constants.spiderIdleTexture
     func setupSpawn(position: CGPoint, spriteName: String, idSpawn: Int){
