@@ -17,7 +17,6 @@ struct GameView: View {
     @ObservedObject var viewManager: GameViewManager = GameViewManager()
     
     init() {
-//        scene = GameScene(background: "MainScene", enemiesQtd: 5, levelMapFile: "map1")
         scene.scaleMode = .aspectFill
         scene.anchorPoint = .zero
     }

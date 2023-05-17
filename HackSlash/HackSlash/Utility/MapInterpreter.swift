@@ -23,7 +23,7 @@ struct MapInterpreter {
 
         rects = []
         let minX = -Constants.singleton.frame.width/2
-        var currentHeight = map.minY
+        var currentHeight = 100 - Constants.singleton.frame.height/2
         for line in coords.0.reversed() {
             for coord in line {
                 let width = platformWidth * CGFloat(coord.size)
@@ -40,11 +40,11 @@ struct MapInterpreter {
 
         wall = []
         
-        currentHeight = map.minY
+        currentHeight = -Constants.singleton.frame.height/2
         for line in coordsWall.0.reversed() {
             for coordWall in line {
                 let width = platformWidth * CGFloat(coordWall.size)
-                let posX = (map.minX * scale) + (platformWidthWall * CGFloat(coordWall.start)) + width/2
+                let posX = (minX * scale) + (platformWidthWall * CGFloat(coordWall.start)) + width/2
                 
                 wall.append((CGSize(width: width, height: platformHeight), CGPoint(x: posX, y: currentHeight)))
             }
@@ -56,11 +56,11 @@ struct MapInterpreter {
 
         floor = []
         
-        currentHeight = map.minY
+        currentHeight = 100 - Constants.singleton.frame.height/2
         for line in coordsFloor.0.reversed() {
             for coordFloor in line {
                 let width = platformWidth * CGFloat(coordFloor.size)
-                let posX = (map.minX * scale) + (platformWidthFloor * CGFloat(coordFloor.start)) + width/2
+                let posX = (minX * scale) + (platformWidthFloor * CGFloat(coordFloor.start)) + width/2
                 
                 floor.append((CGSize(width: width, height: platformHeight), CGPoint(x: posX, y: currentHeight)))
             }

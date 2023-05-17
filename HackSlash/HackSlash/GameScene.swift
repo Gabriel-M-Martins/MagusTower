@@ -416,7 +416,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         background.zPosition = -30
         background.anchorPoint = CGPoint(x: 0.5, y: 0)
         background.size = CGSize(width: frame.width * 3, height: frame.height * 3)
-        background.position.y = frame.minY - 185
+        background.position.y = -Constants.singleton.frame.height/2
         addChild(background)
         
         // ------------------------------------------------------------------------
@@ -654,7 +654,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------------------------ combos
         combosInput = SKShapeNode(circleOfRadius: buttonRadius)
         combosInput.position = CGPoint(x: width, y: height)
-        combosInput.strokeColor = .red
         
         // --------------------------------------------
         let earth = SKSpriteNode(texture: Constants.singleton.earthPowerTexture)
