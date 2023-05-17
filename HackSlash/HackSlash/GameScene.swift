@@ -167,7 +167,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let directions = Directions.calculateDirections(vector)
         if directionsCombos.count == 0{
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                if self.directionsCombos.count <= 1 && self.spellCount < 3{
+                if self.directionsCombos.count == 1 && self.spellCount < 3{
                     print("Miss timing!")
                     self.directionsCombos.removeAll()
                 }
@@ -202,6 +202,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             case .A(.earth):
                 let stoneWall = StoneWall(player: player, angle: angle)
                 addChild(stoneWall.sprite)
+                directionsCombos.removeAll()
+            case .A(.thunder):
+                let thunder = ThunderShot(angle: angle, player: player)
+                addChild(thunder.node)
+                magics.append(thunder)
                 directionsCombos.removeAll()
             case .B(let element):
                 let x = element.getBuff()
@@ -240,7 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------
         for i in 1...20{
             delayWithSeconds(5.0 * Double(i)) { [self] in
-                self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
+                self.setupSpawn(position: CGPoint(x: CGFloat(Double.random(in: Double(-size.width/3)...Double(size.width/3))), y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
             }
         }
         //------------------------------------------------------------------------
