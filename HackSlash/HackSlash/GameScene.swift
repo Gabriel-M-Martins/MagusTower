@@ -42,6 +42,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var directionsCombos: [Directions] = []
     private var directionsMovement: [Directions] = []
+    private var firstDirectionCombo: Directions = .up
     
     private var jumpCounter = 0
     
@@ -177,6 +178,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if self.directionsCombos.count <= 1 {
                     print("Miss timing!")
                     self.directionsCombos.removeAll()
+                    self.currentCombo = self.elementCombo
+                    for i in self.elementCombo{
+                        i.isHidden = false
+                    }
+                    self.combosInput.strokeColor = .clear
+                    switch directions[0]{
+                    case .up:
+                        for i in self.iceCombo{
+                            i.isHidden = true
+                        }
+                        
+                    case .down:
+                        for i in self.thunderCombo{
+                            i.isHidden = true
+                        }
+                        
+                    case .left:
+                        for i in self.fireCombo{
+                            i.isHidden = true
+                        }
+                        
+                    case .right:
+                        for i in self.earthCombo{
+                            i.isHidden = true
+                        }
+                    }
+                    return
                 }
             }
             
@@ -184,30 +212,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 i.isHidden = true
             }
             
-            switch directions[0]{
+            firstDirectionCombo = directions[0]
+            
+            switch firstDirectionCombo{
             case .up:
                 for i in iceCombo{
                     i.isHidden = false
-                    currentCombo = iceCombo
                 }
+                currentCombo = iceCombo
                 
             case .down:
                 for i in thunderCombo{
                     i.isHidden = false
-                    currentCombo = thunderCombo
                 }
+                currentCombo = thunderCombo
                 
             case .left:
                 for i in fireCombo{
                     i.isHidden = false
-                    currentCombo = fireCombo
                 }
+                currentCombo = fireCombo
                 
             case .right:
                 for i in earthCombo{
                     i.isHidden = false
-                    currentCombo = earthCombo
                 }
+                currentCombo = earthCombo
             }
         }
         else if directionsCombos.count == 1{
@@ -217,7 +247,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let x = magic.getElement().getBuff()
                 x(player, 15.0)
                 
-                switch directionsCombos[0]{
+                switch firstDirectionCombo{
                 case .up:
                     for i in iceCombo{
                         i.isHidden = true
@@ -248,7 +278,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 return
             }
             
-            switch directionsCombos[0]{
+            switch firstDirectionCombo{
             case .up:
                 for i in iceCombo{
                     i.isHidden = true
@@ -275,7 +305,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if directionsCombos.count == 2 {
             //direction
-            
             let normalizedVector = vector.normalized()
             let magic = Magics.magic(primary: directionsCombos[0], secondary: directionsCombos[1])
             let angle = atan2(normalizedVector.y, normalizedVector.x)
@@ -296,29 +325,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(stoneWall.sprite)
                 directionsCombos.removeAll()
             case .A(.thunder):
-                break
+                directionsCombos.removeAll()
                 
             case .D(let element):
                 let x = element.getBuff()
                 x(player, 15.0)
                 
             case .C(.fire):
-                break
+                directionsCombos.removeAll()
             case .C(.ice):
-                break
+                directionsCombos.removeAll()
             case .C(.earth):
-                break
+                directionsCombos.removeAll()
             case .C(.thunder):
-                break
+                directionsCombos.removeAll()
                 
             case .B(.fire):
-                break
+                directionsCombos.removeAll()
             case .B(.ice):
-                break
+                directionsCombos.removeAll()
             case .B(.earth):
-                break
+                directionsCombos.removeAll()
             case .B(.thunder):
-                break
+                directionsCombos.removeAll()
                 
             default:
                 break
