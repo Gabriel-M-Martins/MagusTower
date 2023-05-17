@@ -26,6 +26,7 @@ class MagicProjetile: Projectile, DetectsCollision{
         self.angle = angle
         self.velocity = velocity
         self.damage = damage
+        self.damage.damage = Int(Constants.damageMultiplier * Double(self.damage.damage))
         self.physicsBody.categoryBitMask = Constants.magicMask
         self.changeMask(bit: Constants.enemiesMask, collision: false)
     }

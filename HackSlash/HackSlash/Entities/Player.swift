@@ -8,7 +8,9 @@
 import Foundation
 import SpriteKit
 
-class Player: StateMachine, Move, Attributes, DetectsCollision{
+class Player: Status, StateMachine, Move, Attributes, DetectsCollision{
+    typealias T = SKSpriteNode
+    
     // ------------------------------------------------- state machine implementation
     var currentState: StatesPlayer
     
@@ -30,18 +32,7 @@ class Player: StateMachine, Move, Attributes, DetectsCollision{
         sprite.position
     }
     
-    func setEffect(effect: String){
-        
-        if effect != "DirtParticle" && effect != "LightiningParticle" && effect != "IceParticle" && effect != "FireParticle"{
-            attributes.effect = nil
-            return
-        }
-        
-        attributes.effect = SKEmitterNode(fileNamed: effect)
-        guard let effectActive = attributes.effect else { return }
-        effectActive.zPosition = -1
-        self.sprite.addChild(effectActive)
-    }
+    var isBuffed: Bool = false
     
     init(sprite: String) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
@@ -53,13 +44,12 @@ class Player: StateMachine, Move, Attributes, DetectsCollision{
         self.sprite.physicsBody?.allowsRotation = false
         self.sprite.name = "Player"
         self.currentState = .idle
-        self.attributes = AttributesInfo(health: 10, defense: 10, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 200, ySpeed: 300, maxXSpeed: 500, maxYSpeed: 600), attackRange: 100)
+        self.attributes = AttributesInfo(health: 100, defense: Constants.playerDefense, weakness: [.neutral], velocity: VelocityInfo(xSpeed: 200, ySpeed: 300, maxXSpeed: 500, maxYSpeed: 600), attackRange: 100, maxHealth: 100)
         self.physicsBody.categoryBitMask = Constants.playerMask
         self.changeMask(bit: Constants.playerMask)
         self.changeMask(bit: Constants.enemiesMask)
         self.changeMask(bit: Constants.groundMask)
+        self.changeMask(bit: Constants.wallMask)
         self.physicsBody.mass = 0.320000022649765
-        guard let effect = attributes.effect else { return }
-        self.sprite.addChild(effect)
     }
 }
