@@ -7,6 +7,7 @@
 import Foundation
 import SpriteKit
 import UserNotifications
+import SwiftUI
 
 /*
  class Singleton {
@@ -17,6 +18,7 @@ import UserNotifications
      }()
  }
  */
+
 
 class Constants {
     static let singleton: Constants = Constants()
@@ -29,34 +31,76 @@ class Constants {
     let groundMask: UInt32 = 2
     let playerMask: UInt32 = 4
     let magicMask: UInt32 = 8
-    
+    let wallMask: UInt32 = 16
+
     let playerDamage: Int = 10
+    let playerDefense: Int = 5
     
-    let playerSize: CGSize = CGSize(width: 104, height: 111)
-    let spiderSize: CGSize = CGSize(width: 90, height: 60)
-    
-    let fireballSize: CGVector = CGVector(dx: 38, dy: 15)
-    let fireballVelocity: VelocityInfo = VelocityInfo(xSpeed: 500, ySpeed: 500, maxXSpeed: 150, maxYSpeed: 150)
+    let fireballSize: CGVector = CGVector(dx: 35, dy: 13)
+    let fireballVelocity: VelocityInfo = VelocityInfo(xSpeed: 600, ySpeed: 600, maxXSpeed: 150, maxYSpeed: 150)
     lazy var fireballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
     
     let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
-    let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 1000, ySpeed: 500, maxXSpeed: 1000, maxYSpeed: 200)
-    lazy var iceballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
+    let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 700, ySpeed: 700, maxXSpeed: 700, maxYSpeed: 700)
+    lazy var iceballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .ice, activateEffects: (false, false))
+    
+    let lightningParticleSize: CGVector = CGVector(dx: 38, dy: 10)
+    let lightningParticleVelocity: VelocityInfo = VelocityInfo(xSpeed: 1000, ySpeed: 1000, maxXSpeed: 1000, maxYSpeed: 800)
+    lazy var lightningParticleDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .thunder, activateEffects: (false, false))
+    
+    let playerSize: CGSize = CGSize(width: 104, height: 111)
+    let spiderSize: CGSize = CGSize(width: 90, height: 60)
+
+    let fireATexture: SKTexture = SKTexture(imageNamed: "Fireball")
+    let fireBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    let fireCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    let fireDTexture: SKTexture = SKTexture(imageNamed: "Firestatus")
+    
+    let thunderATexture: SKTexture = SKTexture(imageNamed: "Eletricbolt")
+    let thunderBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    let thunderCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    let thunderDTexture: SKTexture = SKTexture(imageNamed: "Eletricstatus")
+    
+    let iceATexture: SKTexture = SKTexture(imageNamed: "Iceshard")
+    let iceBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    let iceCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    let iceDTexture: SKTexture = SKTexture(imageNamed: "Icestatus")
+    
+    let earthATexture: SKTexture = SKTexture(imageNamed: "Earthwall")
+    let earthBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    let earthCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
+    let earthDTexture: SKTexture = SKTexture(imageNamed: "Earthstatus")
+    
+    let downMagicTexture: SKTexture = SKTexture(imageNamed: "Baixo")
+    let upMagicTexture: SKTexture = SKTexture(imageNamed: "Cima")
+    let rightMagicTexture: SKTexture = SKTexture(imageNamed: "Direita")
+    let leftMagicTexture: SKTexture = SKTexture(imageNamed: "Esquerda")
+    let upRMagicTexture: SKTexture = SKTexture(imageNamed: "Nordeste")
+    let upLMagicTexture: SKTexture = SKTexture(imageNamed: "Noroeste")
+    let downRMagicTexture: SKTexture = SKTexture(imageNamed: "Sudeste")
+    let downLMagicTexture: SKTexture = SKTexture(imageNamed: "Sudoeste")
+    
+    let directionsTexture: SKTexture = SKTexture(imageNamed: "DirectionsJoystickBG")
+    
+    let magicWall: String = "Parede"
+    
+    let combosSpritesScale: CGFloat = 0.85
+    let combosSpritesAlpha: CGFloat = 0.4
+    let combosSpritesAnimationDuration: CGFloat = 0.1
     
     let earthPowerTexture: SKTexture = SKTexture(imageNamed: "EarthPowers")
     let eletricPowerTexture: SKTexture = SKTexture(imageNamed: "EletricPowers")
     let icePowerTexture: SKTexture = SKTexture(imageNamed: "IcePowers")
     let firePowerTexture: SKTexture = SKTexture(imageNamed: "FirePowers")
     
-    let combosSpritesScale: CGFloat = 0.85
-    let combosSpritesAlpha: CGFloat = 0.4
-    let combosSpritesAnimationDuration: CGFloat = 0.1
-    
     let stoneWallWidth: CGFloat = 50
     
     let thunderBuffVelocityBonus: CGFloat = 50
     
     let playerIdleTexture: SKTexture = SKTexture(imageNamed: "MagoFrente")
+    
+    //precisa ser var pois muda de acordo com o buff
+    var damageMultiplier: Double = 1
     //Animacao jump dura até do magopulando0 até o 11, dps vem airborne ate o 22
     
     static func randomPlatformSprite() -> String {
@@ -96,15 +140,11 @@ class Constants {
         return texture
     }
     
-    static let spiderIdleTexture: SKTexture = SKTexture(imageNamed: "Spider")
-    
-    static let spiderDeadTexture: SKTexture = SKTexture(imageNamed: "DeadSpider")
-    
-    static let spiderAttackTexture: SKTexture = SKTexture(imageNamed: "SpiderAttack")
-    
-    static let spiderChargingTexture: SKTexture = SKTexture(imageNamed: "SpiderPreparingJump")
-    
-    static let deathDespawn: Double = 5.0
+    let spiderIdleTexture: SKTexture = SKTexture(imageNamed: "Spider")
+    let spiderDeadTexture: SKTexture = SKTexture(imageNamed: "DeadSpider")
+    let spiderAttackTexture: SKTexture = SKTexture(imageNamed: "SpiderAttack")
+    let spiderChargingTexture: SKTexture = SKTexture(imageNamed: "SpiderPreparingJump")
+    let deathDespawn: Double = 5.0
     
     static var spiderWalkingTexture: [SKTexture] {
         var texture: [SKTexture] = []
@@ -118,12 +158,10 @@ class Constants {
         frame.height/18
     }
     
-    static var spiderDamage: Int = 5
+    var spiderDamage: Int = 5
     
-//    static let lifeBarTexture: SKTexture = SKTexture(imageNamed: "life_bar")
-//    
-//    static let lifeFillTexture: SKTexture = SKTexture(imageNamed: "life_fill")
+    let notificationCenter = NotificationCenter.default
     
-    static let notificationCenter = NotificationCenter.default
+    let buttonsColor: UIColor = .white
 
 }

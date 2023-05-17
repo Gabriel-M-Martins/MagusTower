@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-class EnemySpider: Status, StateMachine, Move, Attributes, DetectsCollision{
+class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
     typealias T = SKSpriteNode
     
     var currentState: StatesSpider
@@ -33,7 +33,7 @@ class EnemySpider: Status, StateMachine, Move, Attributes, DetectsCollision{
     
     var changeSide = true
     
-    var despawnTime = Constants.deathDespawn
+    var despawnTime = Constants.singleton.deathDespawn
     
     var idSpider: Int
     
@@ -54,6 +54,7 @@ class EnemySpider: Status, StateMachine, Move, Attributes, DetectsCollision{
         self.physicsBody.allowsRotation = false
         self.changeMask(bit: Constants.singleton.playerMask)
         self.changeMask(bit: Constants.singleton.groundMask)
+        self.changeMask(bit: Constants.singleton.wallMask)
         self.physicsBody.collisionBitMask -= Constants.singleton.magicMask
         self.physicsBody.categoryBitMask = Constants.singleton.enemiesMask
         self.physicsBody.collisionBitMask -= Constants.singleton.enemiesMask
@@ -80,13 +81,11 @@ class EnemySpider: Status, StateMachine, Move, Attributes, DetectsCollision{
                 changeSide = true
                 
             } else {
-                
                 move(direction: [.right])
                 var tmpSelf = self
                 tmpSelf.transition(to: .walking)
                 sprite.xScale = 1
                 changeSide = true
-                
             }
             if abs(player.position.x - sprite.position.x) >= self.attributes.attackRange && abs(player.position.x - sprite.position.x) <= self.attributes.attackRange * 1.2{
                 var tmpSelf = self
@@ -133,8 +132,12 @@ class EnemySpider: Status, StateMachine, Move, Attributes, DetectsCollision{
                 self.player.move(direction: [self.physicsBody.velocity.dx > 0 ? .right : .left], power: 1)
                 if !damage{
                     damage = true
-                    self.player.attributes.health = self.player.attributes.health - Constants.spiderDamage
-                    Constants.notificationCenter.post(name: Notification.Name("playerDamage"), object: nil)
+                    self.player.attributes.health = self.player.attributes.health - Constants.singleton.spiderDamage
+                    if self.player.attributes.defense > Constants.singleton.playerDefense{
+                        Constants.singleton.notificationCenter.post(name: Notification.Name("playerLessDamage"), object: nil)
+                    } else {
+                    Constants.singleton.notificationCenter.post(name: Notification.Name("playerDamage"), object: nil)
+                    }
                 }
             }
         case .death:

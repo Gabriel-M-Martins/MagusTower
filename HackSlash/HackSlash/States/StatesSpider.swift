@@ -22,17 +22,17 @@ enum StatesSpider: StateMachineable {
     func StateInfo() -> AnimationInfo {
         switch self {
         case .idle:
-            return AnimationInfo(textures: [Constants.spiderIdleTexture], duration: 1, repeating: true)
+            return AnimationInfo(textures: [Constants.singleton.spiderIdleTexture], duration: 1, repeating: true)
         case .walking:
             return AnimationInfo(textures: Constants.spiderWalkingTexture, duration: 0.3, repeating: true)
         case .charging:
-            return AnimationInfo(textures: [Constants.spiderChargingTexture], duration: 1)
+            return AnimationInfo(textures: [Constants.singleton.spiderChargingTexture], duration: 1)
         case .goingUp:
-            return AnimationInfo(textures: [Constants.spiderAttackTexture], duration: 1)
+            return AnimationInfo(textures: [Constants.singleton.spiderAttackTexture], duration: 1)
         case .attack:
-            return AnimationInfo(textures: [Constants.spiderAttackTexture], duration: 1)
+            return AnimationInfo(textures: [Constants.singleton.spiderAttackTexture], duration: 1)
         case .death:
-            return AnimationInfo(textures: [Constants.spiderDeadTexture], duration: 1)
+            return AnimationInfo(textures: [Constants.singleton.spiderDeadTexture], duration: 1)
         }
     }
     

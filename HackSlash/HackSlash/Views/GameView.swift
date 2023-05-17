@@ -10,12 +10,14 @@ import SpriteKit
 import UserNotifications
 
 struct GameView: View {
-    @State var scene: SKScene
+    @Environment(\.presentationMode) var presentation
+    
+    @State var scene: SKScene = GameScene(background: "MainScene", enemiesQtd: 5, levelMapFile: "map1")
     @State var paused = false
     @ObservedObject var viewManager: GameViewManager = GameViewManager()
     
     init() {
-        scene = GameScene(background: "MainScene", enemiesQtd: 5, levelMapFile: "map1")
+//        scene = GameScene(background: "MainScene", enemiesQtd: 5, levelMapFile: "map1")
         scene.scaleMode = .aspectFill
         scene.anchorPoint = .zero
     }
@@ -28,6 +30,8 @@ struct GameView: View {
                     .navigationBarBackButtonHidden()
                 
                 Button(action: {
+                    paused = !paused
+                    AudioManager.shared.playSound(named: "buttonClick.mp3")
                     paused = true
                     scene.view?.isPaused = paused
                 }, label: {
@@ -48,7 +52,11 @@ struct GameView: View {
                 }
                 
                 if(viewManager.didDie){
-                    MainMenuView()
+//                    MainMenuView()
+                    ZStack {}
+                        .onAppear{
+                            self.presentation.wrappedValue.dismiss()
+                        }
                 }
             }
         }
@@ -69,7 +77,7 @@ class GameViewManager: ObservableObject{
     }
 }
 
-struct MainView_Previews: PreviewProvider {
+struct GameView_Previews: PreviewProvider {
     static var previews: some View {
         GameView().previewInterfaceOrientation(.landscapeLeft)
     }

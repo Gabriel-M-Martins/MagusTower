@@ -9,6 +9,7 @@ import Foundation
 import SpriteKit
 
 protocol Status {
-    associatedtype T: SKNode
+    associatedtype T: SKSpriteNode
     var sprite: T{get set}
+    var isBuffed: Bool {get set}
 }

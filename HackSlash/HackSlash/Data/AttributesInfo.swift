@@ -14,6 +14,5 @@ struct AttributesInfo {
     var weakness: Set<Elements>
     var velocity: VelocityInfo
     var attackRange: CGFloat
-    var effect: SKEmitterNode?
     var maxHealth: Int
 }

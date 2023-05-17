@@ -15,13 +15,13 @@ enum Magics {
         switch primary {
         
         case .right:
-            element = .fire
-        case .up:
-            element = .thunder
-        case .left:
-            element = .ice
-        case .down:
             element = .earth
+        case .up:
+            element = .ice
+        case .left:
+            element = .fire
+        case .down:
+            element = .thunder
         }
         
         switch secondary {
@@ -33,6 +33,19 @@ enum Magics {
             return .C(element)
         case .left:
             return .D(element)
+        }
+    }
+    
+    func getElement() -> Elements{
+        switch self{
+        case .A(let element):
+            return element
+        case .B(let element):
+            return element
+        case .C(let element):
+            return element
+        case .D(let element):
+            return element
         }
     }
 }
