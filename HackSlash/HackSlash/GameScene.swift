@@ -316,7 +316,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 hidde(true, list: iceCombo)
                 
             case .down:
-                hidde(true, list: iceCombo)
+                hidde(true, list: thunderCombo)
                 
             case .left:
                 hidde(true, list: fireCombo)
