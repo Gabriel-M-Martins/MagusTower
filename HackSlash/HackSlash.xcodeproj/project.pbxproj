@@ -21,7 +21,7 @@
 		92420C632A13F7BA00AE47A9 /* spiderAttack.wav in Resources */ = {isa = PBXBuildFile; fileRef = 92420C622A13F7BA00AE47A9 /* spiderAttack.wav */; };
 		92420C652A13F7BC00AE47A9 /* spiderSpawn.wav in Resources */ = {isa = PBXBuildFile; fileRef = 92420C642A13F7BC00AE47A9 /* spiderSpawn.wav */; };
 		92C004CA2A154B24001E8312 /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C004C92A154B24001E8312 /* GameOverView.swift */; };
-		92C004CC2A155D0F001E8312 /* MagusTowerOST.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 92C004CB2A155D0F001E8312 /* MagusTowerOST.mp3 */; };
+		92C004CE2A156F86001E8312 /* MagusTowerOST.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 92C004CD2A156F86001E8312 /* MagusTowerOST.mp3 */; };
 		92E3DF6A2A12C62B008A1AEE /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E3DF692A12C62B008A1AEE /* AudioManager.swift */; };
 		92E3DF6D2A12CA63008A1AEE /* FireAura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF6B2A12CA63008A1AEE /* FireAura.sks */; };
 		92E3DF6E2A12CA63008A1AEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF6C2A12CA63008A1AEE /* Assets.xcassets */; };
@@ -92,7 +92,7 @@
 		92420C622A13F7BA00AE47A9 /* spiderAttack.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = spiderAttack.wav; sourceTree = "<group>"; };
 		92420C642A13F7BC00AE47A9 /* spiderSpawn.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = spiderSpawn.wav; sourceTree = "<group>"; };
 		92C004C92A154B24001E8312 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
-		92C004CB2A155D0F001E8312 /* MagusTowerOST.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = MagusTowerOST.mp3; sourceTree = "<group>"; };
+		92C004CD2A156F86001E8312 /* MagusTowerOST.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = MagusTowerOST.mp3; sourceTree = "<group>"; };
 		92E3DF692A12C62B008A1AEE /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		92E3DF6B2A12CA63008A1AEE /* FireAura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireAura.sks; sourceTree = "<group>"; };
 		92E3DF6C2A12CA63008A1AEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 		92420C592A13F76500AE47A9 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				92C004CB2A155D0F001E8312 /* MagusTowerOST.mp3 */,
+				92C004CD2A156F86001E8312 /* MagusTowerOST.mp3 */,
 				92420C5C2A13F79C00AE47A9 /* magicCast.wav */,
 				92420C602A13F7B700AE47A9 /* spiderDying.wav */,
 				92420C622A13F7BA00AE47A9 /* spiderAttack.wav */,
@@ -407,7 +407,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92C004CC2A155D0F001E8312 /* MagusTowerOST.mp3 in Resources */,
 				F98E2CF12A0D6AED003273AA /* LightiningParticle.sks in Resources */,
 				F98E2CF72A0D6AFA003273AA /* FireParticle.sks in Resources */,
 				92E3DF6D2A12CA63008A1AEE /* FireAura.sks in Resources */,
@@ -425,6 +424,7 @@
 				92420C612A13F7B700AE47A9 /* spiderDying.wav in Resources */,
 				92420C5F2A13F79F00AE47A9 /* basicAttack.wav in Resources */,
 				A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */,
+				92C004CE2A156F86001E8312 /* MagusTowerOST.mp3 in Resources */,
 				F98E2CF82A0D6AFA003273AA /* IceParticle.sks in Resources */,
 				F9911E872A154266005F2B2C /* ThunderArrow.sks in Resources */,
 				F98E2CF62A0D6AFA003273AA /* DirtParticle.sks in Resources */,
