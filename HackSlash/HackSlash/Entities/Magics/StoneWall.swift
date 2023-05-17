@@ -13,7 +13,7 @@ class StoneWall {
     var finalHeight: CGFloat
     init(player: Player, angle: CGFloat){
         self.finalHeight = myFrame.myVariables.frame.height + player.position.y
-        sprite = SKSpriteNode(imageNamed: "UnderGroundReal")
+        sprite = SKSpriteNode(imageNamed: Constants.magicWall)
         sprite.anchorPoint = CGPoint(x: 0.5, y: 1)
         sprite.zPosition = -20
         sprite.size = CGSize(width: Constants.stoneWallWidth, height: finalHeight)

@@ -24,6 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var thunderCombo: [SKSpriteNode] = []
     private var iceCombo: [SKSpriteNode] = []
     private var earthCombo: [SKSpriteNode] = []
+    private var directionCombo: [SKSpriteNode] = []
     
     private var currentCombo: [SKSpriteNode] = []
     
@@ -35,7 +36,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var movementAnalogic = SKShapeNode()
     
     private var combosInput = SKShapeNode()
-    private var combosInputThreshold = SKShapeNode()
     private var combosAnalogic = SKShapeNode()
     
     private var numberEnemies = Int.random(in: 1..<5)
@@ -92,22 +92,74 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let vector = pos - combosInput.position
                 let directions = Directions.calculateDirections(vector)
                 
-                switch directions[0] {
-                case .up:
-                    combosInput.children.forEach { nd in
-                        emphasizeComboSprite(nd, name: currentCombo[0].name ?? "")
+                if currentCombo.count == 4{
+                    switch directions[0] {
+                    case .up:
+                        combosInput.children.forEach { nd in
+                            emphasizeComboSprite(nd, name: currentCombo[0].name ?? "")
+                        }
+                    case .left:
+                        combosInput.children.forEach { nd in
+                            emphasizeComboSprite(nd, name: currentCombo[1].name ?? "")
+                        }
+                    case .right:
+                        combosInput.children.forEach { nd in
+                            emphasizeComboSprite(nd, name: currentCombo[2].name ?? "")
+                        }
+                    case .down:
+                        combosInput.children.forEach { nd in
+                            emphasizeComboSprite(nd, name: currentCombo[3].name ?? "")
+                        }
                     }
-                case .left:
-                    combosInput.children.forEach { nd in
-                        emphasizeComboSprite(nd, name: currentCombo[1].name ?? "")
-                    }
-                case .right:
-                    combosInput.children.forEach { nd in
-                        emphasizeComboSprite(nd, name: currentCombo[2].name ?? "")
-                    }
-                case .down:
-                    combosInput.children.forEach { nd in
-                        emphasizeComboSprite(nd, name: currentCombo[3].name ?? "")
+                }
+                else {
+                    switch directions[0] {
+                    case .left:
+                        if directions.count == 1{
+                            combosInput.children.forEach { nd in
+                                emphasizeComboSprite(nd, name: currentCombo[1].name ?? "")
+                            }
+                        }else{
+                            switch directions[1]{
+                            case .up:
+                                combosInput.children.forEach { nd in
+                                    emphasizeComboSprite(nd, name: currentCombo[5].name ?? "")
+                                }
+                            case .down:
+                                combosInput.children.forEach { nd in
+                                    emphasizeComboSprite(nd, name: currentCombo[7].name ?? "")
+                                }
+                            default:
+                                return
+                            }
+                        }
+                    case .right:
+                        if directions.count == 1{
+                            combosInput.children.forEach { nd in
+                                emphasizeComboSprite(nd, name: currentCombo[2].name ?? "")
+                            }
+                        }else{
+                            switch directions[1]{
+                            case .up:
+                                combosInput.children.forEach { nd in
+                                    emphasizeComboSprite(nd, name: currentCombo[4].name ?? "")
+                                }
+                            case .down:
+                                combosInput.children.forEach { nd in
+                                    emphasizeComboSprite(nd, name: currentCombo[6].name ?? "")
+                                }
+                            default:
+                                return
+                            }
+                        }
+                    case .down:
+                        combosInput.children.forEach { nd in
+                            emphasizeComboSprite(nd, name: currentCombo[3].name ?? "")
+                        }
+                    case .up:
+                        combosInput.children.forEach { nd in
+                            emphasizeComboSprite(nd, name: currentCombo[0].name ?? "")
+                        }
                     }
                 }
             }
@@ -176,19 +228,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             i.isHidden = h
         }
     }
-    
+
+    //Spell count declarado aqui só p ficar mais entendível
+    var spellCount: Int = 0
     
     private func handleCombo(start: CGPoint, pos: CGPoint) {
+        spellCount += 1
         let vector = pos - start
         let directions = Directions.calculateDirections(vector)
         if directionsCombos.count == 0{
             //elements
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                if self.directionsCombos.count <= 1 {
+                if self.directionsCombos.count <= 1 && self.spellCount < 3{
                     print("Miss timing!")
                     self.directionsCombos.removeAll()
                     
-                    self.combosInput.strokeColor = .clear
+                    self.hidde(true, list: self.directionCombo)
                     
                     switch directions[0]{
                     case .up:
@@ -208,6 +263,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     return
                 }
+                self.spellCount = 0
             }
             
             hidde(true, list: elementCombo)
@@ -269,7 +325,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 hidde(true, list: earthCombo)
             }
             
-            combosInput.strokeColor = .blue
+            hidde(false, list: directionCombo)
         }
         
         if directionsCombos.count == 2 {
@@ -325,7 +381,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             hidde(false, list: elementCombo)
             
-            combosInput.strokeColor = .clear
+            hidde(true, list: directionCombo)
             
         } else {
             directionsCombos.append(directions[0])
@@ -355,7 +411,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupGround()
         
         // ------------------------------------------------------------------------
-        for i in 1...20{
+        for i in 1...2{
             delayWithSeconds(5.0 * Double(i)) { [self] in
                 self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
             }
@@ -561,20 +617,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------------------------ movement
         movementInput = SKShapeNode(circleOfRadius: buttonRadius)
         movementInput.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
-        movementInput.strokeColor = .red
+        movementInput.strokeColor = Constants.buttonsColor
+        movementInput.fillColor = Constants.buttonsColor.withAlphaComponent(0.2)
         
         // --------------------------------------------
         movementAnalogic = SKShapeNode(circleOfRadius: 25)
         movementAnalogic.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
-        movementAnalogic.fillColor = .red
+        movementAnalogic.fillColor = Constants.buttonsColor
     
         // ------------------------------------------------------------------------------------------ combos
         combosInput = SKShapeNode(circleOfRadius: buttonRadius)
         combosInput.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
         combosInput.strokeColor = .clear
-        
-        combosInputThreshold = SKShapeNode(circleOfRadius: buttonRadius/4)
-        combosInputThreshold.strokeColor = .clear
         
         let earth = SKSpriteNode(texture: Constants.earthPowerTexture)
         earth.anchorPoint = CGPoint(x: 0, y: 0.5)
@@ -622,7 +676,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         combosInput.addChild(fireB)
         
         let fireA = SKSpriteNode(texture: Constants.fireATexture)
-        fireA.anchorPoint = CGPoint(x: 0.5, y: 0)
+        fireA.anchorPoint = CGPoint(x: 0.5, y: -0.03)
         fireA.zPosition = 10
         fireA.name = "fireA"
         combosInput.addChild(fireA)
@@ -649,7 +703,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         combosInput.addChild(earthB)
         
         let earthA = SKSpriteNode(texture: Constants.earthATexture)
-        earthA.anchorPoint = CGPoint(x: 0.5, y: 0)
+        earthA.anchorPoint = CGPoint(x: 0.5, y: -0.03)
         earthA.zPosition = 10
         earthA.name = "earthA"
         combosInput.addChild(earthA)
@@ -676,7 +730,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         combosInput.addChild(iceB)
         
         let iceA = SKSpriteNode(texture: Constants.iceATexture)
-        iceA.anchorPoint = CGPoint(x: 0.5, y: 0)
+        iceA.anchorPoint = CGPoint(x: 0.5, y: -0.03)
         iceA.zPosition = 10
         iceA.name = "iceA"
         combosInput.addChild(iceA)
@@ -703,12 +757,67 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         combosInput.addChild(thunderB)
         
         let thunderA = SKSpriteNode(texture: Constants.thunderATexture)
-        thunderA.anchorPoint = CGPoint(x: 0.5, y: 0)
+        thunderA.anchorPoint = CGPoint(x: 0.5, y: -0.03)
         thunderA.zPosition = 10
         thunderA.name = "thunderA"
         combosInput.addChild(thunderA)
         
         thunderCombo = [thunderA, thunderB, thunderC, thunderD]
+        
+        //direction Combo
+        let down = SKSpriteNode(texture: Constants.downMagicTexture)
+        down.anchorPoint = CGPoint(x: 0.5, y: 6.5)
+        down.zPosition = 10
+        down.name = "down"
+        combosInput.addChild(down)
+        
+        let up = SKSpriteNode(texture: Constants.upMagicTexture)
+        up.anchorPoint = CGPoint(x: 0.5, y: -5.5)
+        up.zPosition = 10
+        up.name = "up"
+        combosInput.addChild(up)
+        
+        let right = SKSpriteNode(texture: Constants.rightMagicTexture)
+        right.anchorPoint = CGPoint(x: -5.5, y: 0.5)
+        right.zPosition = 10
+        right.name = "right"
+        combosInput.addChild(right)
+        
+        let left = SKSpriteNode(texture: Constants.leftMagicTexture)
+        left.anchorPoint = CGPoint(x: 6.5, y: 0.5)
+        left.zPosition = 10
+        left.name = "left"
+        combosInput.addChild(left)
+        
+        let upR = SKSpriteNode(texture: Constants.upRMagicTexture)
+        upR.anchorPoint = CGPoint(x: -1.45, y: -1.45)
+        upR.zPosition = 10
+        upR.name = "upR"
+        combosInput.addChild(upR)
+        
+        let upL = SKSpriteNode(texture: Constants.upLMagicTexture)
+        upL.anchorPoint = CGPoint(x: 2.45, y: -1.45)
+        upL.zPosition = 10
+        upL.name = "upL"
+        combosInput.addChild(upL)
+        
+        let downR = SKSpriteNode(texture: Constants.downRMagicTexture)
+        downR.anchorPoint = CGPoint(x: -1.45, y: 2.45)
+        downR.zPosition = 10
+        downR.name = "downR"
+        combosInput.addChild(downR)
+        
+        let downL = SKSpriteNode(texture: Constants.downLMagicTexture)
+        downL.anchorPoint = CGPoint(x: 2.45, y: 2.45)
+        downL.zPosition = 10
+        downL.name = "downL"
+        combosInput.addChild(downL)
+        
+        let directions = SKSpriteNode(texture: Constants.directionsTexture)
+        directions.name = "directions"
+        combosInput.addChild(directions)
+        
+        directionCombo = [up, left, right, down, upR, upL, downR, downL, directions]
         
         for i in combosInput.children {
             i.setScale(Constants.combosSpritesScale)
@@ -728,10 +837,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             i.isHidden = true
         }
         
+        for i in directionCombo{
+            i.isHidden = true
+        }
+        
         // --------------------------------------------
         combosAnalogic = SKShapeNode(circleOfRadius: 25)
         combosAnalogic.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
-        combosAnalogic.fillColor = .blue
+        combosAnalogic.fillColor = Constants.buttonsColor
         combosAnalogic.zPosition = 11
         
         // ------------------------------------------------------------------------------------------ add to scene
@@ -740,7 +853,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         camera?.addChild(combosInput)
         camera?.addChild(combosAnalogic)
-        camera?.addChild(combosInputThreshold)
         
         currentCombo = elementCombo
     }
