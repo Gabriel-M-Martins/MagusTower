@@ -17,7 +17,7 @@ class StoneWall {
         sprite.anchorPoint = CGPoint(x: 0.5, y: 1)
         sprite.zPosition = -20
         sprite.size = CGSize(width: Constants.stoneWallWidth, height: finalHeight/10)
-        sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: sprite.size.width, height: finalHeight), center: CGPoint(x: sprite.position.x, y: self.sprite.size.height * 4))
+        sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: sprite.size.width, height: finalHeight * 1.2), center: CGPoint(x: sprite.position.x, y: self.sprite.size.height * 4))
         sprite.physicsBody?.isDynamic = false
         sprite.position = CGPoint(x: player.sprite.position.x + Constants.playerSize.width * (cos(angle) >= 0 ? 1 : -1), y: player.sprite.position.y - finalHeight)
         

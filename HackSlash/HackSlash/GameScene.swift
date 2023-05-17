@@ -29,6 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var currentCombo: [SKSpriteNode] = []
     
     var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
+    var floorBackground = SKSpriteNode(texture: SKTexture(imageNamed: "Floor"))
     
     private var touches: [(UITouch, ButtonAssociation)] = []
     
@@ -404,6 +405,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         background.size = CGSize(width: frame.width * 3, height: frame.height * 3)
         background.position.y = frame.minY - 185
         addChild(background)
+        
+        floorBackground.zPosition = -15
+        floorBackground.anchorPoint = CGPoint(x: 0.5, y: 0)
+        floorBackground.size = CGSize(width: frame.width * 3, height: frame.height * 3)
+        floorBackground.position.y = frame.minY - 185
+        addChild(floorBackground)
         
         // ------------------------------------------------------------------------
         setupPlayer()
@@ -937,7 +944,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         floor.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 0.9))
         floor.physicsBody?.isDynamic = false
         floor.name = "floor"
-        floor.zPosition = -25
+        floor.zPosition = -15
         floor.physicsBody?.categoryBitMask = Constants.wallMask
         floors.append(floor)
         floor.physicsBody?.friction = 0.7
