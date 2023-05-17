@@ -43,10 +43,13 @@ struct MainMenuView: View {
                             })
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.72)
                             
-                            Button(action:{
-                                AudioManager.shared.playSound(named: "buttonClick.mp3")
-                            }, label:{
+                            NavigationLink {
+                                TutorialView()
+                            } label: {
                                 Image("How")
+                            }
+                            .simultaneousGesture(TapGesture().onEnded{
+                                AudioManager.shared.playSound(named: "buttonClick.mp3")
                             })
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.55)
                         }

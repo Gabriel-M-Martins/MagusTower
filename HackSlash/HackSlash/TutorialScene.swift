@@ -1,7 +1,7 @@
 import GameplayKit
 import UserNotifications
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class TutorialScene: SKScene, SKPhysicsContactDelegate {
     enum ButtonAssociation {
         case movementAnalog
         case combosAnalog
@@ -227,9 +227,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupGround()
         
         // ------------------------------------------------------------------------
-        for i in 1...20{
-            delayWithSeconds(5.0 * Double(i)) { [self] in
-                self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
+        for i in 1...1{
+            delayWithSeconds(2.0 * Double(i)) { [self] in
+                self.setupSpawn(position: CGPoint(x: frame.maxX + 180, y: frame.midY - 10), spriteName: "Spider", idSpawn: i)
             }
         }
         //------------------------------------------------------------------------
@@ -239,22 +239,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func setupGround() {
-        
-        let rects = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3, mapText: "map1")?.rects
+        let rects = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3, mapText: "mapTutorial")?.rects
         
         guard let rects = rects else { return }
         for i in rects {
             self.createPlatform(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
         }
         
-        let wall = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3, mapText: "map1")?.wall
+        let wall = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3, mapText: "mapTutorial")?.wall
         
         guard let wall = wall else { return }
         for i in wall {
             self.createWall(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
         }
         
-        let floor = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3, mapText: "map1")?.floor
+        let floor = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3, mapText: "mapTutorial")?.floor
         
         guard let floor = floor else { return }
         for i in floor {
@@ -569,6 +568,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Creates player and adds it to the scene
         player = Player(sprite: "MagoFrente")
         player.sprite.position.y += frame.midY + frame.midY/2
+        player.sprite.position.x += frame.minX - 450
         addChild(player.sprite)
     }
     

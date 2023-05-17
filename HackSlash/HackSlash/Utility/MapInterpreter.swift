@@ -12,8 +12,8 @@ struct MapInterpreter {
     var wall: [(size: CGSize, position: CGPoint)]
     var floor : [(size: CGSize, position: CGPoint)]
     
-    init?(map: CGRect, platformHeightDistance: CGFloat, platformHeight: CGFloat, scale: CGFloat) {
-        let path = Bundle.main.url(forResource: "map1", withExtension: "txt")
+    init?(map: CGRect, platformHeightDistance: CGFloat, platformHeight: CGFloat, scale: CGFloat, mapText: String) {
+        let path = Bundle.main.url(forResource: mapText, withExtension: "txt")
         
         guard let path = path else { return nil }
         guard let text = try? String(contentsOf: path) else { return nil }
@@ -34,7 +34,6 @@ struct MapInterpreter {
             currentHeight += platformHeightDistance
         }
         
-        print(rects[0])
         print(map.origin)
         print(map.width)
         print(map.width / CGFloat(coords.1))
