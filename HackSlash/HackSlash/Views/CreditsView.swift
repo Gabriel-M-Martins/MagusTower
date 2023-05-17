@@ -23,6 +23,11 @@ struct CreditsView: View {
                     Image("Back credits")
                 })
                 .position(x: geo.frame(in: .global).midX*0.65, y: geo.frame(in: .global).midY*0.40)
+                
+                if let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+                    Text("v.\(appVersion) ・ Magus Tower").opacity(0.25).foregroundColor(.white)
+                        .position(x: geo.frame(in: .global).maxX*0.59, y: geo.frame(in: .global).midY*1.5).font(.caption)
+                }
             }
         }
         .edgesIgnoringSafeArea(.all)
