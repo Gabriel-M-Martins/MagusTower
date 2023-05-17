@@ -16,12 +16,19 @@ class StoneWall {
         sprite = SKSpriteNode(imageNamed: "UnderGroundReal")
         sprite.anchorPoint = CGPoint(x: 0.5, y: 1)
         sprite.zPosition = -20
-        sprite.size = CGSize(width: Constants.stoneWallWidth, height: finalHeight)
-        sprite.physicsBody = SKPhysicsBody(rectangleOf: sprite.size, center: CGPoint(x: sprite.position.x, y: (myFrame.myVariables.frame.height + player.position.y) / -2))
+        sprite.size = CGSize(width: Constants.stoneWallWidth, height: finalHeight/10)
+        sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: sprite.size.width, height: finalHeight), center: CGPoint(x: sprite.position.x, y: self.sprite.size.height * 4))
         sprite.physicsBody?.isDynamic = false
-        sprite.position = CGPoint(x: player.sprite.position.x + Constants.playerSize.width * (cos(angle) >= 0 ? 1 : -1), y: player.sprite.position.y)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 7) {
-            self.sprite.removeFromParent()
-        }
+        sprite.position = CGPoint(x: player.sprite.position.x + Constants.playerSize.width * (cos(angle) >= 0 ? 1 : -1), y: player.sprite.position.y - finalHeight)
+        
+        sprite.run(SKAction.sequence([
+            SKAction.group([
+                SKAction.scaleY(to: -11, duration: 1.5),
+                
+            ]),
+            .wait(forDuration: 7),
+            SKAction.scaleY(to: 0.1, duration: 1.5),
+            SKAction.removeFromParent()
+        ]))
     }
 }
