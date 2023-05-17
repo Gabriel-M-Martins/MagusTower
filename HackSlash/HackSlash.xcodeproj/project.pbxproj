@@ -65,6 +65,8 @@
 		F9911E6F2A129CFC005F2B2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F9911E6D2A129CFC005F2B2C /* Assets.xcassets */; };
 		F9911E712A12A15A005F2B2C /* StoneWall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9911E702A12A15A005F2B2C /* StoneWall.swift */; };
 		F9911E7B2A12C36E005F2B2C /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9911E7A2A12C36E005F2B2C /* Status.swift */; };
+		F9911E872A154266005F2B2C /* ThunderArrow.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9911E862A154266005F2B2C /* ThunderArrow.sks */; };
+		F9911E892A154650005F2B2C /* ThunderShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9911E882A154650005F2B2C /* ThunderShot.swift */; };
 		F99499D42A02CC0E00E3807D /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D32A02CC0E00E3807D /* Move.swift */; };
 		F99499D62A02CD3800E3807D /* Directions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99499D52A02CD3800E3807D /* Directions.swift */; };
 		F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */; };
@@ -134,6 +136,8 @@
 		F9911E6D2A129CFC005F2B2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F9911E702A12A15A005F2B2C /* StoneWall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoneWall.swift; sourceTree = "<group>"; };
 		F9911E7A2A12C36E005F2B2C /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
+		F9911E862A154266005F2B2C /* ThunderArrow.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ThunderArrow.sks; sourceTree = "<group>"; };
+		F9911E882A154650005F2B2C /* ThunderShot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThunderShot.swift; sourceTree = "<group>"; };
 		F99499D32A02CC0E00E3807D /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		F99499D52A02CD3800E3807D /* Directions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directions.swift; sourceTree = "<group>"; };
 		F9CB0BA82A041BB2004A0661 /* EnemySpider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemySpider.swift; sourceTree = "<group>"; };
@@ -311,6 +315,7 @@
 				92E3DF6B2A12CA63008A1AEE /* FireAura.sks */,
 				92E3DF6F2A12CB59008A1AEE /* IceAura.sks */,
 				92E3DF712A12CB9E008A1AEE /* EletricAura.sks */,
+				F9911E862A154266005F2B2C /* ThunderArrow.sks */,
 				92E3DF732A12CBE3008A1AEE /* EarthAura.sks */,
 				92E3DF6C2A12CA63008A1AEE /* Assets.xcassets */,
 			);
@@ -323,6 +328,7 @@
 				F98E2CFC2A0D6F96003273AA /* MagicProjetile.swift */,
 				F98E2CFE2A0D7104003273AA /* Fireball.swift */,
 				F98E2D002A0D8453003273AA /* Iceball.swift */,
+				F9911E882A154650005F2B2C /* ThunderShot.swift */,
 				F9911E702A12A15A005F2B2C /* StoneWall.swift */,
 			);
 			path = Magics;
@@ -413,6 +419,7 @@
 				92420C5F2A13F79F00AE47A9 /* basicAttack.wav in Resources */,
 				A7C166A329F71DC2003B096D /* LaunchScreen.storyboard in Resources */,
 				F98E2CF82A0D6AFA003273AA /* IceParticle.sks in Resources */,
+				F9911E872A154266005F2B2C /* ThunderArrow.sks in Resources */,
 				F98E2CF62A0D6AFA003273AA /* DirtParticle.sks in Resources */,
 				92E3DF722A12CB9E008A1AEE /* EletricAura.sks in Resources */,
 				92420C632A13F7BA00AE47A9 /* spiderAttack.wav in Resources */,
@@ -450,6 +457,7 @@
 				A7C1669929F71DC1003B096D /* GameScene.swift in Sources */,
 				F99499D42A02CC0E00E3807D /* Move.swift in Sources */,
 				A7CDC3152A0424880030A92B /* VelocityInfo.swift in Sources */,
+				F9911E892A154650005F2B2C /* ThunderShot.swift in Sources */,
 				9202EB052A0EAD0500F5A109 /* SettingsView.swift in Sources */,
 				A7C1200A2A01A0F500DF0C6A /* Player.swift in Sources */,
 				A795A8692A0984EF00FF21A3 /* Extensions.swift in Sources */,

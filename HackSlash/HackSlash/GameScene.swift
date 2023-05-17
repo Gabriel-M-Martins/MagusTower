@@ -239,7 +239,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if directionsCombos.count == 0{
             //elements
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                if self.directionsCombos.count <= 1 && self.spellCount < 3{
+                if self.directionsCombos.count == 1 && self.spellCount < 3{
                     print("Miss timing!")
                     self.directionsCombos.removeAll()
                     
@@ -350,6 +350,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(stoneWall.sprite)
                 directionsCombos.removeAll()
             case .A(.thunder):
+                let thunder = ThunderShot(angle: angle, player: player)
+                addChild(thunder.node)
+                magics.append(thunder)
                 directionsCombos.removeAll()
                 
             case .D(let element):
@@ -413,7 +416,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------
         for i in 1...2{
             delayWithSeconds(5.0 * Double(i)) { [self] in
-                self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
+                self.setupSpawn(position: CGPoint(x: CGFloat(Double.random(in: Double(-size.width/3)...Double(size.width/3))), y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
             }
         }
         //------------------------------------------------------------------------
@@ -504,6 +507,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         })
                         //points += 1
                         break
+                    }
+                }
+            }
+        }
+        else if (contact.bodyA.node?.name == "wall" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "wall") {
+            
+            for idx in 0..<spiders.count{
+                var spider = spiders[idx]
+                if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                    if spider.currentState == .walking || spider.currentState == .idle{
+                        spider.transition(to: .charging)
                     }
                 }
             }
