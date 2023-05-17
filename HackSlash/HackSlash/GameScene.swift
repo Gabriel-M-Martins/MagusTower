@@ -639,11 +639,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------------------------ movement
         movementInput = SKShapeNode(circleOfRadius: buttonRadius)
         movementInput.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
+        movementInput.zPosition = 10
         movementInput.strokeColor = Constants.buttonsColor
         movementInput.fillColor = Constants.buttonsColor.withAlphaComponent(0.2)
         
         // --------------------------------------------
         movementAnalogic = SKShapeNode(circleOfRadius: 25)
+        movementAnalogic.zPosition = 11
         movementAnalogic.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
         movementAnalogic.fillColor = Constants.buttonsColor
     
