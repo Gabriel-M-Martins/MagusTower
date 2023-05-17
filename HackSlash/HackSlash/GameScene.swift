@@ -340,6 +340,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        else if (contact.bodyA.node?.name == "wall" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "wall") {
+            
+            for idx in 0..<spiders.count{
+                var spider = spiders[idx]
+                if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                    if spider.currentState == .walking || spider.currentState == .idle{
+                        spider.transition(to: .charging)
+                    }
+                }
+            }
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
