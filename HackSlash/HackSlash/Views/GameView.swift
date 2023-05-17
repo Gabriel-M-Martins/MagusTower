@@ -23,6 +23,23 @@ struct GameView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack{
+//                if UserDefaults.standard.object(forKey: "debug") != nil{
+//                    if UserDefaults.standard.bool(forKey: "debug") == true{
+//                        SpriteView(scene: scene, debugOptions: .showsPhysics)
+//                            .edgesIgnoringSafeArea(.all)
+//                            .navigationBarBackButtonHidden()
+//                    }
+//                    else{
+//                        SpriteView(scene: scene)
+//                            .edgesIgnoringSafeArea(.all)
+//                            .navigationBarBackButtonHidden()
+//                    }
+//                }
+//                else{
+//                    SpriteView(scene: scene)
+//                        .edgesIgnoringSafeArea(.all)
+//                        .navigationBarBackButtonHidden()
+//                }
                 SpriteView(scene: scene)
                     .edgesIgnoringSafeArea(.all)
                     .navigationBarBackButtonHidden()
@@ -30,7 +47,6 @@ struct GameView: View {
                 Button(action: {
                     paused = !paused
                     AudioManager.shared.playSound(named: "buttonClick.mp3")
-                    paused = true
                     scene.view?.isPaused = paused
                 }, label: {
                     Image(paused ? "Play icon": "Pause icon").resizable()
@@ -50,11 +66,14 @@ struct GameView: View {
                 }
                 
                 if(viewManager.didDie){
-//                    MainMenuView()
-                    ZStack {}
+                    GameOverView()
                         .onAppear{
-                            self.presentation.wrappedValue.dismiss()
+                            scene.view?.isPaused = true
                         }
+//                    ZStack {}
+//                        .onAppear{
+//                            self.presentation.wrappedValue.dismiss()
+//                        }
                 }
             }
         }
@@ -77,6 +96,6 @@ class GameViewManager: ObservableObject{
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView().previewInterfaceOrientation(.landscapeLeft)
+        GameView().previewInterfaceOrientation(.landscapeRight)
     }
 }

@@ -40,7 +40,7 @@ struct PauseView: View {
                         Button(action:{
                             paused = false
                             AudioManager.shared.playSound(named: "buttonClick.mp3")
-                            scene.view?.isPaused = paused
+                            scene.view?.isPaused = false
                         }, label:{
                             Image("Resume")
                         })
