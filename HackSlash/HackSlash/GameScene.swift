@@ -168,6 +168,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    private func hidde(_ h: Bool, list: [SKSpriteNode]) {
+        if !h {
+            currentCombo = list
+        }
+        for i in list{
+            i.isHidden = h
+        }
+    }
+    
     
     private func handleCombo(start: CGPoint, pos: CGPoint) {
         let vector = pos - start
@@ -178,66 +187,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if self.directionsCombos.count <= 1 {
                     print("Miss timing!")
                     self.directionsCombos.removeAll()
-                    self.currentCombo = self.elementCombo
-                    for i in self.elementCombo{
-                        i.isHidden = false
-                    }
+                    
                     self.combosInput.strokeColor = .clear
+                    
                     switch directions[0]{
                     case .up:
-                        for i in self.iceCombo{
-                            i.isHidden = true
-                        }
+                        self.hidde(true, list: self.iceCombo)
                         
                     case .down:
-                        for i in self.thunderCombo{
-                            i.isHidden = true
-                        }
+                        self.hidde(true, list: self.thunderCombo)
                         
                     case .left:
-                        for i in self.fireCombo{
-                            i.isHidden = true
-                        }
+                        self.hidde(true, list: self.fireCombo)
                         
                     case .right:
-                        for i in self.earthCombo{
-                            i.isHidden = true
-                        }
+                        self.hidde(true, list: self.earthCombo)
                     }
+                    
+                    self.hidde(false, list: self.elementCombo)
+                    
                     return
                 }
             }
             
-            for i in elementCombo{
-                i.isHidden = true
-            }
+            hidde(true, list: elementCombo)
             
             firstDirectionCombo = directions[0]
             
             switch firstDirectionCombo{
             case .up:
-                for i in iceCombo{
-                    i.isHidden = false
-                }
-                currentCombo = iceCombo
+                hidde(false, list: iceCombo)
                 
             case .down:
-                for i in thunderCombo{
-                    i.isHidden = false
-                }
-                currentCombo = thunderCombo
+                hidde(false, list: thunderCombo)
                 
             case .left:
-                for i in fireCombo{
-                    i.isHidden = false
-                }
-                currentCombo = fireCombo
+                hidde(false, list: fireCombo)
                 
             case .right:
-                for i in earthCombo{
-                    i.isHidden = false
-                }
-                currentCombo = earthCombo
+                hidde(false, list: earthCombo)
             }
         }
         else if directionsCombos.count == 1{
@@ -249,30 +237,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 switch firstDirectionCombo{
                 case .up:
-                    for i in iceCombo{
-                        i.isHidden = true
-                    }
+                    hidde(true, list: iceCombo)
                     
                 case .down:
-                    for i in thunderCombo{
-                        i.isHidden = true
-                    }
+                    hidde(true, list: thunderCombo)
                     
                 case .left:
-                    for i in fireCombo{
-                        i.isHidden = true
-                    }
+                    hidde(true, list: fireCombo)
                     
                 case .right:
-                    for i in earthCombo{
-                        i.isHidden = true
-                    }
+                    hidde(true, list: earthCombo)
                 }
                 
-                currentCombo = elementCombo
-                for i in elementCombo{
-                    i.isHidden = false
-                }
+                hidde(false, list: elementCombo)
                 
                 directionsCombos = []
                 return
@@ -280,24 +257,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             switch firstDirectionCombo{
             case .up:
-                for i in iceCombo{
-                    i.isHidden = true
-                }
+                hidde(true, list: iceCombo)
                 
             case .down:
-                for i in thunderCombo{
-                    i.isHidden = true
-                }
+                hidde(true, list: iceCombo)
                 
             case .left:
-                for i in fireCombo{
-                    i.isHidden = true
-                }
+                hidde(true, list: fireCombo)
                 
             case .right:
-                for i in earthCombo{
-                    i.isHidden = true
-                }
+                hidde(true, list: earthCombo)
             }
             
             combosInput.strokeColor = .blue
@@ -354,10 +323,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             directionsCombos = []
             
-            currentCombo = elementCombo
-            for i in elementCombo{
-                i.isHidden = false
-            }
+            hidde(false, list: elementCombo)
+            
             combosInput.strokeColor = .clear
             
         } else {
