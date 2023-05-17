@@ -348,7 +348,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(iceball.node)
                 directionsCombos.removeAll()
             case .A(.earth):
-                let stoneWall = StoneWall(player: player, angle: angle)
+                var minFloor: CGFloat = 0
+                for floor in floors{
+                    minFloor = min(minFloor, floor.position.y + (floor.size.height/2))
+                }
+                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: minFloor)
                 addChild(stoneWall.sprite)
                 directionsCombos.removeAll()
             case .A(.thunder):
