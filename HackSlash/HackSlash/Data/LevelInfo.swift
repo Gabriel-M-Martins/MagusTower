@@ -13,8 +13,8 @@ struct LevelInfo {
     let mapFile: String
 }
 
-enum Levels {
-    case Tutorial, Level1
+enum Levels: CaseIterable {
+    case Tutorial, Level1, Level2, Level3
     
     func getInfo() -> LevelInfo {
         switch self {
@@ -22,6 +22,10 @@ enum Levels {
             return LevelInfo(background: "MainScene", enemiesQtd: 1, mapFile: "map2")
         case .Level1:
             return LevelInfo(background: "MainScene", enemiesQtd: 1, mapFile: "map1")
+        case .Level2:
+            return LevelInfo(background: "MainScene", enemiesQtd: 1, mapFile: "map1")
+        case .Level3:
+            return LevelInfo(background: "MainScene", enemiesQtd: 2, mapFile: "map1")
         }
     }
 }

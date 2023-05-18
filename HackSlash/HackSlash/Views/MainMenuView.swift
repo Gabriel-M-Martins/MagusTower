@@ -40,7 +40,7 @@ struct MainMenuView: View {
                         
                         Group{
                             NavigationLink {
-                                GameView(level: Levels.Level1.getInfo())
+                                GameView(level: Levels.Level1)
                             } label: {
                                 Image("Enter")
                             }
@@ -58,7 +58,7 @@ struct MainMenuView: View {
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.72)
                             
                             NavigationLink {
-                                GameView(level: Levels.Tutorial.getInfo())
+                                GameView(level: Levels.Tutorial)
                             } label: {
                                 Image("How")
                             }

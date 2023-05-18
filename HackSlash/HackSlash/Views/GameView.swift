@@ -16,8 +16,8 @@ struct GameView: View {
     @State var paused = false
     @ObservedObject var viewManager: GameViewManager = GameViewManager()
     
-    init(level: LevelInfo) {
-        self._scene = StateObject(wrappedValue: GameScene(background: level.background, enemiesQtd: level.enemiesQtd, levelMapFile: level.mapFile))
+    init(level: Levels) {
+        self._scene = StateObject(wrappedValue: GameScene(level: level))
     }
     
     var body: some View {
@@ -96,6 +96,6 @@ class GameViewManager: ObservableObject{
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView(level: Levels.Level1.getInfo()).previewInterfaceOrientation(.landscapeRight)
+        GameView(level: Levels.Level3).previewInterfaceOrientation(.landscapeRight)
     }
 }

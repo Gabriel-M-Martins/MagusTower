@@ -27,6 +27,7 @@ class Constants {
     
     lazy var frame: CGRect = CGRect.zero
     
+    var currentLevel = 0
     
     let enemiesMask: UInt32 = 1
     let groundMask: UInt32 = 2

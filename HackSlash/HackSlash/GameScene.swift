@@ -9,11 +9,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case combosAnalog
     }
     
-    init(background backgroundFileName: String, enemiesQtd: Int, levelMapFile: String) {
-        self.background = SKSpriteNode(texture: SKTexture(imageNamed: backgroundFileName))
-        self.numberEnemies = enemiesQtd
+    init(level: Levels) {
+        let info = level.getInfo()
         
-        self.mapInterpreter = MapInterpreter(map: Constants.singleton.frame, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: levelMapFile)!
+//        if level == .Level1 && Constants.singleton.currentLevel == 0 {
+//            Constants.singleton.currentLevel += 2
+//        } else {
+//            Constants.singleton.currentLevel += 1
+//        }
+        if level == .Level1{
+            Constants.singleton.currentLevel = 1
+        }
+        Constants.singleton.currentLevel += 1
+        
+        self.background = SKSpriteNode(texture: SKTexture(imageNamed: info.background))
+        self.numberEnemies = info.enemiesQtd
+        
+        self.mapInterpreter = MapInterpreter(map: Constants.singleton.frame, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: info.mapFile)!
 
         super.init(size: Constants.singleton.frame.size)
     }

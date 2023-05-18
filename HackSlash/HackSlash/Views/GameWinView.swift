@@ -15,7 +15,14 @@ struct GameWinView: View {
                     Color.black.opacity(0.4)
                     Group{
                         NavigationLink(destination: {
-                            MainMenuView()
+                            if Constants.singleton.currentLevel > Levels.allCases.count {
+                                MainMenuView()
+                            } else {
+                                if Constants.singleton.currentLevel == Levels.allCases.count{
+                                    GameView(level: Levels.allCases[Constants.singleton.currentLevel])
+                                }
+                                GameView(level: Levels.allCases[Constants.singleton.currentLevel])
+                            }
                         }, label: {
                             Image("Next")
                         })
