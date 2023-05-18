@@ -144,7 +144,7 @@ class Constants {
     let spiderDeadTexture: SKTexture = SKTexture(imageNamed: "DeadSpider")
     let spiderAttackTexture: SKTexture = SKTexture(imageNamed: "SpiderAttack")
     let spiderChargingTexture: SKTexture = SKTexture(imageNamed: "SpiderPreparingJump")
-    let deathDespawn: Double = 5.0
+    let deathDespawn: Double = 1.7
     
     static var spiderWalkingTexture: [SKTexture] {
         var texture: [SKTexture] = []

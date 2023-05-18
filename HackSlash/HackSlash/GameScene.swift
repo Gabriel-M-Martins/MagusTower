@@ -55,6 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var firstDirectionCombo: Directions = .up
     
     private var jumpCounter = 0
+    var spidersKilled = 0
     
     private var mapInterpreter: MapInterpreter
     
@@ -253,7 +254,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //elements
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 if self.directionsCombos.count == 1 && self.spellCount < 3{
-                    print("Miss timing!")
                     self.directionsCombos.removeAll()
                     
                     self.hidde(true, list: self.directionCombo)
@@ -274,7 +274,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     self.hidde(false, list: self.elementCombo)
                     
-                    return
+                    self.directionsCombos = []
                 }
                 self.spellCount = 0
             }
@@ -538,7 +538,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             //remover aranha da cena
                             spider.sprite.removeFromParent()
                         })
-                        //points += 1
+                        spidersKilled += 1
                         break
                     }
                 }
@@ -574,6 +574,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         if player.attributes.health <= 0 {
             Constants.singleton.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
+        }
+        if numberEnemies == spidersKilled {
+            Constants.singleton.notificationCenter.post(name: Notification.Name("playerWin"), object: nil)
         }
         
         camera?.position = player.position
