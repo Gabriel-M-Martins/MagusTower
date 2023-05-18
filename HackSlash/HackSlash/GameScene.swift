@@ -12,14 +12,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     init(level: Levels) {
         let info = level.getInfo()
         
-//        if level == .Level1 && Constants.singleton.currentLevel == 0 {
-//            Constants.singleton.currentLevel += 2
-//        } else {
-//            Constants.singleton.currentLevel += 1
-//        }
         Constants.singleton.locker = false
         if level == .Level1{
             Constants.singleton.currentLevel = 1
+        } else if level == .Tutorial {
+            Constants.singleton.currentLevel = 0
         }
         Constants.singleton.currentLevel += 1
         
@@ -28,6 +25,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.mapInterpreter = MapInterpreter(map: Constants.singleton.frame, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: info.mapFile)!
 
+        self.levelLabel = SKLabelNode(text: level.name())
+        
         super.init(size: Constants.singleton.frame.size)
     }
     
@@ -69,10 +68,51 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var directionsMovement: [Directions] = []
     private var firstDirectionCombo: Directions = .up
     
+    private var door =  SKSpriteNode()
+    
+    private var levelLabel: SKLabelNode
+    
     private var jumpCounter = 0
     var spidersKilled = 0
     
     private var mapInterpreter: MapInterpreter
+    
+    private func setupLabel() {
+        levelLabel.position = CGPoint(x: 0, y: 50)
+        levelLabel.setScale(0)
+        levelLabel.fontName = "NovaCut-Regular"
+        
+        camera?.addChild(levelLabel)
+        
+        levelLabel.run(.sequence([
+            .scale(to: 1, duration: 1),
+            .wait(forDuration: 1),
+            .scale(to: 0, duration: 0.25),
+            .removeFromParent()
+        ]))
+    }
+    
+    private func setupDoor() {
+        let plat = (platforms).randomElement()!
+        
+        door = SKSpriteNode(imageNamed: "DoorLocked")
+        door.name = "door"
+
+        door.setScale(2)
+        door.position = CGPoint(x: plat.frame.midX, y: plat.position.y + door.frame.height/2)
+        door.zPosition = -7
+        
+        door.physicsBody = SKPhysicsBody(rectangleOf: door.size)
+        door.physicsBody?.isDynamic = false
+        door.physicsBody?.categoryBitMask = 0
+        
+        addChild(door)
+    }
+    
+    private func openDoor() {
+        door.physicsBody?.categoryBitMask = Constants.singleton.wallMask
+        door.run(.animate(with: [.init(imageNamed: "DoorUnlocked")], timePerFrame: 1))
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let camera = camera else { return }
@@ -247,11 +287,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         directionsMovement = Directions.calculateDirections(vector).filter { dir in
             dir != .down
         }
-//        for d in directionsMovement {
-//            if d == .up{
-//                AudioManager.shared.playSound(named: "basicAttack.wav")
-//            }
-//        }
     }
     
     private func hidde(_ h: Bool, list: [SKSpriteNode]) {
@@ -466,9 +501,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         // ------------------------------------------------------------------------
         setupCamera()
-        
+        setupLabel()
         // ------------------------------------------------------------------------
         setupGround()
+        
+        setupDoor()
         
         // ------------------------------------------------------------------------
         if numberEnemies > 0 {
@@ -565,6 +602,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }
+            
+            if numberEnemies == spidersKilled {
+                AudioManager.shared.playSound(named: "door.wav")
+                self.openDoor()
+            }
         }
         else if (contact.bodyA.node?.name == "wall" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "wall") {
             
@@ -591,16 +633,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        else if (contact.bodyA.node?.name == "door") || (contact.bodyB.node?.name == "door") {
+            Constants.singleton.locker = true
+            Constants.singleton.notificationCenter.post(name: Notification.Name("playerWin"), object: nil)
+            AudioManager.shared.playSound(named: "door.wav")
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
         if player.attributes.health <= 0 {
             Constants.singleton.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
         }
-        if numberEnemies == spidersKilled {
-            Constants.singleton.locker = true
-            Constants.singleton.notificationCenter.post(name: Notification.Name("playerWin"), object: nil)
-        }
+//        if numberEnemies == spidersKilled {
+////            AudioManager.shared.playSound(named: "door.wav")
+//            self.openDoor()
+//        }
         
         camera?.position = player.position
         for spider in spiders{

@@ -33,6 +33,7 @@
 		A75915982A02EA3A00D953C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
 		A77414CE2A16B3AA00E96021 /* map2.txt in Resources */ = {isa = PBXBuildFile; fileRef = A77414CD2A16B3AA00E96021 /* map2.txt */; };
 		A77414D02A16B84200E96021 /* LevelInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77414CF2A16B84200E96021 /* LevelInfo.swift */; };
+		A77414D22A16E58F00E96021 /* door.wav in Resources */ = {isa = PBXBuildFile; fileRef = A77414D12A16E58F00E96021 /* door.wav */; };
 		A795A8692A0984EF00FF21A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A795A8682A0984EF00FF21A3 /* Extensions.swift */; };
 		A7AF3E5B2A0D2B8300E36A42 /* map1.txt in Resources */ = {isa = PBXBuildFile; fileRef = A7AF3E5A2A0D2B8300E36A42 /* map1.txt */; };
 		A7AF3E5D2A0D5AEB00E36A42 /* Magics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AF3E5C2A0D5AEB00E36A42 /* Magics.swift */; };
@@ -106,6 +107,7 @@
 		A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapInterpreter.swift; sourceTree = "<group>"; };
 		A77414CD2A16B3AA00E96021 /* map2.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map2.txt; sourceTree = "<group>"; };
 		A77414CF2A16B84200E96021 /* LevelInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelInfo.swift; sourceTree = "<group>"; };
+		A77414D12A16E58F00E96021 /* door.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = door.wav; sourceTree = "<group>"; };
 		A795A8682A0984EF00FF21A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A7AF3E5A2A0D2B8300E36A42 /* map1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map1.txt; sourceTree = "<group>"; };
 		A7AF3E5C2A0D5AEB00E36A42 /* Magics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magics.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				92420C642A13F7BC00AE47A9 /* spiderSpawn.wav */,
 				92420C5E2A13F79F00AE47A9 /* basicAttack.wav */,
 				92420C5A2A13F79500AE47A9 /* buttonClick.mp3 */,
+				A77414D12A16E58F00E96021 /* door.wav */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				92420C632A13F7BA00AE47A9 /* spiderAttack.wav in Resources */,
 				92E3DF702A12CB59008A1AEE /* IceAura.sks in Resources */,
 				F9911E6E2A129CFC005F2B2C /* Collectable.sks in Resources */,
+				A77414D22A16E58F00E96021 /* door.wav in Resources */,
 				A7C1669729F71DC1003B096D /* Actions.sks in Resources */,
 				92420C5B2A13F79500AE47A9 /* buttonClick.mp3 in Resources */,
 			);
@@ -643,7 +647,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 856F4M2786;
+				DEVELOPMENT_TEAM = 73DNAYF2TM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -658,7 +662,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlas;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -673,7 +677,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 856F4M2786;
+				DEVELOPMENT_TEAM = 73DNAYF2TM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -688,7 +692,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlas;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
