@@ -46,6 +46,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var firstDirectionCombo: Directions = .up
     
     private var jumpCounter = 0
+    private var spidersKilled = 0
+    private let maxSpiders = 20
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let camera = camera else { return }
@@ -426,7 +428,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupGround()
         
         // ------------------------------------------------------------------------
-        for i in 1...20{
+        for i in 1...maxSpiders{
             delayWithSeconds(5.0 * Double(i)) { [self] in
                 self.setupSpawn(position: CGPoint(x: CGFloat(Double.random(in: Double(-size.width/3)...Double(size.width/3))), y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
             }
@@ -517,7 +519,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             //remover aranha da cena
                             spider.sprite.removeFromParent()
                         })
-                        //points += 1
+                        spidersKilled += 1
                         break
                     }
                 }

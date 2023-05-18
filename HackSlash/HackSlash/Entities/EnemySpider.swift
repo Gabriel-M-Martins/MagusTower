@@ -141,6 +141,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
                 }
             }
         case .death:
+            self.physicsBody.collisionBitMask &= UInt32.max - Constants.playerMask
             return
         }
     }
