@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C6654582A16AB3E003880B6 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6654572A16AB3E003880B6 /* TutorialView.swift */; };
 		7CC87CE22A16A01400BAA731 /* GameWinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC87CE12A16A01400BAA731 /* GameWinView.swift */; };
 		7CDBB2D72A12B561003EC549 /* HPBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBB2D62A12B561003EC549 /* HPBar.swift */; };
 		9202EB022A0EAD0500F5A109 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EAFA2A0EAD0500F5A109 /* MainMenuView.swift */; };
@@ -55,7 +56,6 @@
 		A7CDC3172A0424CC0030A92B /* AttributesInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC3162A0424CC0030A92B /* AttributesInfo.swift */; };
 		A7F665F92A0EB22C0010C96F /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F665F82A0EB22C0010C96F /* GameView.swift */; };
 		CE05BD372A15458A000F7B97 /* mapTutorial.txt in Resources */ = {isa = PBXBuildFile; fileRef = CE05BD362A15458A000F7B97 /* mapTutorial.txt */; };
-		CE05BD392A15468B000F7B97 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE05BD382A15468B000F7B97 /* TutorialView.swift */; };
 		CE05BD3B2A154865000F7B97 /* TutorialScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE05BD3A2A154865000F7B97 /* TutorialScene.sks */; };
 		F98E2CF12A0D6AED003273AA /* LightiningParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F98E2CEF2A0D6AED003273AA /* LightiningParticle.sks */; };
 		F98E2CF62A0D6AFA003273AA /* DirtParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F98E2CF32A0D6AFA003273AA /* DirtParticle.sks */; };
@@ -81,6 +81,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C6654572A16AB3E003880B6 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		7CC87CE12A16A01400BAA731 /* GameWinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameWinView.swift; sourceTree = "<group>"; };
 		7CDBB2D62A12B561003EC549 /* HPBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPBar.swift; sourceTree = "<group>"; };
 		9202EAFA2A0EAD0500F5A109 /* MainMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
@@ -131,7 +132,6 @@
 		A7F665F62A0EB1440010C96F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A7F665F82A0EB22C0010C96F /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		CE05BD362A15458A000F7B97 /* mapTutorial.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = mapTutorial.txt; sourceTree = "<group>"; };
-		CE05BD382A15468B000F7B97 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		CE05BD3A2A154865000F7B97 /* TutorialScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TutorialScene.sks; sourceTree = "<group>"; };
 		F98E2CEF2A0D6AED003273AA /* LightiningParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightiningParticle.sks; sourceTree = "<group>"; };
 		F98E2CF32A0D6AFA003273AA /* DirtParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DirtParticle.sks; sourceTree = "<group>"; };
@@ -179,6 +179,7 @@
 				7CDBB2D62A12B561003EC549 /* HPBar.swift */,
 				92C004C92A154B24001E8312 /* GameOverView.swift */,
 				7CC87CE12A16A01400BAA731 /* GameWinView.swift */,
+				7C6654572A16AB3E003880B6 /* TutorialView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -476,7 +477,6 @@
 				F98E2CFF2A0D7104003273AA /* Fireball.swift in Sources */,
 				F9911E6B2A129C66005F2B2C /* TutorialScene.swift in Sources */,
 				F98E2D012A0D8453003273AA /* Iceball.swift in Sources */,
-				CE05BD392A15468B000F7B97 /* TutorialView.swift in Sources */,
 				A7C1669B29F71DC1003B096D /* GameViewController.swift in Sources */,
 				A7AF3E5D2A0D5AEB00E36A42 /* Magics.swift in Sources */,
 				A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */,
@@ -485,6 +485,7 @@
 				A7CDC30D2A0419EF0030A92B /* Attributes.swift in Sources */,
 				7CDBB2D72A12B561003EC549 /* HPBar.swift in Sources */,
 				A7C1669329F71DC1003B096D /* AppDelegate.swift in Sources */,
+				7C6654582A16AB3E003880B6 /* TutorialView.swift in Sources */,
 				A7CDC3172A0424CC0030A92B /* AttributesInfo.swift in Sources */,
 				A7CDC3132A0424720030A92B /* Elements.swift in Sources */,
 				F9911E712A12A15A005F2B2C /* StoneWall.swift in Sources */,

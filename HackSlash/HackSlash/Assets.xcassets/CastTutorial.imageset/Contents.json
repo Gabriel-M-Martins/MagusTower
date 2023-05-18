@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "Use the joystick in the bottom right corner of the screen to first select an element then, select the type of magic and finally, select the direction..png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Use the joystick in the bottom right corner of the screen to first select an element then, select the type of magic and finally, select the direction.@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Use the joystick in the bottom right corner of the screen to first select an element then, select the type of magic and finally, select the direction.@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

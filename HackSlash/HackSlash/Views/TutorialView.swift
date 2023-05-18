@@ -2,7 +2,7 @@
 //  TutorialView.swift
 //  HackSlash
 //
-//  Created by Lucas Marchesan Cunha on 15/05/23.
+//  Created by Felipe  Elsner Silva on 18/05/23.
 //
 
 import SwiftUI
@@ -41,20 +41,13 @@ struct TutorialView: View {
                 HStack{
                     Image("Heart")
                     HPBar()
-                    .frame(width:200, height:15)
+                        .frame(width:200, height:15)
                 }
                 .position(x: geo.frame(in: .global).maxX - geo.frame(in: .global).width*0.18, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.12)
                 
+                
                 if(paused){
                     PauseView(paused: $paused, scene: $scene)
-                }
-                
-                if(viewManager.didDie){
-//                    MainMenuView()
-                    ZStack {}
-                        .onAppear{
-                            self.presentation.wrappedValue.dismiss()
-                        }
                 }
             }
         }
@@ -80,3 +73,13 @@ struct TutorialView_Previews: PreviewProvider {
         TutorialView().previewInterfaceOrientation(.landscapeLeft)
     }
 }
+
+/*
+ “To move, use the joystick in the bottom left corner of the screen. You can junp up to 3 times before needing to land”
+
+ “Use the joystick in the bottom right corner of the screen to first select an element then, select the type of magic and finally, select the direction.”
+
+ “To cast a Fireball, do the following swipes (from the center): Left(fire),  Up(projectile), Right(direction of the attack)”
+
+ “Beyond this wall is an enemy, try defeating it with the spell of your choosing.”
+ */
