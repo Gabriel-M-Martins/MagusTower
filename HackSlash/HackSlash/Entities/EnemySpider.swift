@@ -37,7 +37,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
     
     var idSpider: Int
     
-    var damage: Bool = false
+    private var damage: Bool = false
     
     init(sprite: String, attributes: AttributesInfo, player: Player, idSpider: Int) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
@@ -141,7 +141,6 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
                 }
             }
         case .death:
-            self.physicsBody.collisionBitMask &= UInt32.max - Constants.playerMask
             return
         }
     }
