@@ -12,6 +12,7 @@ struct MainMenuView: View {
     @State var showSettings: Bool = false
     @State var showCredits: Bool = false
     @State var hasHighScore: Bool = false
+    @State var highest: String = "0"
     
     func loadUserData(){
         if let masterVolume = UserDefaults.standard.string(forKey: "masterVolume"), !masterVolume.isEmpty{
