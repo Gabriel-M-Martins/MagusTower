@@ -30,10 +30,10 @@ class StoneWall {
                 x = floor.frame.maxX - sprite.frame.width/2
             }
         }
-//        else {
-//            finalHeight = player.sprite.position.y + Constants.singleton.frame.maxY
-//            sprite.size.height = finalHeight
-//        }
+        else {
+            finalHeight = player.sprite.position.y
+            sprite.size.height = finalHeight
+        }
         
         sprite.position = CGPoint(x: x, y: floorHeight)
         
