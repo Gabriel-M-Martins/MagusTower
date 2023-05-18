@@ -62,16 +62,29 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         
     }
     
+    func damageCaused() {
+        if !damage{
+            damage = true
+            self.player.attributes.health = self.player.attributes.health - Constants.spiderDamage
+            if self.player.attributes.defense > Constants.playerDefense{
+                Constants.notificationCenter.post(name: Notification.Name("playerLessDamage"), object: nil)
+            } else {
+            Constants.notificationCenter.post(name: Notification.Name("playerDamage"), object: nil)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {self.damage = false})
+        }
+    }
+    
     func moveAI(player: SKSpriteNode){
         //Antes que ache isso nojento, é a melhor solucao para o erro de self is immutable. Caso queiram ler sobre o erro: https://github.com/apple/swift/issues/46812
+        if sprite.intersects(self.player.sprite){
+            self.player.move(direction: [self.physicsBody.velocity.dx > 0 ? .right : .left], power: 1)
+            damageCaused()
+        }
         
         //Checa se a aranha está no ar ou no meio de um ataque
         switch self.currentState{
         case .idle, .walking:
-            if damage{
-                damage = false
-            }
-            
             if player.position.x > self.sprite.position.x || sprite.position.x - player.position.x > self.attributes.attackRange * 1.2{
                 
                 move(direction: [.left])
@@ -130,15 +143,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         case .attack:
             if self.sprite.intersects(self.player.sprite){
                 self.player.move(direction: [self.physicsBody.velocity.dx > 0 ? .right : .left], power: 1)
-                if !damage{
-                    damage = true
-                    self.player.attributes.health = self.player.attributes.health - Constants.spiderDamage
-                    if self.player.attributes.defense > Constants.playerDefense{
-                        Constants.notificationCenter.post(name: Notification.Name("playerLessDamage"), object: nil)
-                    } else {
-                    Constants.notificationCenter.post(name: Notification.Name("playerDamage"), object: nil)
-                    }
-                }
+                damageCaused()
             }
         case .death:
             return

@@ -46,8 +46,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var firstDirectionCombo: Directions = .up
     
     private var jumpCounter = 0
-    private var spidersKilled = 0
-    private let maxSpiders = 20
+    var spidersKilled = 0
+    let maxSpiders = 20
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let camera = camera else { return }
@@ -243,7 +243,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //elements
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 if self.directionsCombos.count == 1 && self.spellCount < 3{
-                    print("Miss timing!")
                     self.directionsCombos.removeAll()
                     
                     self.hidde(true, list: self.directionCombo)
@@ -264,7 +263,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     self.hidde(false, list: self.elementCombo)
                     
-                    return
+                    self.directionsCombos = []
                 }
                 self.spellCount = 0
             }
@@ -555,6 +554,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         if player.attributes.health <= 0 {
             Constants.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
+        }
+        if maxSpiders == spidersKilled {
+            Constants.notificationCenter.post(name: Notification.Name("playerWin"), object: nil)
         }
         
         camera?.position = player.position

@@ -75,6 +75,13 @@ struct GameView: View {
 //                            self.presentation.wrappedValue.dismiss()
 //                        }
                 }
+                if(viewManager.didWin){
+                    GameWinView()
+                        .onAppear{
+                            scene.view?.isPaused = true
+                        }
+                }
+                
             }
         }
         .edgesIgnoringSafeArea(.all)
@@ -83,14 +90,20 @@ struct GameView: View {
 
 class GameViewManager: ObservableObject{
     @Published var didDie = false
+    @Published var didWin = false
     let notificationCenter = NotificationCenter.default
     
     init(){
         self.notificationCenter.addObserver(self, selector: #selector(PlayerDied), name: Notification.Name("playerDeath"), object: nil)
+        self.notificationCenter.addObserver(self, selector: #selector(PlayerWin), name: Notification.Name("playerWin"), object: nil)
     }
     
     @objc func PlayerDied(){
         didDie = true
+    }
+    
+    @objc func PlayerWin(){
+        didWin = true
     }
 }
 
