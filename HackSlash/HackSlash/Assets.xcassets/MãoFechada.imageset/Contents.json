@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Mão Fechada de lado.png",
+      "filename" : "MãoFechada.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Mão Fechada de lado@2x.png",
+      "filename" : "MãoFechada@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Mão Fechada de lado@3x.png",
+      "filename" : "MãoFechada@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

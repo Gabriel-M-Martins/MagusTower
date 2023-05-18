@@ -23,6 +23,23 @@ struct GameView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack{
+//                if UserDefaults.standard.object(forKey: "debug") != nil{
+//                    if UserDefaults.standard.bool(forKey: "debug") == true{
+//                        SpriteView(scene: scene, debugOptions: .showsPhysics)
+//                            .edgesIgnoringSafeArea(.all)
+//                            .navigationBarBackButtonHidden()
+//                    }
+//                    else{
+//                        SpriteView(scene: scene)
+//                            .edgesIgnoringSafeArea(.all)
+//                            .navigationBarBackButtonHidden()
+//                    }
+//                }
+//                else{
+//                    SpriteView(scene: scene)
+//                        .edgesIgnoringSafeArea(.all)
+//                        .navigationBarBackButtonHidden()
+//                }
                 SpriteView(scene: scene)
                     .edgesIgnoringSafeArea(.all)
                     .navigationBarBackButtonHidden()
@@ -30,7 +47,6 @@ struct GameView: View {
                 Button(action: {
                     paused = !paused
                     AudioManager.shared.playSound(named: "buttonClick.mp3")
-                    paused = true
                     scene.view?.isPaused = paused
                 }, label: {
                     Image(paused ? "Play icon": "Pause icon").resizable()
@@ -50,12 +66,22 @@ struct GameView: View {
                 }
                 
                 if(viewManager.didDie){
-//                    MainMenuView()
-                    ZStack {}
+                    GameOverView()
                         .onAppear{
-                            self.presentation.wrappedValue.dismiss()
+                            scene.view?.isPaused = true
+                        }
+//                    ZStack {}
+//                        .onAppear{
+//                            self.presentation.wrappedValue.dismiss()
+//                        }
+                }
+                if(viewManager.didWin){
+                    GameWinView()
+                        .onAppear{
+                            scene.view?.isPaused = true
                         }
                 }
+                
             }
         }
         .edgesIgnoringSafeArea(.all)
@@ -64,19 +90,25 @@ struct GameView: View {
 
 class GameViewManager: ObservableObject{
     @Published var didDie = false
+    @Published var didWin = false
     let notificationCenter = NotificationCenter.default
     
     init(){
         self.notificationCenter.addObserver(self, selector: #selector(PlayerDied), name: Notification.Name("playerDeath"), object: nil)
+        self.notificationCenter.addObserver(self, selector: #selector(PlayerWin), name: Notification.Name("playerWin"), object: nil)
     }
     
     @objc func PlayerDied(){
         didDie = true
     }
+    
+    @objc func PlayerWin(){
+        didWin = true
+    }
 }
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView().previewInterfaceOrientation(.landscapeLeft)
+        GameView().previewInterfaceOrientation(.landscapeRight)
     }
 }

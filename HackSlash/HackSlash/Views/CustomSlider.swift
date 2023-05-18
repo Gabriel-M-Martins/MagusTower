@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 import SwiftUI
 
+enum Sliders{
+    case master, music, sfx
+}
+
 struct CustomSlider: View {
     @Binding var value: Double
     
@@ -17,6 +21,7 @@ struct CustomSlider: View {
     var thumbColor: Color = Color("Chumbo")
     var minTrackColor: Color = Color("Chumbo")
     var maxTrackColor: Color = Color("Ferrugem")
+    var sliderType: Sliders = Sliders.master
     
     var body: some View {
         GeometryReader { gr in
@@ -61,6 +66,18 @@ struct CustomSlider: View {
                                     } else {
                                         let nextCoordinateValue = max(minValue, self.lastCoordinateValue + v.translation.width)
                                         self.value = ((nextCoordinateValue - minValue) / scaleFactor) + lower
+                                    }
+                                    
+                                    switch(sliderType){
+                                    case Sliders.master:
+                                        AudioManager.shared.setMainVolume(Float(self.value)/100.0)
+                                        UserDefaults.standard.set(self.value, forKey: "masterVolume")
+                                    case Sliders.music:
+                                        AudioManager.shared.setMusicVolume(Float(self.value)/100.0)
+                                        UserDefaults.standard.set(self.value, forKey: "musicVolume")
+                                    case Sliders.sfx:
+                                        AudioManager.shared.setSFXVolume(Float(self.value)/100.0)
+                                        UserDefaults.standard.set(self.value, forKey: "sfxVolume")
                                     }
                                }
                         )
