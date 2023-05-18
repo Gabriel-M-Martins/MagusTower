@@ -293,7 +293,6 @@
 				A7B6B1B62A02E6F1005FF90B /* Data */,
 				A7B6B1B32A02E6BF005FF90B /* Protocols */,
 				A7C1669229F71DC1003B096D /* AppDelegate.swift */,
-				F9911E672A129C44005F2B2C /* TutorialScene */,
 				A7C1669429F71DC1003B096D /* GameScene.sks */,
 				CE05BD3A2A154865000F7B97 /* TutorialScene.sks */,
 				F9911E6A2A129C66005F2B2C /* TutorialScene.swift */,
@@ -334,13 +333,6 @@
 				F9911E702A12A15A005F2B2C /* StoneWall.swift */,
 			);
 			path = Magics;
-			sourceTree = "<group>";
-		};
-		F9911E672A129C44005F2B2C /* TutorialScene */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = TutorialScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
