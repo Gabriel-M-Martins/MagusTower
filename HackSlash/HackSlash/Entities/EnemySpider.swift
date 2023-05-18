@@ -64,6 +64,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
     
     func damageCaused() {
         if !damage{
+            AudioManager.shared.playSound(named: "spiderAttack.wav")
             damage = true
             self.player.attributes.health = self.player.attributes.health - Constants.spiderDamage
             if self.player.attributes.defense > Constants.playerDefense{
