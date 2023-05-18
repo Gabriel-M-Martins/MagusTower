@@ -12,11 +12,12 @@ import UserNotifications
 struct GameView: View {
     @Environment(\.presentationMode) var presentation
     
-    @State var scene: SKScene = GameScene(background: "MainScene", enemiesQtd: 1, levelMapFile: "map1")
+    @StateObject var scene: SKScene
     @State var paused = false
     @ObservedObject var viewManager: GameViewManager = GameViewManager()
     
-    init() {
+    init(level: LevelInfo) {
+        self.scene = GameScene(background: level.background, enemiesQtd: level.enemiesQtd, levelMapFile: level.mapFile)
         scene.scaleMode = .aspectFill
         scene.anchorPoint = .zero
     }
@@ -93,6 +94,6 @@ class GameViewManager: ObservableObject{
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView().previewInterfaceOrientation(.landscapeRight)
+        GameView(level: Levels.Level1.getInfo()).previewInterfaceOrientation(.landscapeRight)
     }
 }

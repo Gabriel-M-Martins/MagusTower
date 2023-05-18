@@ -40,7 +40,7 @@ struct MainMenuView: View {
                         
                         Group{
                             NavigationLink {
-                                GameView()
+                                GameView(level: Levels.Level1.getInfo())
                             } label: {
                                 Image("Enter")
                             }
@@ -57,11 +57,11 @@ struct MainMenuView: View {
                             })
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.72)
                             
-                            Button(action:{
-                                AudioManager.shared.playSound(named: "buttonClick.mp3")
-                            }, label:{
+                            NavigationLink {
+                                GameView(level: Levels.Tutorial.getInfo())
+                            } label: {
                                 Image("How")
-                            })
+                            }
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.55)
                         }
                         

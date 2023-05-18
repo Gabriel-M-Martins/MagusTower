@@ -25,7 +25,8 @@ class Constants {
     
     private init() {}
     
-    var frame: CGRect = CGRect.zero
+    lazy var frame: CGRect = CGRect.zero
+    
     
     let enemiesMask: UInt32 = 1
     let groundMask: UInt32 = 2

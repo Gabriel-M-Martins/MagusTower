@@ -32,6 +32,7 @@
 		A71EEAB92A0D284B0063BC77 /* MapInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */; };
 		A75915982A02EA3A00D953C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
 		A77414CE2A16B3AA00E96021 /* map2.txt in Resources */ = {isa = PBXBuildFile; fileRef = A77414CD2A16B3AA00E96021 /* map2.txt */; };
+		A77414D02A16B84200E96021 /* LevelInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77414CF2A16B84200E96021 /* LevelInfo.swift */; };
 		A795A8692A0984EF00FF21A3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A795A8682A0984EF00FF21A3 /* Extensions.swift */; };
 		A7AF3E5B2A0D2B8300E36A42 /* map1.txt in Resources */ = {isa = PBXBuildFile; fileRef = A7AF3E5A2A0D2B8300E36A42 /* map1.txt */; };
 		A7AF3E5D2A0D5AEB00E36A42 /* Magics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AF3E5C2A0D5AEB00E36A42 /* Magics.swift */; };
@@ -104,6 +105,7 @@
 		92E3DF732A12CBE3008A1AEE /* EarthAura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = EarthAura.sks; sourceTree = "<group>"; };
 		A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapInterpreter.swift; sourceTree = "<group>"; };
 		A77414CD2A16B3AA00E96021 /* map2.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map2.txt; sourceTree = "<group>"; };
+		A77414CF2A16B84200E96021 /* LevelInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelInfo.swift; sourceTree = "<group>"; };
 		A795A8682A0984EF00FF21A3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A7AF3E5A2A0D2B8300E36A42 /* map1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map1.txt; sourceTree = "<group>"; };
 		A7AF3E5C2A0D5AEB00E36A42 /* Magics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magics.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				A7CDC3142A0424880030A92B /* VelocityInfo.swift */,
 				A7CDC3162A0424CC0030A92B /* AttributesInfo.swift */,
 				A7AF3E5C2A0D5AEB00E36A42 /* Magics.swift */,
+				A77414CF2A16B84200E96021 /* LevelInfo.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 				F98E2CFF2A0D7104003273AA /* Fireball.swift in Sources */,
 				F9911E6B2A129C66005F2B2C /* TutorialScene.swift in Sources */,
 				F98E2D012A0D8453003273AA /* Iceball.swift in Sources */,
+				A77414D02A16B84200E96021 /* LevelInfo.swift in Sources */,
 				A7C1669B29F71DC1003B096D /* GameViewController.swift in Sources */,
 				A7AF3E5D2A0D5AEB00E36A42 /* Magics.swift in Sources */,
 				A7B6B1B22A02C98A005FF90B /* StateMachine.swift in Sources */,
