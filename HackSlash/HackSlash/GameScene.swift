@@ -364,14 +364,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                for floor in floors{
 //                    minFloor = min(minFloor, floor.position.y + (floor.size.height/2))
 //                }
+                var floorHeight = player.position.y - player.sprite.frame.height/2
                 var nd: SKNode?
                 for i in floors + platforms {
-                    if player.sprite.intersects(i) {
+                    if player.sprite.intersects(i) && (player.position.y > i.position.y) {
                         nd = i
+                        floorHeight = i.position.y + i.size.height/2
                     }
                 }
                 
-                var floorHeight = player.position.y - player.sprite.frame.height/2
                 if nd == nil {
                     floorHeight = floors[0].position.y
                 }

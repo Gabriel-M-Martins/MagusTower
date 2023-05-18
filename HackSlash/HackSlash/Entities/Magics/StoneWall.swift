@@ -30,6 +30,10 @@ class StoneWall {
                 x = floor.frame.maxX - sprite.frame.width/2
             }
         }
+//        else {
+//            finalHeight = player.sprite.position.y + Constants.singleton.frame.maxY
+//            sprite.size.height = finalHeight
+//        }
         
         sprite.position = CGPoint(x: x, y: floorHeight)
         
@@ -46,31 +50,36 @@ class StoneWall {
         // ------------------------------------------------------------ animation
         
         sprite.run(SKAction.sequence([
-//            .scaleY(to: 0, duration: 0.0001),
-//
+            //            .scaleY(to: 0, duration: 0.0001),
+            //
             .group([
                 SKAction.scaleY(to: 1, duration: 1.5),
                 SKAction.run(
-                {
-                    emitter.particleBirthRate = 150
-                    emitter.position = CGPoint(x: self.sprite.position.x, y: floorHeight)
-                    self.sprite.parent?.addChild(emitter)
-                })
+                    {
+                        emitter.particleBirthRate = 150
+                        emitter.position = CGPoint(x: self.sprite.position.x, y: floorHeight)
+                        self.sprite.parent?.addChild(emitter)
+                    })
             ]),
-
+            
+                .run({
+                    emitter.particleBirthRate = 0
+                }),
+            
+                .wait(forDuration: 2),
+            
+                .wait(forDuration: 5),
             .run({
-                emitter.particleBirthRate = 0
+                emitter.particleBirthRate = 150
             }),
-
-            .wait(forDuration: 2),
+            .scaleY(to: 0.1, duration: 1.5),
             SKAction.run({
                 emitter.removeFromParent()
             }),
-
-            .wait(forDuration: 5),
-
-            .scaleY(to: 0.1, duration: 1.5),
             .removeFromParent()
+            
+            
+            
         ]))
     }
 }
