@@ -38,6 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var currentCombo: [SKSpriteNode] = []
     
     var background = SKSpriteNode(texture: SKTexture(imageNamed: "MainScene"))
+    var floorBackground = SKSpriteNode(texture: SKTexture(imageNamed: "Floor"))
     
     private var touches: [(UITouch, ButtonAssociation)] = []
     
@@ -182,7 +183,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if ndName == name {
             nd.run(.group([
-                .scale(to: Constants.singleton.combosSpritesScale + 0.5, duration: Constants.singleton.combosSpritesAnimationDuration),
+                .scale(to: Constants.singleton.combosSpritesScale + 0.2, duration: Constants.singleton.combosSpritesAnimationDuration),
                 .fadeAlpha(to: 2, duration: Constants.singleton.combosSpritesAnimationDuration)
                 
             ]))
@@ -359,7 +360,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(iceball.node)
                 directionsCombos.removeAll()
             case .A(.earth):
-                let stoneWall = StoneWall(player: player, angle: angle)
+//                var minFloor: CGFloat = 0
+//                for floor in floors{
+//                    minFloor = min(minFloor, floor.position.y + (floor.size.height/2))
+//                }
+                let floorHeight = player.position.y - player.sprite.frame.height/2
+                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight)
                 addChild(stoneWall.sprite)
                 directionsCombos.removeAll()
             case .A(.thunder):
@@ -410,14 +416,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         view.showsPhysics = true
         
         self.backgroundColor = .black
-        myFrame.myVariables.frame = self.size
-        myFrame.myVariables.scene = self
         physicsWorld.contactDelegate = self
         background.zPosition = -30
         background.anchorPoint = CGPoint(x: 0.5, y: 0)
-        background.size = CGSize(width: frame.width * 3, height: frame.height * 3)
+        background.size = CGSize(width: Constants.singleton.frame.width * 3, height: Constants.singleton.frame.height * 3)
         background.position.y = -Constants.singleton.frame.height/2
         addChild(background)
+        
+        floorBackground.zPosition = -15
+        floorBackground.anchorPoint = CGPoint(x: 0.5, y: 0)
+        floorBackground.size = CGSize(width: frame.width * 3, height: frame.height * 6)
+        floorBackground.position.y = frame.minY - (200*2)
+        addChild(floorBackground)
         
         // ------------------------------------------------------------------------
         setupPlayer()
@@ -429,9 +439,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupGround()
         
         // ------------------------------------------------------------------------
-        for i in 1...20{
-            delayWithSeconds(5.0 * Double(i)) { [self] in
-                self.setupSpawn(position: CGPoint(x: CGFloat(Double.random(in: Double(-size.width/3)...Double(size.width/3))), y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
+        if numberEnemies > 0 {
+            for i in 0...numberEnemies {
+                delayWithSeconds(5.0 * Double(i)) { [self] in
+                    self.setupSpawn(position: CGPoint(x: CGFloat(Double.random(in: Double(-size.width/3)...Double(size.width/3))), y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
+                }
             }
         }
         //------------------------------------------------------------------------
@@ -528,6 +540,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     if spider.currentState == .walking || spider.currentState == .idle{
                         spider.transition(to: .charging)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            spider.transition(to: .goingUp)
+                            //desiredHeight in x times the spider height
+                            let desiredHeight: CGFloat = 1.5
+                            //so pra caso a gravidade mude, muda isso aqui ou faz ser igual o valor nas constantes
+                            let gravity: CGFloat = -9.8
+                            
+                            spider.attributes.velocity.maxXSpeed *= 100
+                            spider.attributes.velocity.maxYSpeed *= 100
+                            let direction: CGFloat = spider.sprite.position.x > self.player.sprite.position.x ? -1 : 1
+                            if spider.currentState != .death{
+                                spider.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.singleton.playerSize.width/2 + Constants.singleton.spiderSize.width/2)) + (self.player.sprite.position.x - spider.sprite.position.x), dy: abs(Constants.singleton.playerSize.height - Constants.singleton.spiderSize.height) + (spider.sprite.position.y - spider.sprite.position.y) + (desiredHeight * spider.sprite.size.height) - (45.0 * gravity)))
+                            }
+                        }
                     }
                 }
             }
@@ -643,17 +669,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------------------------ movement
         movementInput = SKShapeNode(circleOfRadius: buttonRadius)
         movementInput.position = CGPoint(x: -width, y: height)
+        movementInput.zPosition = 10
         movementInput.strokeColor = Constants.singleton.buttonsColor
         movementInput.fillColor = Constants.singleton.buttonsColor.withAlphaComponent(0.2)
         
         // --------------------------------------------
         movementAnalogic = SKShapeNode(circleOfRadius: buttonRadius/4)
+        movementAnalogic.zPosition = 11
         movementAnalogic.position = movementInput.position
         movementAnalogic.fillColor = Constants.singleton.buttonsColor
     
         // ------------------------------------------------------------------------------------------ combos
         combosInput = SKShapeNode(circleOfRadius: buttonRadius)
         combosInput.position = CGPoint(x: width, y: height)
+        combosInput.strokeColor = .clear
         
         // --------------------------------------------
         let earth = SKSpriteNode(texture: Constants.singleton.earthPowerTexture)
@@ -895,7 +924,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupCamera() {
         let camera = SKCameraNode()
 //        camera.setScale(0.7)
-        camera.setScale(1)
+        camera.setScale(2)
         self.camera = camera
         addChild(camera)
     }
@@ -948,7 +977,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         floor.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: size.width, height: size.height * 0.9))
         floor.physicsBody?.isDynamic = false
         floor.name = "floor"
-        floor.zPosition = -25
+        floor.zPosition = -15
         floor.physicsBody?.categoryBitMask = Constants.singleton.wallMask
         floors.append(floor)
         floor.physicsBody?.friction = 0.7
