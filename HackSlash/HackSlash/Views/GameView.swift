@@ -96,6 +96,6 @@ class GameViewManager: ObservableObject{
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView(level: Levels.Level3).previewInterfaceOrientation(.landscapeRight)
+        GameView(level: Levels.Level1).previewInterfaceOrientation(.landscapeRight)
     }
 }

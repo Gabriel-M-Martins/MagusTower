@@ -14,7 +14,7 @@ struct LevelInfo {
 }
 
 enum Levels: CaseIterable {
-    case Tutorial, Level1, Level2, Level3
+    case Tutorial, Level1, Level2, Level3, Level4
     
     func getInfo() -> LevelInfo {
         switch self {
@@ -23,9 +23,11 @@ enum Levels: CaseIterable {
         case .Level1:
             return LevelInfo(background: "MainScene", enemiesQtd: 1, mapFile: "map1")
         case .Level2:
-            return LevelInfo(background: "MainScene", enemiesQtd: 1, mapFile: "map1")
-        case .Level3:
             return LevelInfo(background: "MainScene", enemiesQtd: 2, mapFile: "map1")
+        case .Level3:
+            return LevelInfo(background: "MainScene", enemiesQtd: 3, mapFile: "map1")
+        case .Level4:
+            return LevelInfo(background: "MainScene", enemiesQtd: 4, mapFile: "map1")
         }
     }
 }

@@ -17,6 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        } else {
 //            Constants.singleton.currentLevel += 1
 //        }
+        Constants.singleton.locker = false
         if level == .Level1{
             Constants.singleton.currentLevel = 1
         }
@@ -597,6 +598,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             Constants.singleton.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
         }
         if numberEnemies == spidersKilled {
+            Constants.singleton.locker = true
             Constants.singleton.notificationCenter.post(name: Notification.Name("playerWin"), object: nil)
         }
         

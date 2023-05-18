@@ -14,22 +14,30 @@ struct GameWinView: View {
                 ZStack{
                     Color.black.opacity(0.4)
                     Group{
-                        NavigationLink(destination: {
-                            if Constants.singleton.currentLevel > Levels.allCases.count {
-                                MainMenuView()
-                            } else {
-                                if Constants.singleton.currentLevel == Levels.allCases.count{
+                        if Constants.singleton.locker{
+                            NavigationLink(destination: {
+                                if Constants.singleton.currentLevel >= Levels.allCases.count {
+                                    MainMenuView()
+                                } else {
                                     GameView(level: Levels.allCases[Constants.singleton.currentLevel])
                                 }
-                                GameView(level: Levels.allCases[Constants.singleton.currentLevel])
-                            }
-                        }, label: {
-                            Image("Next")
-                        })
-                        .simultaneousGesture(TapGesture().onEnded{
-                            AudioManager.shared.playSound(named: "buttonClick.mp3")
-                        })
-                        .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.70)
+                            }, label: {
+                                Image("Next")
+                            })
+                            .simultaneousGesture(TapGesture().onEnded{
+                                AudioManager.shared.playSound(named: "buttonClick.mp3")
+                            })
+                            .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.70)
+                        }
+                        else{
+                            Button(action: {
+                                AudioManager.shared.playSound(named: "buttonClick.mp3")
+                            }, label: {
+                                Image("Next")
+                            })
+                            .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.70)
+                        }
+                            
                         
                         Image("GameWin Sign")
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.3)
