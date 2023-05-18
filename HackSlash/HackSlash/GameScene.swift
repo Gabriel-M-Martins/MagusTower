@@ -364,8 +364,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                for floor in floors{
 //                    minFloor = min(minFloor, floor.position.y + (floor.size.height/2))
 //                }
-                let floorHeight = player.position.y - player.sprite.frame.height/2
-                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight)
+                var nd: SKNode?
+                for i in floors + platforms {
+                    if player.sprite.intersects(i) {
+                        nd = i
+                    }
+                }
+                
+                var floorHeight = player.position.y - player.sprite.frame.height/2
+                if nd == nil {
+                    floorHeight = floors[0].position.y
+                }
+                
+                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd)
                 addChild(stoneWall.sprite)
                 directionsCombos.removeAll()
             case .A(.thunder):
