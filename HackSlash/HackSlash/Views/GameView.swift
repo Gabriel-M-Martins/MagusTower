@@ -17,9 +17,7 @@ struct GameView: View {
     @ObservedObject var viewManager: GameViewManager = GameViewManager()
     
     init(level: LevelInfo) {
-        self.scene = GameScene(background: level.background, enemiesQtd: level.enemiesQtd, levelMapFile: level.mapFile)
-        scene.scaleMode = .aspectFill
-        scene.anchorPoint = .zero
+        self._scene = StateObject(wrappedValue: GameScene(background: level.background, enemiesQtd: level.enemiesQtd, levelMapFile: level.mapFile))
     }
     
     var body: some View {
@@ -47,7 +45,7 @@ struct GameView: View {
                 .position(x: geo.frame(in: .global).maxX - geo.frame(in: .global).width*0.18, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.12)
                 
                 if(paused){
-                    PauseView(paused: $paused, scene: $scene)
+                    PauseView(paused: $paused, scene: Binding.constant(scene))
                 }
                 
                 if(viewManager.didDie){
@@ -70,6 +68,10 @@ struct GameView: View {
             }
         }
         .edgesIgnoringSafeArea(.all)
+        .onAppear{
+            scene.scaleMode = .aspectFill
+            scene.anchorPoint = .zero
+        }
     }
 }
 
