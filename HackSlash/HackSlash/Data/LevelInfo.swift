@@ -21,7 +21,7 @@ enum Levels {
         case .Tutorial:
             return LevelInfo(background: "MainScene", enemiesQtd: 1, mapFile: "map2")
         case .Level1:
-            return LevelInfo(background: "MainScene", enemiesQtd: 0, mapFile: "map1")
+            return LevelInfo(background: "MainScene", enemiesQtd: 1, mapFile: "map1")
         }
     }
 }
