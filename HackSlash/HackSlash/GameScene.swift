@@ -234,6 +234,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         directionsMovement = Directions.calculateDirections(vector).filter { dir in
             dir != .down
         }
+//        for d in directionsMovement {
+//            if d == .up{
+//                AudioManager.shared.playSound(named: "basicAttack.wav")
+//            }
+//        }
     }
     
     private func hidde(_ h: Bool, list: [SKSpriteNode]) {
@@ -529,6 +534,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 if spider.attributes.health<=0 {
                     if spider.currentState != .death{
+                        AudioManager.shared.playSound(named: "spiderDying.wav")
                         var copy = spider
                         copy.transition(to: .death)
                         spiders.remove(at: idx)
@@ -1009,6 +1015,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
+        AudioManager.shared.playSound(named: "spiderSpawn.wav")
         let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 100), player: player, idSpider: idSpider)
         return spider
     }
