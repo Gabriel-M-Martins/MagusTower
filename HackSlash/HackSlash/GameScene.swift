@@ -229,7 +229,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // ------------------------------------------------------------------------
         for i in 1...20{
             delayWithSeconds(5.0 * Double(i)) { [self] in
-                self.setupSpawn(position: CGPoint(x: frame.midX, y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
+                self.setupSpawn(position: CGPoint(x: frame.maxX*2 + 200, y: frame.maxY*2 + 200), spriteName: "Spider", idSpawn: i)
             }
         }
         //------------------------------------------------------------------------
