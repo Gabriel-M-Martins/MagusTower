@@ -23,6 +23,7 @@ struct GameView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack{
+//                SpriteView(scene: scene, debugOptions: .showsPhysics)
                 SpriteView(scene: scene)
                     .edgesIgnoringSafeArea(.all)
                     .navigationBarBackButtonHidden()
