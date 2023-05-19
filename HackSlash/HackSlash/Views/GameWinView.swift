@@ -16,10 +16,10 @@ struct GameWinView: View {
                     Group{
                         if Constants.singleton.locker{
                             NavigationLink(destination: {
-                                if Constants.singleton.currentLevel >= Levels.allCases.count {
+                                if Constants.singleton.nextLevel >= Levels.allCases.count {
                                     MainMenuView()
                                 } else {
-                                    GameView(level: Levels.allCases[Constants.singleton.currentLevel])
+                                    GameView(level: Levels.allCases[Constants.singleton.nextLevel])
                                 }
                             }, label: {
                                 Image("Next")

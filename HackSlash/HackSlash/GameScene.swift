@@ -13,12 +13,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let info = level.getInfo()
         
         Constants.singleton.locker = false
-        if level == .Level1{
-            Constants.singleton.currentLevel = 1
+        
+        if level == .Level1 {
+            Constants.singleton.nextLevel = 1
         } else if level == .Tutorial {
-            Constants.singleton.currentLevel = 0
+            Constants.singleton.nextLevel = 0
+            tutorialFlag = true
         }
-        Constants.singleton.currentLevel += 1
+        
+        Constants.singleton.nextLevel += 1
         
         self.background = SKSpriteNode(texture: SKTexture(imageNamed: info.background))
         self.numberEnemies = info.enemiesQtd
@@ -27,6 +30,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.levelLabel = SKLabelNode(text: level.name())
         
+        self.spawnRate = info.spawnRate
+        
         super.init(size: Constants.singleton.frame.size)
     }
     
@@ -34,6 +39,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let spawnRate: Double
+    
+    private var tutorialFlag = false
     
     private var platforms: [SKSpriteNode] = []
     private var walls: [SKSpriteNode] = []
@@ -78,11 +86,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var mapInterpreter: MapInterpreter
     
     private func recordTower(){
-        guard Constants.singleton.currentLevel != 1 else { return }
+        guard Constants.singleton.nextLevel != 1 else { return }
         let aux: Int = Int(UserDefaults.standard.string(forKey: "highscore")!)!
-        if aux < Constants.singleton.currentLevel-1{
-            UserDefaults.standard.set(String(Constants.singleton.currentLevel-1), forKey: "highscore")
+        if aux < Constants.singleton.nextLevel-1{
+            UserDefaults.standard.set(String(Constants.singleton.nextLevel-1), forKey: "highscore")
         }
+    }
+    
+    private func setupTutorial() {
+        let text1 = SKLabelNode(text: "To move, use the joystick on the left corner of the screen.")
+        
+//        let text2 = SKLabelNode(text: "Use the joystick on the right corner of the screen to attack.")
+        let text3 = SKLabelNode(text: "To cast a fireball, swipe left on the right joystick, then up and then aim where you feel like it.")
+        
+        let text4 = SKLabelNode(text: "Beyond this wall is an evil spider.")
+        let text5 = SKLabelNode(text: "Mages hate spiders.")
+        
+        let texts = [text1, text3, text4, text5]
+        for i in texts {
+            i.fontName = "NovaCut-Regular"
+            i.fontSize = 23
+        }
+        
+        text1.position = CGPoint(x: -850, y: 40)
+        text3.position = CGPoint(x: -300, y: 140)
+        text4.position = CGPoint(x: 300, y: 35)
+        text5.position = CGPoint(x: 800, y: 70)
+        
+        addChild(text1)
+        addChild(text3)
+        addChild(text4)
+        addChild(text5)
     }
     
     private func setupLabel() {
@@ -101,7 +135,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func setupDoor() {
-        let plat = (platforms).randomElement()!
+        let plat: SKSpriteNode
+        
+        if tutorialFlag {
+            plat = platforms[1]
+        } else {
+            plat = platforms.randomElement()!
+        }
         
         door = SKSpriteNode(imageNamed: "DoorLocked")
         door.name = "door"
@@ -506,10 +546,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupDoor()
         
         // ------------------------------------------------------------------------
-        if numberEnemies > 0 {
+        
+        if tutorialFlag {
+            setupTutorial()
+            delayWithSeconds(spawnRate) { [self] in
+                self.setupSpawn(position: CGPoint(x: 900, y: 2 * frame.maxY), spriteName: "Spider", idSpawn: 1)
+            }
+        } else {
             for i in 0...numberEnemies - 1 {
-                delayWithSeconds(5.0 * Double(i)) { [self] in
-                    self.setupSpawn(position: CGPoint(x: CGFloat(Double.random(in: Double(-size.width/3)...Double(size.width/3))), y: 2 * frame.maxY + 200), spriteName: "Spider", idSpawn: i)
+                delayWithSeconds(spawnRate * Double(i)) { [self] in
+                    self.setupSpawn(position: CGPoint(x: CGFloat.random(in: -Constants.singleton.frame.width/3...Constants.singleton.frame.width/3), y: 2 * frame.maxY), spriteName: "Spider", idSpawn: i)
                 }
             }
         }
@@ -1071,7 +1117,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupPlayer(){
         //Creates player and adds it to the scene
         player = Player(sprite: "MagoFrente")
-        player.sprite.position.y += frame.midY + frame.midY/2
+        player.sprite.position.y += Constants.singleton.frame.height/2 //frame.midY + frame.midY/2
+        
+        if tutorialFlag {
+            player.sprite.position.x += -700
+        } else {
+            player.sprite.position.x += .random(in: -Constants.singleton.frame.width...Constants.singleton.frame.width)
+        }
+        
         addChild(player.sprite)
     }
     

@@ -21,14 +21,16 @@ struct MapInterpreter {
         let coords = MapInterpreter.parseCoordinates(text, idx: "1")
         let platformWidth = (map.width * scale) / CGFloat(coords.1 /* *10 */)
 
-        rects = []
         let minX = -Constants.singleton.frame.width/2
+
+        // -------------------------------------------------------------------------------- platforms
+        rects = []
+        
         var currentHeight = 100 - Constants.singleton.frame.height/2
         for line in coords.0.reversed() {
             for coord in line {
                 let width = platformWidth * CGFloat(coord.size)
                 let posX = (minX * scale) + (platformWidth * CGFloat(coord.start)) + width/2
-//                let posX = (map.minX * scale) + (platformWidth * CGFloat(coord.start)) + width/2
                 
                 rects.append((CGSize(width: width, height: platformHeight), CGPoint(x: posX, y: currentHeight)))
             }
@@ -38,6 +40,7 @@ struct MapInterpreter {
         let coordsWall = MapInterpreter.parseCoordinates(text, idx: "2")
         let platformWidthWall = (map.width * scale) / CGFloat(coordsWall.1 /* *10 */)
 
+        // -------------------------------------------------------------------------------- walls
         wall = []
         
         currentHeight = -Constants.singleton.frame.height/2
@@ -52,8 +55,9 @@ struct MapInterpreter {
         }
         
         let coordsFloor = MapInterpreter.parseCoordinates(text, idx: "3")
-        let platformWidthFloor = (map.width * scale) / CGFloat(coordsFloor.1 /* *10 */)
+        let platformWidthFloor = (map.width * scale) / CGFloat(coordsFloor.1)
 
+        // -------------------------------------------------------------------------------- floor
         floor = []
         
         currentHeight = 100 - Constants.singleton.frame.height/2
