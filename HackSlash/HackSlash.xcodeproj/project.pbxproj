@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7CAC0E582A17C0E10038C61E /* NovaCut-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAC0E572A17C0E10038C61E /* NovaCut-Regular.ttf */; };
 		7CC87CE22A16A01400BAA731 /* GameWinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC87CE12A16A01400BAA731 /* GameWinView.swift */; };
 		7CDBB2D72A12B561003EC549 /* HPBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBB2D62A12B561003EC549 /* HPBar.swift */; };
 		9202EB022A0EAD0500F5A109 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EAFA2A0EAD0500F5A109 /* MainMenuView.swift */; };
@@ -16,6 +15,8 @@
 		9202EB082A0EAD0500F5A109 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB002A0EAD0500F5A109 /* PauseView.swift */; };
 		9202EB092A0EAD0500F5A109 /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB012A0EAD0500F5A109 /* CreditsView.swift */; };
 		9202EB0B2A0EAD0F00F5A109 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EB0A2A0EAD0F00F5A109 /* CustomSlider.swift */; };
+		92393F4F2A17C59600F7C955 /* notification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 92393F4E2A17C59500F7C955 /* notification.mp3 */; };
+		92393F532A17C61800F7C955 /* FloorSignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92393F522A17C61800F7C955 /* FloorSignView.swift */; };
 		92420C5B2A13F79500AE47A9 /* buttonClick.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 92420C5A2A13F79500AE47A9 /* buttonClick.mp3 */; };
 		92420C5D2A13F79C00AE47A9 /* magicCast.wav in Resources */ = {isa = PBXBuildFile; fileRef = 92420C5C2A13F79C00AE47A9 /* magicCast.wav */; };
 		92420C5F2A13F79F00AE47A9 /* basicAttack.wav in Resources */ = {isa = PBXBuildFile; fileRef = 92420C5E2A13F79F00AE47A9 /* basicAttack.wav */; };
@@ -83,7 +84,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7CAC0E572A17C0E10038C61E /* NovaCut-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NovaCut-Regular.ttf"; sourceTree = "<group>"; };
 		7CC87CE12A16A01400BAA731 /* GameWinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameWinView.swift; sourceTree = "<group>"; };
 		7CDBB2D62A12B561003EC549 /* HPBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPBar.swift; sourceTree = "<group>"; };
 		9202EAFA2A0EAD0500F5A109 /* MainMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
@@ -92,6 +92,8 @@
 		9202EB002A0EAD0500F5A109 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
 		9202EB012A0EAD0500F5A109 /* CreditsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
 		9202EB0A2A0EAD0F00F5A109 /* CustomSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		92393F4E2A17C59500F7C955 /* notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = notification.mp3; sourceTree = "<group>"; };
+		92393F522A17C61800F7C955 /* FloorSignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorSignView.swift; sourceTree = "<group>"; };
 		92420C5A2A13F79500AE47A9 /* buttonClick.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buttonClick.mp3; sourceTree = "<group>"; };
 		92420C5C2A13F79C00AE47A9 /* magicCast.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = magicCast.wav; sourceTree = "<group>"; };
 		92420C5E2A13F79F00AE47A9 /* basicAttack.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = basicAttack.wav; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				7CDBB2D62A12B561003EC549 /* HPBar.swift */,
 				92C004C92A154B24001E8312 /* GameOverView.swift */,
 				7CC87CE12A16A01400BAA731 /* GameWinView.swift */,
+				92393F522A17C61800F7C955 /* FloorSignView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 			children = (
 				92C004CD2A156F86001E8312 /* MagusTowerOST.mp3 */,
 				92420C5C2A13F79C00AE47A9 /* magicCast.wav */,
+				92393F4E2A17C59500F7C955 /* notification.mp3 */,
 				92420C602A13F7B700AE47A9 /* spiderDying.wav */,
 				92420C622A13F7BA00AE47A9 /* spiderAttack.wav */,
 				92420C642A13F7BC00AE47A9 /* spiderSpawn.wav */,
@@ -281,7 +285,6 @@
 		A7C1668629F71DC1003B096D = {
 			isa = PBXGroup;
 			children = (
-				7CAC0E572A17C0E10038C61E /* NovaCut-Regular.ttf */,
 				A7C1669129F71DC1003B096D /* HackSlash */,
 				A7C1669029F71DC1003B096D /* Products */,
 			);
@@ -430,7 +433,6 @@
 				92420C652A13F7BC00AE47A9 /* spiderSpawn.wav in Resources */,
 				A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */,
 				F9911E6F2A129CFC005F2B2C /* Assets.xcassets in Resources */,
-				7CAC0E582A17C0E10038C61E /* NovaCut-Regular.ttf in Resources */,
 				9202EB042A0EAD0500F5A109 /* Fonts in Resources */,
 				A7AF3E5B2A0D2B8300E36A42 /* map1.txt in Resources */,
 				92E3DF6E2A12CA63008A1AEE /* Assets.xcassets in Resources */,
@@ -449,6 +451,7 @@
 				92420C632A13F7BA00AE47A9 /* spiderAttack.wav in Resources */,
 				92E3DF702A12CB59008A1AEE /* IceAura.sks in Resources */,
 				F9911E6E2A129CFC005F2B2C /* Collectable.sks in Resources */,
+				92393F4F2A17C59600F7C955 /* notification.mp3 in Resources */,
 				A77414D22A16E58F00E96021 /* door.wav in Resources */,
 				A7C1669729F71DC1003B096D /* Actions.sks in Resources */,
 				92420C5B2A13F79500AE47A9 /* buttonClick.mp3 in Resources */,
@@ -466,6 +469,7 @@
 				A71EEAB92A0D284B0063BC77 /* MapInterpreter.swift in Sources */,
 				9202EB0B2A0EAD0F00F5A109 /* CustomSlider.swift in Sources */,
 				F9CB0BAB2A041D47004A0661 /* StatesSpider.swift in Sources */,
+				92393F532A17C61800F7C955 /* FloorSignView.swift in Sources */,
 				F9CB0BAF2A043EE0004A0661 /* DetectsCollision.swift in Sources */,
 				F9CB0BA92A041BB2004A0661 /* EnemySpider.swift in Sources */,
 				92E3DF6A2A12C62B008A1AEE /* AudioManager.swift in Sources */,
@@ -651,7 +655,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 856F4M2786;
+				DEVELOPMENT_TEAM = F3LPWZ43F8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Magus Tower";
@@ -668,7 +672,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 19.05.23;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlash;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlashi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -683,7 +687,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 856F4M2786;
+				DEVELOPMENT_TEAM = F3LPWZ43F8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Magus Tower";
@@ -700,7 +704,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 19.05.23;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlash;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlashi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

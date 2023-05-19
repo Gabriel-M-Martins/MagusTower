@@ -87,10 +87,11 @@ struct MainMenuView: View {
                                 HStack {
                                     Spacer()
                                     Text("Highscore: \(UserDefaults.standard.string(forKey: "highscore")!)").foregroundColor(.white).font(.title2).opacity(0.3)
-                                        .padding()
+                                        .padding(.bottom, 0)
                                 }
-                                .padding()
-                            }.padding()
+                                .padding(.trailing, 10)
+                            }
+                            .padding()
                         }
                         
                         if(showSettings){

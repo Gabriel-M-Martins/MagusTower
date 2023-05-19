@@ -79,6 +79,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func recordTower(){
         guard Constants.singleton.currentLevel != 1 else { return }
+        guard let high = UserDefaults.standard.object(forKey: "highscore") else { return }
         let aux: Int = Int(UserDefaults.standard.string(forKey: "highscore")!)!
         if aux < Constants.singleton.currentLevel-1{
             UserDefaults.standard.set(String(Constants.singleton.currentLevel-1), forKey: "highscore")
@@ -86,18 +87,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func setupLabel() {
-        levelLabel.position = CGPoint(x: 0, y: 50)
-        levelLabel.setScale(0)
-        levelLabel.fontName = "NovaCut-Regular"
-        
-        camera?.addChild(levelLabel)
-        
-        levelLabel.run(.sequence([
-            .scale(to: 1, duration: 1),
-            .wait(forDuration: 1),
-            .scale(to: 0, duration: 0.25),
-            .removeFromParent()
-        ]))
+//        levelLabel.position = CGPoint(x: 0, y: 50)
+//        levelLabel.setScale(0)
+//        levelLabel.fontName = "NovaCut-Regular"
+//
+//        camera?.addChild(levelLabel)
+//
+//        levelLabel.run(.sequence([
+//            .scale(to: 1, duration: 1),
+//            .wait(forDuration: 1),
+//            .scale(to: 0, duration: 0.25),
+//            .removeFromParent()
+//        ]))
     }
     
     private func setupDoor() {
@@ -602,7 +603,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             if numberEnemies == spidersKilled {
-                AudioManager.shared.playSound(named: "door.wav")
+                AudioManager.shared.playSound(named: "notification.mp3")
                 self.openDoor()
             }
         }
