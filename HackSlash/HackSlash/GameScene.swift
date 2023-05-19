@@ -77,6 +77,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var mapInterpreter: MapInterpreter
     
+    private func recordTower(){
+        guard Constants.singleton.currentLevel != 1 else { return }
+        let aux: Int = Int(UserDefaults.standard.string(forKey: "highscore")!)!
+        if aux < Constants.singleton.currentLevel-1{
+            UserDefaults.standard.set(String(Constants.singleton.currentLevel-1), forKey: "highscore")
+        }
+    }
+    
     private func setupLabel() {
         levelLabel.position = CGPoint(x: 0, y: 50)
         levelLabel.setScale(0)
@@ -626,6 +634,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else if (contact.bodyA.node?.name == "door") || (contact.bodyB.node?.name == "door") {
             Constants.singleton.locker = true
             Constants.singleton.notificationCenter.post(name: Notification.Name("playerWin"), object: nil)
+            recordTower()
             AudioManager.shared.playSound(named: "door.wav")
         }
     }
@@ -633,6 +642,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         if player.attributes.health <= 0 {
             Constants.singleton.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
+            recordTower()
         }
         //        if numberEnemies == spidersKilled {
         ////            AudioManager.shared.playSound(named: "door.wav")

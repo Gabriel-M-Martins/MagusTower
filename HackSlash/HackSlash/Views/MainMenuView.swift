@@ -25,6 +25,10 @@ struct MainMenuView: View {
         if let sfxVolume = UserDefaults.standard.string(forKey: "sfxVolume"), !sfxVolume.isEmpty{
             AudioManager.shared.setSFXVolume(Float(sfxVolume)!/100.0)
         }
+        
+        if let high = UserDefaults.standard.string(forKey: "highscore"), !high.isEmpty{
+            hasHighScore = true
+        }
     }
 
     var body: some View {
@@ -81,7 +85,7 @@ struct MainMenuView: View {
                                 Spacer()
                                 HStack {
                                     Spacer()
-                                    Text("Highscore: 0").foregroundColor(.white).font(.title2).opacity(0.3)
+                                    Text("Highscore: \(UserDefaults.standard.string(forKey: "highscore")!)").foregroundColor(.white).font(.title2).opacity(0.3)
                                         .padding()
                                 }
                                 .padding()

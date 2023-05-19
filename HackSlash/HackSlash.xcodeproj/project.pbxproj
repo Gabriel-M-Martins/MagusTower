@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7CAC0E582A17C0E10038C61E /* NovaCut-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAC0E572A17C0E10038C61E /* NovaCut-Regular.ttf */; };
 		7CC87CE22A16A01400BAA731 /* GameWinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC87CE12A16A01400BAA731 /* GameWinView.swift */; };
 		7CDBB2D72A12B561003EC549 /* HPBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBB2D62A12B561003EC549 /* HPBar.swift */; };
 		9202EB022A0EAD0500F5A109 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EAFA2A0EAD0500F5A109 /* MainMenuView.swift */; };
@@ -82,6 +83,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7CAC0E572A17C0E10038C61E /* NovaCut-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NovaCut-Regular.ttf"; sourceTree = "<group>"; };
 		7CC87CE12A16A01400BAA731 /* GameWinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameWinView.swift; sourceTree = "<group>"; };
 		7CDBB2D62A12B561003EC549 /* HPBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPBar.swift; sourceTree = "<group>"; };
 		9202EAFA2A0EAD0500F5A109 /* MainMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 		A7C1668629F71DC1003B096D = {
 			isa = PBXGroup;
 			children = (
+				7CAC0E572A17C0E10038C61E /* NovaCut-Regular.ttf */,
 				A7C1669129F71DC1003B096D /* HackSlash */,
 				A7C1669029F71DC1003B096D /* Products */,
 			);
@@ -427,6 +430,7 @@
 				92420C652A13F7BC00AE47A9 /* spiderSpawn.wav in Resources */,
 				A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */,
 				F9911E6F2A129CFC005F2B2C /* Assets.xcassets in Resources */,
+				7CAC0E582A17C0E10038C61E /* NovaCut-Regular.ttf in Resources */,
 				9202EB042A0EAD0500F5A109 /* Fonts in Resources */,
 				A7AF3E5B2A0D2B8300E36A42 /* map1.txt in Resources */,
 				92E3DF6E2A12CA63008A1AEE /* Assets.xcassets in Resources */,
@@ -650,6 +654,8 @@
 				DEVELOPMENT_TEAM = 856F4M2786;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Magus Tower";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.action-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -661,7 +667,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 19.05.23;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -677,9 +683,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 73DNAYF2TM;
+				DEVELOPMENT_TEAM = 856F4M2786;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Magus Tower";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.action-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -691,7 +699,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 19.05.23;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.challenge.HackSlash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
