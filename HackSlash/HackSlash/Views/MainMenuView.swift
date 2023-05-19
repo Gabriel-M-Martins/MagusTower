@@ -12,6 +12,7 @@ struct MainMenuView: View {
     @State var showSettings: Bool = false
     @State var showCredits: Bool = false
     @State var hasHighScore: Bool = false
+    @State var highest: String = "0"
     
     func loadUserData(){
         if let masterVolume = UserDefaults.standard.string(forKey: "masterVolume"), !masterVolume.isEmpty{
@@ -24,6 +25,10 @@ struct MainMenuView: View {
         
         if let sfxVolume = UserDefaults.standard.string(forKey: "sfxVolume"), !sfxVolume.isEmpty{
             AudioManager.shared.setSFXVolume(Float(sfxVolume)!/100.0)
+        }
+        
+        if let high = UserDefaults.standard.string(forKey: "highscore"), !high.isEmpty{
+            hasHighScore = true
         }
     }
 
@@ -81,11 +86,12 @@ struct MainMenuView: View {
                                 Spacer()
                                 HStack {
                                     Spacer()
-                                    Text("Highscore: 0").foregroundColor(.white).font(.title2).opacity(0.3)
-                                        .padding()
+                                    Text("Highscore: \(UserDefaults.standard.string(forKey: "highscore")!)").foregroundColor(.white).font(.title2).opacity(0.3)
+                                        .padding(.bottom, 0)
                                 }
-                                .padding()
-                            }.padding()
+                                .padding(.trailing, 10)
+                            }
+                            .padding()
                         }
                         
                         if(showSettings){

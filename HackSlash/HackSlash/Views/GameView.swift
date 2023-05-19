@@ -15,6 +15,7 @@ struct GameView: View {
     @StateObject var scene: SKScene
     @State var paused = false
     @ObservedObject var viewManager: GameViewManager = GameViewManager()
+    @State var floorSign = true
     
     init(level: Levels) {
         self._scene = StateObject(wrappedValue: GameScene(level: level))
@@ -23,7 +24,8 @@ struct GameView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack{
-                SpriteView(scene: scene, debugOptions: .showsPhysics)
+//                SpriteView(scene: scene, debugOptions: .showsPhysics)
+                SpriteView(scene: scene)
                     .edgesIgnoringSafeArea(.all)
                     .navigationBarBackButtonHidden()
                 
@@ -43,6 +45,12 @@ struct GameView: View {
                     .frame(width:200, height:15)
                 }
                 .position(x: geo.frame(in: .global).maxX - geo.frame(in: .global).width*0.18, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.12)
+                
+                if(floorSign){
+                    if Constants.singleton.currentLevel != 1{
+                        FloorSignView()
+                    }
+                }
                 
                 if(paused){
                     PauseView(paused: $paused, scene: Binding.constant(scene))
