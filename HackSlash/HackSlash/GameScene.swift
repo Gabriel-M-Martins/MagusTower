@@ -24,7 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.numberEnemies = info.enemiesQtd
         
         self.mapInterpreter = MapInterpreter(map: Constants.singleton.frame, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: info.mapFile)!
-
+        
         self.levelLabel = SKLabelNode(text: level.name())
         
         super.init(size: Constants.singleton.frame.size)
@@ -97,7 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         door = SKSpriteNode(imageNamed: "DoorLocked")
         door.name = "door"
-
+        
         door.setScale(2)
         door.position = CGPoint(x: plat.frame.midX, y: plat.position.y + door.frame.height/2)
         door.zPosition = -7
@@ -133,7 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let camera = camera else { return }
-
+        
         for t in self.touches {
             
             let pos = t.0.location(in: camera)
@@ -253,7 +253,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let camera = camera else { return }
-    
+        
         self.touches = self.touches.filter({ (t, i) in
             guard touches.contains(t) else { return true }
             
@@ -297,7 +297,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             i.isHidden = h
         }
     }
-
+    
     //Spell count declarado aqui só p ficar mais entendível
     var spellCount: Int = 0
     
@@ -312,20 +312,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.directionsCombos.removeAll()
                     
                     self.hidde(true, list: self.directionCombo)
-                    
-                    switch directions[0]{
-                    case .up:
-                        self.hidde(true, list: self.iceCombo)
-                        
-                    case .down:
-                        self.hidde(true, list: self.thunderCombo)
-                        
-                    case .left:
-                        self.hidde(true, list: self.fireCombo)
-                        
-                    case .right:
-                        self.hidde(true, list: self.earthCombo)
-                    }
+                    self.hidde(true, list: self.iceCombo)
+                    self.hidde(true, list: self.thunderCombo)
+                    self.hidde(true, list: self.fireCombo)
+                    self.hidde(true, list: self.earthCombo)
                     
                     self.hidde(false, list: self.elementCombo)
                     
@@ -415,10 +405,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(iceball.node)
                 directionsCombos.removeAll()
             case .A(.earth):
-//                var minFloor: CGFloat = 0
-//                for floor in floors{
-//                    minFloor = min(minFloor, floor.position.y + (floor.size.height/2))
-//                }
+                //                var minFloor: CGFloat = 0
+                //                for floor in floors{
+                //                    minFloor = min(minFloor, floor.position.y + (floor.size.height/2))
+                //                }
                 var floorHeight = player.position.y - player.sprite.frame.height/2
                 var nd: SKNode?
                 for i in floors + platforms {
@@ -498,7 +488,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // ------------------------------------------------------------------------
         setupPlayer()
-
+        
         // ------------------------------------------------------------------------
         setupCamera()
         setupLabel()
@@ -511,7 +501,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if numberEnemies > 0 {
             for i in 0...numberEnemies - 1 {
                 delayWithSeconds(5.0 * Double(i)) { [self] in
-                    self.setupSpawn(position: CGPoint(x: CGFloat(Double.random(in: Double(-size.width/3)...Double(size.width/3))), y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
+                    self.setupSpawn(position: CGPoint(x: CGFloat(Double.random(in: Double(-size.width/3)...Double(size.width/3))), y: 2 * frame.maxY + 200), spriteName: "Spider", idSpawn: i)
                 }
             }
         }
@@ -644,10 +634,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if player.attributes.health <= 0 {
             Constants.singleton.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
         }
-//        if numberEnemies == spidersKilled {
-////            AudioManager.shared.playSound(named: "door.wav")
-//            self.openDoor()
-//        }
+        //        if numberEnemies == spidersKilled {
+        ////            AudioManager.shared.playSound(named: "door.wav")
+        //            self.openDoor()
+        //        }
         
         camera?.position = player.position
         for spider in spiders{
@@ -729,17 +719,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.singleton.groundMask
                     }
                 }
-//                else if spider.sprite.physicsBody!.collisionBitMask & Constants.wallMask == 0 {
-//                    var hasCollided = false
-//                    for floor in floors {
-//                        if floor.intersects(spider.sprite){
-//                            hasCollided = true
-//                        }
-//                    }
-//                    if !hasCollided {
-//                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.wallMask
-//                    }
-//                }
+                //                else if spider.sprite.physicsBody!.collisionBitMask & Constants.wallMask == 0 {
+                //                    var hasCollided = false
+                //                    for floor in floors {
+                //                        if floor.intersects(spider.sprite){
+                //                            hasCollided = true
+                //                        }
+                //                    }
+                //                    if !hasCollided {
+                //                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.wallMask
+                //                    }
+                //                }
             }
         }
     }
@@ -762,7 +752,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         movementAnalogic.zPosition = 11
         movementAnalogic.position = movementInput.position
         movementAnalogic.fillColor = Constants.singleton.buttonsColor
-    
+        
         // ------------------------------------------------------------------------------------------ combos
         combosInput = SKShapeNode(circleOfRadius: buttonRadius)
         combosInput.position = CGPoint(x: width, y: height)
@@ -1004,10 +994,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             addChild(enemy.sprite)
         }
     }
-
+    
     func setupCamera() {
         let camera = SKCameraNode()
-//        camera.setScale(0.7)
+        //        camera.setScale(0.7)
         camera.setScale(2)
         self.camera = camera
         addChild(camera)
@@ -1080,5 +1070,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 100), player: player, idSpider: idSpider)
         return spider
     }
-
+    
 }

@@ -21,13 +21,13 @@ enum Levels: CaseIterable {
         case .Tutorial:
             return LevelInfo(background: "Tutorial", enemiesQtd: 1, mapFile: "map2")
         case .Level1:
-            return LevelInfo(background: "MainScene", enemiesQtd: 1, mapFile: "map1")
+            return LevelInfo(background: "MainScene", enemiesQtd: 5, mapFile: "map1")
         case .Level2:
-            return LevelInfo(background: "MainScene", enemiesQtd: 2, mapFile: "map1")
+            return LevelInfo(background: "MainScene", enemiesQtd: 10, mapFile: "map1")
         case .Level3:
-            return LevelInfo(background: "MainScene", enemiesQtd: 3, mapFile: "map1")
+            return LevelInfo(background: "MainScene", enemiesQtd: 15, mapFile: "map1")
         case .Level4:
-            return LevelInfo(background: "MainScene", enemiesQtd: 4, mapFile: "map1")
+            return LevelInfo(background: "MainScene", enemiesQtd: 20, mapFile: "map1")
         }
     }
     
