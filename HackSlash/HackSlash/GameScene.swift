@@ -15,13 +15,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Constants.singleton.locker = false
         
         if level == .Level1 {
-            Constants.singleton.nextLevel = 1
+            Constants.singleton.currentLevel = 1
         } else if level == .Tutorial {
-            Constants.singleton.nextLevel = 0
+            Constants.singleton.currentLevel = 0
             tutorialFlag = true
         }
         
-        Constants.singleton.nextLevel += 1
+        Constants.singleton.currentLevel += 1
         
         self.background = SKSpriteNode(texture: SKTexture(imageNamed: info.background))
         self.numberEnemies = info.enemiesQtd
@@ -85,13 +85,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var mapInterpreter: MapInterpreter
     
-    private func recordTower(){
-        guard Constants.singleton.nextLevel != 1 else { return }
-        let aux: Int = Int(UserDefaults.standard.string(forKey: "highscore")!)!
-        if aux < Constants.singleton.nextLevel-1{
-            UserDefaults.standard.set(String(Constants.singleton.nextLevel-1), forKey: "highscore")
-        }
-    }
+//    private func recordTower(){
+//        guard Constants.singleton.currentLevel != 1 else { return }
+//        let aux: Int = Int(UserDefaults.standard.string(forKey: "highscore")!)!
+//        if aux < Constants.singleton.currentLevel-1{
+//            UserDefaults.standard.set(String(Constants.singleton.currentLevel-1), forKey: "highscore")
+//        }
+//    }
     
     private func setupTutorial() {
         let text1 = SKLabelNode(text: "To move, use the joystick on the left corner of the screen.")
@@ -680,7 +680,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else if (contact.bodyA.node?.name == "door") || (contact.bodyB.node?.name == "door") {
             Constants.singleton.locker = true
             Constants.singleton.notificationCenter.post(name: Notification.Name("playerWin"), object: nil)
-            recordTower()
+            //recordTower()
             AudioManager.shared.playSound(named: "door.wav")
         }
     }
@@ -688,7 +688,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         if player.attributes.health <= 0 {
             Constants.singleton.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
-            recordTower()
+            //recordTower()
         }
         //        if numberEnemies == spidersKilled {
         ////            AudioManager.shared.playSound(named: "door.wav")
@@ -765,14 +765,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for spider in spiders{
             if spider.currentState == .attack{
                 if spider.sprite.physicsBody!.collisionBitMask & Constants.singleton.groundMask == 0 {
-                    var hasCollided = false
-                    for platform in platforms {
-                        if platform.intersects(spider.sprite){
-                            hasCollided = true
+                    if spider.position.y <= player.position.y{
+                        var hasCollided = false
+                        for platform in platforms {
+                            if platform.intersects(spider.sprite){
+                                hasCollided = true
+                            }
                         }
-                    }
-                    if !hasCollided {
-                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.singleton.groundMask
+                        if !hasCollided {
+                            spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.singleton.groundMask
+                        }
                     }
                 }
                 //                else if spider.sprite.physicsBody!.collisionBitMask & Constants.wallMask == 0 {
