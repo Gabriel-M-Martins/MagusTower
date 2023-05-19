@@ -23,10 +23,10 @@ class StoneWall {
         var x = player.sprite.position.x + Constants.singleton.playerSize.width * (cos(angle) >= 0 ? 1 : -1)
         
         if let floor = floor {
-            if floor.frame.minX > x {
+            if floor.frame.minX > x - sprite.frame.width/2 {
                 x = floor.frame.minX + sprite.frame.width/2
                 
-            } else if floor.frame.maxX < x {
+            } else if floor.frame.maxX < x + sprite.frame.width/2 {
                 x = floor.frame.maxX - sprite.frame.width/2
             }
         }
@@ -35,7 +35,7 @@ class StoneWall {
             sprite.size.height = finalHeight
         }
         
-        sprite.position = CGPoint(x: x, y: floorHeight)
+        sprite.position = CGPoint(x: x, y: floorHeight - 5)
         
         // ------------------------------------------------------------ physics
         self.sprite.physicsBody = SKPhysicsBody(rectangleOf: self.sprite.size, center: CGPoint(x: 0, y: sprite.frame.height/2))
