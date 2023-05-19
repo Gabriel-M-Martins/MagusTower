@@ -58,15 +58,15 @@ enum Elements {
             emitter.position = CGPoint(x: 0, y: -attr.sprite.size.height*0.5)
             var attrCopy = attr
             attrCopy.isBuffed = true
-            attrCopy.attributes.velocity.maxXSpeed += Constants.thunderBuffVelocityBonus
-            attrCopy.attributes.velocity.maxYSpeed += Constants.thunderBuffVelocityBonus
-            attrCopy.attributes.velocity.xSpeed += Constants.thunderBuffVelocityBonus/2
-            attrCopy.attributes.velocity.ySpeed += Constants.thunderBuffVelocityBonus/2
+            attrCopy.attributes.velocity.maxXSpeed += Constants.singleton.thunderBuffVelocityBonus
+            attrCopy.attributes.velocity.maxYSpeed += Constants.singleton.thunderBuffVelocityBonus
+            attrCopy.attributes.velocity.xSpeed += Constants.singleton.thunderBuffVelocityBonus/2
+            attrCopy.attributes.velocity.ySpeed += Constants.singleton.thunderBuffVelocityBonus/2
             DispatchQueue.main.asyncAfter(deadline: .now() + time) {
-                attrCopy.attributes.velocity.maxXSpeed -= Constants.thunderBuffVelocityBonus
-                attrCopy.attributes.velocity.maxYSpeed -= Constants.thunderBuffVelocityBonus
-                attrCopy.attributes.velocity.xSpeed -= Constants.thunderBuffVelocityBonus/2
-                attrCopy.attributes.velocity.ySpeed -= Constants.thunderBuffVelocityBonus/2
+                attrCopy.attributes.velocity.maxXSpeed -= Constants.singleton.thunderBuffVelocityBonus
+                attrCopy.attributes.velocity.maxYSpeed -= Constants.singleton.thunderBuffVelocityBonus
+                attrCopy.attributes.velocity.xSpeed -= Constants.singleton.thunderBuffVelocityBonus/2
+                attrCopy.attributes.velocity.ySpeed -= Constants.singleton.thunderBuffVelocityBonus/2
                 emitter.removeFromParent()
                 attrCopy.isBuffed = false
             }
@@ -80,9 +80,9 @@ enum Elements {
             let emitter = SKEmitterNode(fileNamed: "FireAura")!
             emitter.zPosition = -3
             attr.sprite.addChild(emitter)
-            Constants.damageMultiplier = 1.5
+            Constants.singleton.damageMultiplier = 1.5
             DispatchQueue.main.asyncAfter(deadline: .now() + time) {
-                Constants.damageMultiplier = 1
+                Constants.singleton.damageMultiplier = 1
                 emitter.removeFromParent()
                 attrCopy.isBuffed = false
             }
@@ -114,7 +114,7 @@ enum Elements {
             attr.sprite.addChild(emitter)
             for i in 1...10{
                 DispatchQueue.main.asyncAfter(deadline: .now() + Double(i)) {
-                    Constants.notificationCenter.post(name: Notification.Name("healPlayer"), object: nil)
+                    Constants.singleton.notificationCenter.post(name: Notification.Name("healPlayer"), object: nil)
                     if i == 10{
                         emitter.removeFromParent()
                         attrCopy.isBuffed = false

@@ -42,6 +42,9 @@ struct HackSlashApp: App {
     var body: some Scene {
         WindowGroup {
             MainMenuView()
+                .onAppear {
+                    Constants.singleton.frame = UIScreen.main.bounds
+                }
         }
     }
 }

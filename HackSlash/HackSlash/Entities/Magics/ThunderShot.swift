@@ -12,17 +12,17 @@ class ThunderShot: MagicProjetile{
 
     init(angle: Double, player: Player) {
         let node = SKEmitterNode(fileNamed: "LightiningParticle")!
-        node.position = CGPoint(x: player.sprite.position.x + (cos(angle) * Constants.playerSize.width) * 0.4, y: player.sprite.position.y + (sin(angle) * Constants.playerSize.height) * 0.3)
-        node.particlePositionRange = Constants.lightningParticleSize
-        node.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: Constants.lightningParticleSize.dx, height: Constants.lightningParticleSize.dy))
+        node.position = CGPoint(x: player.sprite.position.x + (cos(angle) * Constants.singleton.playerSize.width) * 0.4, y: player.sprite.position.y + (sin(angle) * Constants.singleton.playerSize.height) * 0.3)
+        node.particlePositionRange = Constants.singleton.lightningParticleSize
+        node.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: Constants.singleton.lightningParticleSize.dx, height: Constants.singleton.lightningParticleSize.dy))
         node.physicsBody?.isDynamic = true
         node.physicsBody?.affectedByGravity = false
         node.physicsBody?.allowsRotation = false
         node.physicsBody?.categoryBitMask = 0
         node.physicsBody?.collisionBitMask = 0
-        super.init(node: node, angle: angle, velocity: Constants.lightningParticleVelocity, damage: Constants.lightningParticleDamage)
+        super.init(node: node, angle: angle, velocity: Constants.singleton.lightningParticleVelocity, damage: Constants.singleton.lightningParticleDamage)
         let subNode = SKEmitterNode(fileNamed: "ThunderArrow")!
-        subNode.particlePositionRange = Constants.lightningParticleSize
+        subNode.particlePositionRange = Constants.singleton.lightningParticleSize
         node.addChild(subNode)
         self.launch()
     }

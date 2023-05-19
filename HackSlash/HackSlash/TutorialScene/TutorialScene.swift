@@ -7,9 +7,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
     }
     
     /// struct constants vai ter todos os valores constantes ao longo do jogo, cores e etc
-    private var constants: Constants {
-        return Constants(frame: frame)
-    }
+    
     
     private var platforms: [SKSpriteNode] = []
     private var player: Player = Player(sprite: "")
@@ -161,7 +159,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func setupGround2() {
-        let rects = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3)?.rects
+        let rects = MapInterpreter(map: frame, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: "map1")?.rects
         
         guard let rects = rects else { return }
         for i in rects {
@@ -223,7 +221,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
                                 spider.attributes.velocity.maxYSpeed /= 10
                                 spider.attributes.velocity.maxXSpeed /= 10
                             }
-                            spider.physicsBody.applyImpulse(CGVector(dx: Constants.spiderSize.width * cos(magic.angle) * 6, dy: Constants.spiderSize.height * sin(magic.angle) * 6))
+                            spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magic.angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magic.angle) * 6))
                             magic.node.removeFromParent()
                         }
                     }
@@ -267,8 +265,8 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
     
     func updatePlayerState(){
         if player.currentState == .jump {
-            player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask & (UInt32.max - Constants.groundMask)
-            player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask & (UInt32.max - Constants.groundMask)
+            player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask & (UInt32.max - Constants.singleton.groundMask)
+            player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask & (UInt32.max - Constants.singleton.groundMask)
         }
         
         if player.physicsBody.velocity.dy < 0{
@@ -276,7 +274,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if player.currentState == .airborne{
-            if player.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0 {
+            if player.sprite.physicsBody!.collisionBitMask & Constants.singleton.groundMask == 0 {
                 var hasCollided = false
                 for platform in platforms {
                     if platform.intersects(player.sprite){
@@ -284,8 +282,8 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 if !hasCollided {
-                    player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask + Constants.groundMask
-                    player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask + Constants.groundMask
+                    player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask + Constants.singleton.groundMask
+                    player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask + Constants.singleton.groundMask
                 }
             }
         }
@@ -305,7 +303,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
     func updateSpidersState(){
         for spider in spiders{
             if spider.currentState == .attack{
-                if spider.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0 {
+                if spider.sprite.physicsBody!.collisionBitMask & Constants.singleton.groundMask == 0 {
                     var hasCollided = false
                     for platform in platforms {
                         if platform.intersects(spider.sprite){
@@ -313,7 +311,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                     if !hasCollided {
-                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.groundMask
+                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.singleton.groundMask
                     }
                 }
             }
@@ -369,7 +367,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
         platform.zPosition = -5
-        platform.physicsBody?.categoryBitMask = Constants.groundMask
+        platform.physicsBody?.categoryBitMask = Constants.singleton.groundMask
         platforms.append(platform)
         platform.physicsBody?.friction = 0.7
         addChild(platform)
@@ -380,10 +378,10 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         createPlatform(size: CGSize(width: frame.width, height: frame.height/4), position: CGPoint(x: 0, y: frame.minY), sprite: "Plataform1")
         // ------------------------------------------------------------------------
         //cria plataforma esquerda
-        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.minX + frame.width/6, y: frame.midY), sprite: "Plataform3")
+        createPlatform(size: CGSize(width: frame.width/3, height: Constants.singleton.platformsHeight), position: CGPoint(x: frame.minX + frame.width/6, y: frame.midY), sprite: "Plataform3")
         // ------------------------------------------------------------------------
         //cria plataforma direita
-        createPlatform(size: CGSize(width: frame.width/3, height: constants.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "Plataform2")
+        createPlatform(size: CGSize(width: frame.width/3, height: Constants.singleton.platformsHeight), position: CGPoint(x: frame.maxX - frame.width/6, y: frame.midY), sprite: "Plataform2")
         player.sprite.position.y += frame.maxY
 //        player.setEffect(effect: "DirtParticle")
     }

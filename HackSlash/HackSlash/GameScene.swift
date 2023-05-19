@@ -1,16 +1,39 @@
 import GameplayKit
 import UserNotifications
 
+extension SKScene: ObservableObject {}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     enum ButtonAssociation {
         case movementAnalog
         case combosAnalog
     }
     
-    /// struct constants vai ter todos os valores constantes ao longo do jogo, cores e etc
-    private var constants: Constants {
-        return Constants(frame: frame)
+    init(level: Levels) {
+        let info = level.getInfo()
+        
+        Constants.singleton.locker = false
+        if level == .Level1{
+            Constants.singleton.currentLevel = 1
+        } else if level == .Tutorial {
+            Constants.singleton.currentLevel = 0
+        }
+        Constants.singleton.currentLevel += 1
+        
+        self.background = SKSpriteNode(texture: SKTexture(imageNamed: info.background))
+        self.numberEnemies = info.enemiesQtd
+        
+        self.mapInterpreter = MapInterpreter(map: Constants.singleton.frame, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: info.mapFile)!
+
+        self.levelLabel = SKLabelNode(text: level.name())
+        
+        super.init(size: Constants.singleton.frame.size)
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     private var platforms: [SKSpriteNode] = []
     private var walls: [SKSpriteNode] = []
@@ -45,7 +68,51 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var directionsMovement: [Directions] = []
     private var firstDirectionCombo: Directions = .up
     
+    private var door =  SKSpriteNode()
+    
+    private var levelLabel: SKLabelNode
+    
     private var jumpCounter = 0
+    var spidersKilled = 0
+    
+    private var mapInterpreter: MapInterpreter
+    
+    private func setupLabel() {
+        levelLabel.position = CGPoint(x: 0, y: 50)
+        levelLabel.setScale(0)
+        levelLabel.fontName = "NovaCut-Regular"
+        
+        camera?.addChild(levelLabel)
+        
+        levelLabel.run(.sequence([
+            .scale(to: 1, duration: 1),
+            .wait(forDuration: 1),
+            .scale(to: 0, duration: 0.25),
+            .removeFromParent()
+        ]))
+    }
+    
+    private func setupDoor() {
+        let plat = (platforms).randomElement()!
+        
+        door = SKSpriteNode(imageNamed: "DoorLocked")
+        door.name = "door"
+
+        door.setScale(2)
+        door.position = CGPoint(x: plat.frame.midX, y: plat.position.y + door.frame.height/2)
+        door.zPosition = -7
+        
+        door.physicsBody = SKPhysicsBody(rectangleOf: door.size)
+        door.physicsBody?.isDynamic = false
+        door.physicsBody?.categoryBitMask = 0
+        
+        addChild(door)
+    }
+    
+    private func openDoor() {
+        door.physicsBody?.categoryBitMask = Constants.singleton.wallMask
+        door.run(.animate(with: [.init(imageNamed: "DoorUnlocked")], timePerFrame: 1))
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let camera = camera else { return }
@@ -172,13 +239,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if ndName == name {
             nd.run(.group([
-                .scale(to: Constants.combosSpritesScale + 0.5, duration: Constants.combosSpritesAnimationDuration),
-                .fadeAlpha(to: 2, duration: Constants.combosSpritesAnimationDuration)
+                .scale(to: Constants.singleton.combosSpritesScale + 0.2, duration: Constants.singleton.combosSpritesAnimationDuration),
+                .fadeAlpha(to: 2, duration: Constants.singleton.combosSpritesAnimationDuration)
+                
             ]))
         } else {
             nd.run(.group([
-                .scale(to: Constants.combosSpritesScale, duration: Constants.combosSpritesAnimationDuration),
-                .fadeAlpha(to: Constants.combosSpritesAlpha, duration: Constants.combosSpritesAnimationDuration)
+                .scale(to: Constants.singleton.combosSpritesScale, duration: Constants.singleton.combosSpritesAnimationDuration),
+                .fadeAlpha(to: Constants.singleton.combosSpritesAlpha, duration: Constants.singleton.combosSpritesAnimationDuration)
             ]))
         }
     }
@@ -204,8 +272,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 for i in combosInput.children {
                     i.run(.group([
-                        .scale(to: Constants.combosSpritesScale, duration: Constants.combosSpritesAnimationDuration),
-                        .fadeAlpha(to: Constants.combosSpritesAlpha, duration: Constants.combosSpritesAnimationDuration)
+                        .scale(to: Constants.singleton.combosSpritesScale, duration: Constants.singleton.combosSpritesAnimationDuration),
+                        .fadeAlpha(to: Constants.singleton.combosSpritesAlpha, duration: Constants.singleton.combosSpritesAnimationDuration)
                     ]))
                 }
             }
@@ -241,7 +309,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //elements
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 if self.directionsCombos.count == 1 && self.spellCount < 3{
-                    print("Miss timing!")
                     self.directionsCombos.removeAll()
                     
                     self.hidde(true, list: self.directionCombo)
@@ -262,7 +329,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     self.hidde(false, list: self.elementCombo)
                     
-                    return
+                    self.directionsCombos = []
                 }
                 self.spellCount = 0
             }
@@ -348,7 +415,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(iceball.node)
                 directionsCombos.removeAll()
             case .A(.earth):
-                let stoneWall = StoneWall(player: player, angle: angle)
+//                var minFloor: CGFloat = 0
+//                for floor in floors{
+//                    minFloor = min(minFloor, floor.position.y + (floor.size.height/2))
+//                }
+                var floorHeight = player.position.y - player.sprite.frame.height/2
+                var nd: SKNode?
+                for i in floors + platforms {
+                    if player.sprite.intersects(i) && (player.position.y > i.position.y) {
+                        nd = i
+                        floorHeight = i.position.y + i.size.height/2
+                    }
+                }
+                
+                if nd == nil {
+                    floorHeight = floors[0].position.y
+                }
+                
+                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd)
                 addChild(stoneWall.sprite)
                 directionsCombos.removeAll()
             case .A(.thunder):
@@ -396,14 +480,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /// quando a view chamar a cena, esta funçao é a primeira a ser executada.
     ///  é a preparaçao da cena.
     override func didMove(to view: SKView) {
+        view.showsPhysics = true
+        
         self.backgroundColor = .black
-        myFrame.myVariables.frame = self.size
-        myFrame.myVariables.scene = self
         physicsWorld.contactDelegate = self
         background.zPosition = -30
         background.anchorPoint = CGPoint(x: 0.5, y: 0)
-        background.size = CGSize(width: frame.width * 3, height: frame.height * 3)
-        background.position.y = frame.minY - 185
+        background.size = CGSize(width: Constants.singleton.frame.width * 3, height: Constants.singleton.frame.height * 3)
+        background.position.y = -Constants.singleton.frame.height/2
         addChild(background)
         
         floorBackground.zPosition = -15
@@ -417,14 +501,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         // ------------------------------------------------------------------------
         setupCamera()
-        
+        setupLabel()
         // ------------------------------------------------------------------------
         setupGround()
         
+        setupDoor()
+        
         // ------------------------------------------------------------------------
-        for i in 1...20{
-            delayWithSeconds(5.0 * Double(i)) { [self] in
-                self.setupSpawn(position: CGPoint(x: CGFloat(Double.random(in: Double(-size.width/3)...Double(size.width/3))), y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
+        if numberEnemies > 0 {
+            for i in 0...numberEnemies - 1 {
+                delayWithSeconds(5.0 * Double(i)) { [self] in
+                    self.setupSpawn(position: CGPoint(x: CGFloat(Double.random(in: Double(-size.width/3)...Double(size.width/3))), y: frame.midY - 20), spriteName: "Spider", idSpawn: i)
+                }
             }
         }
         //------------------------------------------------------------------------
@@ -434,23 +522,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func setupGround() {
-        let rects = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3)?.rects
+        let rects = mapInterpreter.rects
+        let wall = mapInterpreter.wall
+        let floor = mapInterpreter.floor
         
-        guard let rects = rects else { return }
         for i in rects {
             self.createPlatform(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
         }
         
-        let wall = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3)?.wall
-        
-        guard let wall = wall else { return }
         for i in wall {
             self.createWall(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
         }
         
-        let floor = MapInterpreter(map: frame, platformHeightDistance: Constants.playerSize.height + 60, platformHeight: constants.platformsHeight, scale: 3)?.floor
-        
-        guard let floor = floor else { return }
         for i in floor {
             self.createFloor(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
         }
@@ -494,13 +577,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 spider.attributes.velocity.maxYSpeed /= 10
                                 spider.attributes.velocity.maxXSpeed /= 10
                             }
-                            spider.physicsBody.applyImpulse(CGVector(dx: Constants.spiderSize.width * cos(magic.angle) * 6, dy: Constants.spiderSize.height * sin(magic.angle) * 6))
+                            spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magic.angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magic.angle) * 6))
                             magic.node.removeFromParent()
                         }
                     }
                 }
                 if spider.attributes.health<=0 {
                     if spider.currentState != .death{
+                        AudioManager.shared.playSound(named: "spiderDying.wav")
                         var copy = spider
                         copy.transition(to: .death)
                         spiders.remove(at: idx)
@@ -513,10 +597,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             //remover aranha da cena
                             spider.sprite.removeFromParent()
                         })
-                        //points += 1
+                        spidersKilled += 1
                         break
                     }
                 }
+            }
+            
+            if numberEnemies == spidersKilled {
+                AudioManager.shared.playSound(named: "door.wav")
+                self.openDoor()
             }
         }
         else if (contact.bodyA.node?.name == "wall" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "wall") {
@@ -526,16 +615,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     if spider.currentState == .walking || spider.currentState == .idle{
                         spider.transition(to: .charging)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            spider.transition(to: .goingUp)
+                            //desiredHeight in x times the spider height
+                            let desiredHeight: CGFloat = 1.5
+                            //so pra caso a gravidade mude, muda isso aqui ou faz ser igual o valor nas constantes
+                            let gravity: CGFloat = -9.8
+                            
+                            spider.attributes.velocity.maxXSpeed *= 100
+                            spider.attributes.velocity.maxYSpeed *= 100
+                            let direction: CGFloat = spider.sprite.position.x > self.player.sprite.position.x ? -1 : 1
+                            if spider.currentState != .death{
+                                spider.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.singleton.playerSize.width/2 + Constants.singleton.spiderSize.width/2)) + (self.player.sprite.position.x - spider.sprite.position.x), dy: abs(Constants.singleton.playerSize.height - Constants.singleton.spiderSize.height) + (spider.sprite.position.y - spider.sprite.position.y) + (desiredHeight * spider.sprite.size.height) - (45.0 * gravity)))
+                            }
+                        }
                     }
                 }
             }
+        }
+        else if (contact.bodyA.node?.name == "door") || (contact.bodyB.node?.name == "door") {
+            Constants.singleton.locker = true
+            Constants.singleton.notificationCenter.post(name: Notification.Name("playerWin"), object: nil)
+            AudioManager.shared.playSound(named: "door.wav")
         }
     }
     
     override func update(_ currentTime: TimeInterval) {
         if player.attributes.health <= 0 {
-            Constants.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
+            Constants.singleton.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
         }
+//        if numberEnemies == spidersKilled {
+////            AudioManager.shared.playSound(named: "door.wav")
+//            self.openDoor()
+//        }
         
         camera?.position = player.position
         for spider in spiders{
@@ -568,8 +680,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func updatePlayerState(){
         if player.currentState == .jump {
-            player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask & (UInt32.max - Constants.groundMask)
-            player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask & (UInt32.max - Constants.groundMask)
+            player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask & (UInt32.max - Constants.singleton.groundMask)
+            player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask & (UInt32.max - Constants.singleton.groundMask)
         }
         
         if player.physicsBody.velocity.dy < 0{
@@ -577,7 +689,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if player.currentState == .airborne{
-            if player.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0 {
+            if player.sprite.physicsBody!.collisionBitMask & Constants.singleton.groundMask == 0 {
                 var hasCollided = false
                 for platform in platforms {
                     if platform.intersects(player.sprite){
@@ -585,8 +697,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 if !hasCollided {
-                    player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask + Constants.groundMask
-                    player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask + Constants.groundMask
+                    player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask + Constants.singleton.groundMask
+                    player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask + Constants.singleton.groundMask
                 }
             }
         }
@@ -606,7 +718,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func updateSpidersState(){
         for spider in spiders{
             if spider.currentState == .attack{
-                if spider.sprite.physicsBody!.collisionBitMask & Constants.groundMask == 0{
+                if spider.sprite.physicsBody!.collisionBitMask & Constants.singleton.groundMask == 0 {
                     var hasCollided = false
                     for platform in platforms {
                         if platform.intersects(spider.sprite){
@@ -614,7 +726,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                     if !hasCollided {
-                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.groundMask
+                        spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.singleton.groundMask
                     }
                 }
 //                else if spider.sprite.physicsBody!.collisionBitMask & Constants.wallMask == 0 {
@@ -633,46 +745,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupButtons() {
-        let buttonRadius: CGFloat = 120
-        let positionOffset: CGFloat = 250
+        let buttonRadius: CGFloat = 75
+        
+        let width = Constants.singleton.frame.width/3
+        let height = -Constants.singleton.frame.height/4
         
         // ------------------------------------------------------------------------------------------ movement
         movementInput = SKShapeNode(circleOfRadius: buttonRadius)
-        movementInput.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
+        movementInput.position = CGPoint(x: -width, y: height)
         movementInput.zPosition = 10
-        movementInput.strokeColor = Constants.buttonsColor
-        movementInput.fillColor = Constants.buttonsColor.withAlphaComponent(0.2)
+        movementInput.strokeColor = Constants.singleton.buttonsColor
+        movementInput.fillColor = Constants.singleton.buttonsColor.withAlphaComponent(0.2)
         
         // --------------------------------------------
-        movementAnalogic = SKShapeNode(circleOfRadius: 25)
+        movementAnalogic = SKShapeNode(circleOfRadius: buttonRadius/4)
         movementAnalogic.zPosition = 11
-        movementAnalogic.position = CGPoint(x: frame.minX + positionOffset, y: frame.minY + positionOffset)
-        movementAnalogic.fillColor = Constants.buttonsColor
+        movementAnalogic.position = movementInput.position
+        movementAnalogic.fillColor = Constants.singleton.buttonsColor
     
         // ------------------------------------------------------------------------------------------ combos
         combosInput = SKShapeNode(circleOfRadius: buttonRadius)
-        combosInput.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
+        combosInput.position = CGPoint(x: width, y: height)
         combosInput.strokeColor = .clear
         
-        let earth = SKSpriteNode(texture: Constants.earthPowerTexture)
+        // --------------------------------------------
+        let earth = SKSpriteNode(texture: Constants.singleton.earthPowerTexture)
         earth.anchorPoint = CGPoint(x: 0, y: 0.5)
         earth.zPosition = 10
         earth.name = "earth"
         combosInput.addChild(earth)
         
-        let eletric = SKSpriteNode(texture: Constants.eletricPowerTexture)
+        let eletric = SKSpriteNode(texture: Constants.singleton.eletricPowerTexture)
         eletric.anchorPoint = CGPoint(x: 0.5, y: 1)
         eletric.zPosition = 10
         eletric.name = "eletric"
         combosInput.addChild(eletric)
         
-        let fire = SKSpriteNode(texture: Constants.firePowerTexture)
+        let fire = SKSpriteNode(texture: Constants.singleton.firePowerTexture)
         fire.anchorPoint = CGPoint(x: 1, y: 0.5)
         fire.zPosition = 10
         fire.name = "fire"
         combosInput.addChild(fire)
         
-        let ice = SKSpriteNode(texture: Constants.icePowerTexture)
+        let ice = SKSpriteNode(texture: Constants.singleton.icePowerTexture)
         ice.anchorPoint = CGPoint(x: 0.5, y: 0)
         ice.zPosition = 10
         ice.name = "ice"
@@ -681,25 +796,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         elementCombo = [ice, fire, earth, eletric]
         
         //fire
-        let fireC = SKSpriteNode(texture: Constants.fireCTexture)
+        let fireC = SKSpriteNode(texture: Constants.singleton.fireCTexture)
         fireC.anchorPoint = CGPoint(x: 0, y: 0.5)
         fireC.zPosition = 10
         fireC.name = "fireC"
         combosInput.addChild(fireC)
         
-        let fireD = SKSpriteNode(texture: Constants.fireDTexture)
+        let fireD = SKSpriteNode(texture: Constants.singleton.fireDTexture)
         fireD.anchorPoint = CGPoint(x: 0.5, y: 1)
         fireD.zPosition = 10
         fireD.name = "fireD"
         combosInput.addChild(fireD)
         
-        let fireB = SKSpriteNode(texture: Constants.fireBTexture)
+        let fireB = SKSpriteNode(texture: Constants.singleton.fireBTexture)
         fireB.anchorPoint = CGPoint(x: 1, y: 0.5)
         fireB.zPosition = 10
         fireB.name = "fireB"
         combosInput.addChild(fireB)
         
-        let fireA = SKSpriteNode(texture: Constants.fireATexture)
+        let fireA = SKSpriteNode(texture: Constants.singleton.fireATexture)
         fireA.anchorPoint = CGPoint(x: 0.5, y: -0.03)
         fireA.zPosition = 10
         fireA.name = "fireA"
@@ -708,25 +823,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         fireCombo = [fireA, fireB, fireC, fireD]
         
         //earth
-        let earthC = SKSpriteNode(texture: Constants.earthCTexture)
+        let earthC = SKSpriteNode(texture: Constants.singleton.earthCTexture)
         earthC.anchorPoint = CGPoint(x: 0, y: 0.5)
         earthC.zPosition = 10
         earthC.name = "earthC"
         combosInput.addChild(earthC)
         
-        let earthD = SKSpriteNode(texture: Constants.earthDTexture)
+        let earthD = SKSpriteNode(texture: Constants.singleton.earthDTexture)
         earthD.anchorPoint = CGPoint(x: 0.5, y: 1)
         earthD.zPosition = 10
         earthD.name = "earthD"
         combosInput.addChild(earthD)
         
-        let earthB = SKSpriteNode(texture: Constants.earthBTexture)
+        let earthB = SKSpriteNode(texture: Constants.singleton.earthBTexture)
         earthB.anchorPoint = CGPoint(x: 1, y: 0.5)
         earthB.zPosition = 10
         earthB.name = "earthB"
         combosInput.addChild(earthB)
         
-        let earthA = SKSpriteNode(texture: Constants.earthATexture)
+        let earthA = SKSpriteNode(texture: Constants.singleton.earthATexture)
         earthA.anchorPoint = CGPoint(x: 0.5, y: -0.03)
         earthA.zPosition = 10
         earthA.name = "earthA"
@@ -735,25 +850,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         earthCombo = [earthA, earthB, earthC, earthD]
         
         //ice
-        let iceC = SKSpriteNode(texture: Constants.iceCTexture)
+        let iceC = SKSpriteNode(texture: Constants.singleton.iceCTexture)
         iceC.anchorPoint = CGPoint(x: 0, y: 0.5)
         iceC.zPosition = 10
         iceC.name = "iceC"
         combosInput.addChild(iceC)
         
-        let iceD = SKSpriteNode(texture: Constants.iceDTexture)
+        let iceD = SKSpriteNode(texture: Constants.singleton.iceDTexture)
         iceD.anchorPoint = CGPoint(x: 0.5, y: 1)
         iceD.zPosition = 10
         iceD.name = "iceD"
         combosInput.addChild(iceD)
         
-        let iceB = SKSpriteNode(texture: Constants.iceBTexture)
+        let iceB = SKSpriteNode(texture: Constants.singleton.iceBTexture)
         iceB.anchorPoint = CGPoint(x: 1, y: 0.5)
         iceB.zPosition = 10
         iceB.name = "iceB"
         combosInput.addChild(iceB)
         
-        let iceA = SKSpriteNode(texture: Constants.iceATexture)
+        let iceA = SKSpriteNode(texture: Constants.singleton.iceATexture)
         iceA.anchorPoint = CGPoint(x: 0.5, y: -0.03)
         iceA.zPosition = 10
         iceA.name = "iceA"
@@ -762,25 +877,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         iceCombo = [iceA, iceB, iceC, iceD]
         
         //thunder
-        let thunderC = SKSpriteNode(texture: Constants.thunderCTexture)
+        let thunderC = SKSpriteNode(texture: Constants.singleton.thunderCTexture)
         thunderC.anchorPoint = CGPoint(x: 0, y: 0.5)
         thunderC.zPosition = 10
         thunderC.name = "thunderC"
         combosInput.addChild(thunderC)
         
-        let thunderD = SKSpriteNode(texture: Constants.thunderDTexture)
+        let thunderD = SKSpriteNode(texture: Constants.singleton.thunderDTexture)
         thunderD.anchorPoint = CGPoint(x: 0.5, y: 1)
         thunderD.zPosition = 10
         thunderD.name = "thunderD"
         combosInput.addChild(thunderD)
         
-        let thunderB = SKSpriteNode(texture: Constants.thunderBTexture)
+        let thunderB = SKSpriteNode(texture: Constants.singleton.thunderBTexture)
         thunderB.anchorPoint = CGPoint(x: 1, y: 0.5)
         thunderB.zPosition = 10
         thunderB.name = "thunderB"
         combosInput.addChild(thunderB)
         
-        let thunderA = SKSpriteNode(texture: Constants.thunderATexture)
+        let thunderA = SKSpriteNode(texture: Constants.singleton.thunderATexture)
         thunderA.anchorPoint = CGPoint(x: 0.5, y: -0.03)
         thunderA.zPosition = 10
         thunderA.name = "thunderA"
@@ -789,63 +904,63 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         thunderCombo = [thunderA, thunderB, thunderC, thunderD]
         
         //direction Combo
-        let down = SKSpriteNode(texture: Constants.downMagicTexture)
+        let down = SKSpriteNode(texture: Constants.singleton.downMagicTexture)
         down.anchorPoint = CGPoint(x: 0.5, y: 6.5)
         down.zPosition = 10
         down.name = "down"
         combosInput.addChild(down)
         
-        let up = SKSpriteNode(texture: Constants.upMagicTexture)
+        let up = SKSpriteNode(texture: Constants.singleton.upMagicTexture)
         up.anchorPoint = CGPoint(x: 0.5, y: -5.5)
         up.zPosition = 10
         up.name = "up"
         combosInput.addChild(up)
         
-        let right = SKSpriteNode(texture: Constants.rightMagicTexture)
+        let right = SKSpriteNode(texture: Constants.singleton.rightMagicTexture)
         right.anchorPoint = CGPoint(x: -5.5, y: 0.5)
         right.zPosition = 10
         right.name = "right"
         combosInput.addChild(right)
         
-        let left = SKSpriteNode(texture: Constants.leftMagicTexture)
+        let left = SKSpriteNode(texture: Constants.singleton.leftMagicTexture)
         left.anchorPoint = CGPoint(x: 6.5, y: 0.5)
         left.zPosition = 10
         left.name = "left"
         combosInput.addChild(left)
         
-        let upR = SKSpriteNode(texture: Constants.upRMagicTexture)
+        let upR = SKSpriteNode(texture: Constants.singleton.upRMagicTexture)
         upR.anchorPoint = CGPoint(x: -1.45, y: -1.45)
         upR.zPosition = 10
         upR.name = "upR"
         combosInput.addChild(upR)
         
-        let upL = SKSpriteNode(texture: Constants.upLMagicTexture)
+        let upL = SKSpriteNode(texture: Constants.singleton.upLMagicTexture)
         upL.anchorPoint = CGPoint(x: 2.45, y: -1.45)
         upL.zPosition = 10
         upL.name = "upL"
         combosInput.addChild(upL)
         
-        let downR = SKSpriteNode(texture: Constants.downRMagicTexture)
+        let downR = SKSpriteNode(texture: Constants.singleton.downRMagicTexture)
         downR.anchorPoint = CGPoint(x: -1.45, y: 2.45)
         downR.zPosition = 10
         downR.name = "downR"
         combosInput.addChild(downR)
         
-        let downL = SKSpriteNode(texture: Constants.downLMagicTexture)
+        let downL = SKSpriteNode(texture: Constants.singleton.downLMagicTexture)
         downL.anchorPoint = CGPoint(x: 2.45, y: 2.45)
         downL.zPosition = 10
         downL.name = "downL"
         combosInput.addChild(downL)
         
-        let directions = SKSpriteNode(texture: Constants.directionsTexture)
+        let directions = SKSpriteNode(texture: Constants.singleton.directionsTexture)
         directions.name = "directions"
         combosInput.addChild(directions)
         
         directionCombo = [up, left, right, down, upR, upL, downR, downL, directions]
         
         for i in combosInput.children {
-            i.setScale(Constants.combosSpritesScale)
-            i.alpha = Constants.combosSpritesAlpha
+            i.setScale(Constants.singleton.combosSpritesScale)
+            i.alpha = Constants.singleton.combosSpritesAlpha
         }
         
         for i in fireCombo{
@@ -866,9 +981,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // --------------------------------------------
-        combosAnalogic = SKShapeNode(circleOfRadius: 25)
-        combosAnalogic.position = CGPoint(x: frame.maxX - positionOffset, y: frame.minY + positionOffset)
-        combosAnalogic.fillColor = Constants.buttonsColor
+        combosAnalogic = SKShapeNode(circleOfRadius: buttonRadius/4)
+        combosAnalogic.position = combosInput.position
+        combosAnalogic.fillColor = Constants.singleton.buttonsColor
         combosAnalogic.zPosition = 11
         
         // ------------------------------------------------------------------------------------------ add to scene
@@ -893,7 +1008,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupCamera() {
         let camera = SKCameraNode()
 //        camera.setScale(0.7)
-        camera.setScale(1)
+        camera.setScale(2)
         self.camera = camera
         addChild(camera)
     }
@@ -910,7 +1025,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.physicsBody?.isDynamic = false
         platform.name = "platform"
         platform.zPosition = -25
-        platform.physicsBody?.categoryBitMask = Constants.groundMask
+        platform.physicsBody?.categoryBitMask = Constants.singleton.groundMask
         platforms.append(platform)
         platform.physicsBody?.friction = 2
         addChild(platform)
@@ -929,7 +1044,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wall.physicsBody?.isDynamic = false
         wall.name = "wall"
         wall.zPosition = -25
-        wall.physicsBody?.categoryBitMask = Constants.wallMask
+        wall.physicsBody?.categoryBitMask = Constants.singleton.wallMask
         walls.append(wall)
         wall.physicsBody?.friction = 0.7
         addChild(wall)
@@ -947,7 +1062,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         floor.physicsBody?.isDynamic = false
         floor.name = "floor"
         floor.zPosition = -15
-        floor.physicsBody?.categoryBitMask = Constants.wallMask
+        floor.physicsBody?.categoryBitMask = Constants.singleton.wallMask
         floors.append(floor)
         floor.physicsBody?.friction = 0.7
         addChild(floor)
@@ -961,6 +1076,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
+        AudioManager.shared.playSound(named: "spiderSpawn.wav")
         let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 100), player: player, idSpider: idSpider)
         return spider
     }

@@ -84,11 +84,11 @@ class HPBarManager: ObservableObject{
     }
     
     @objc func RecievedDamage(){
-        value -= Double(Constants.spiderDamage)
+        value -= Double(Constants.singleton.spiderDamage)
     }
     
     @objc func RecievedLessDamage(){
-        value -= Double(Constants.spiderDamage) * 0.5
+        value -= Double(Constants.singleton.spiderDamage) * 0.5
     }
     
     @objc func healPlayer(){

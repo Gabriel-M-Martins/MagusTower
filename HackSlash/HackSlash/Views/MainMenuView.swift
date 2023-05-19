@@ -11,6 +11,7 @@ import SpriteKit
 struct MainMenuView: View {
     @State var showSettings: Bool = false
     @State var showCredits: Bool = false
+    @State var hasHighScore: Bool = false
     
     func loadUserData(){
         if let masterVolume = UserDefaults.standard.string(forKey: "masterVolume"), !masterVolume.isEmpty{
@@ -39,7 +40,7 @@ struct MainMenuView: View {
                         
                         Group{
                             NavigationLink {
-                                GameView()
+                                GameView(level: Levels.Level1)
                             } label: {
                                 Image("Enter")
                             }
@@ -56,11 +57,11 @@ struct MainMenuView: View {
                             })
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.72)
                             
-                            Button(action:{
-                                AudioManager.shared.playSound(named: "buttonClick.mp3")
-                            }, label:{
+                            NavigationLink {
+                                GameView(level: Levels.Tutorial)
+                            } label: {
                                 Image("How")
-                            })
+                            }
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.55)
                         }
                         
@@ -75,15 +76,17 @@ struct MainMenuView: View {
                         Image("FrameBotoes").edgesIgnoringSafeArea(.all)
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.12)
                         
-                        VStack {
-                            Spacer()
-                            HStack {
+                        if(hasHighScore){
+                            VStack {
                                 Spacer()
-                                Text("Highscore: 0").foregroundColor(.white).font(.title2).opacity(0.3)
-                                    .padding()
-                            }
-                            .padding()
-                        }.padding()
+                                HStack {
+                                    Spacer()
+                                    Text("Highscore: 0").foregroundColor(.white).font(.title2).opacity(0.3)
+                                        .padding()
+                                }
+                                .padding()
+                            }.padding()
+                        }
                         
                         if(showSettings){
                             SettingsView(showSettings: $showSettings)
@@ -100,6 +103,7 @@ struct MainMenuView: View {
         }
         .onAppear{
             loadUserData()
+            AudioManager.shared.playMusic(named: "MagusTowerOST.mp3")
         }
     }
 }

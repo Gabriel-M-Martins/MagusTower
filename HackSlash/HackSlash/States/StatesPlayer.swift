@@ -18,7 +18,7 @@ enum StatesPlayer: StateMachineable {
     func StateInfo() -> AnimationInfo {
         switch self {
         case .idle:
-            return AnimationInfo(textures: [Constants.playerIdleTexture], duration: 5)
+            return AnimationInfo(textures: [Constants.singleton.playerIdleTexture], duration: 5)
         case .attack:
             return AnimationInfo(textures: [], duration: 0)
         case .walking:

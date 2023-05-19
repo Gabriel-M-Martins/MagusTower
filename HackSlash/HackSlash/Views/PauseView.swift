@@ -40,7 +40,7 @@ struct PauseView: View {
                         Button(action:{
                             paused = false
                             AudioManager.shared.playSound(named: "buttonClick.mp3")
-                            scene.view?.isPaused = paused
+                            scene.view?.isPaused = false
                         }, label:{
                             Image("Resume")
                         })
@@ -59,9 +59,9 @@ struct PauseView: View {
     }
 }
 
-struct PauseView_Previews: PreviewProvider {
-    static var previews: some View {
-        PauseView(paused: GameView().$paused, scene: GameView().$scene)
-            .previewInterfaceOrientation(.landscapeRight)
-    }
-}
+//struct PauseView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PauseView(paused: GameView().$paused, scene: GameView().$scene)
+//            .previewInterfaceOrientation(.landscapeRight)
+//    }
+//}

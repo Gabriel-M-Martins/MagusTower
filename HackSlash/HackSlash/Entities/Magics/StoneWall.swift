@@ -11,24 +11,75 @@ import SpriteKit
 class StoneWall {
     var sprite: SKSpriteNode
     var finalHeight: CGFloat
-    init(player: Player, angle: CGFloat){
-        self.finalHeight = myFrame.myVariables.frame.height + player.position.y
-        sprite = SKSpriteNode(imageNamed: Constants.magicWall)
-        sprite.anchorPoint = CGPoint(x: 0.5, y: 1)
+    init(player: Player, angle: CGFloat, floorHeight: CGFloat, floor: SKNode?) {
+        self.finalHeight = player.sprite.frame.height * 2 // weird behaviour
+        
+        // ------------------------------------------------------------ sprite
+        sprite = SKSpriteNode(imageNamed: Constants.singleton.magicWall)
+        sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
         sprite.zPosition = -20
-        sprite.size = CGSize(width: Constants.stoneWallWidth, height: finalHeight/10)
-        sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: sprite.size.width, height: finalHeight * 1.2), center: CGPoint(x: sprite.position.x, y: self.sprite.size.height * 4))
-        sprite.physicsBody?.isDynamic = false
-        sprite.position = CGPoint(x: player.sprite.position.x + Constants.playerSize.width * (cos(angle) >= 0 ? 1 : -1), y: player.sprite.position.y - finalHeight)
+        sprite.size = CGSize(width: Constants.singleton.stoneWallWidth, height: finalHeight)
+        
+        var x = player.sprite.position.x + Constants.singleton.playerSize.width * (cos(angle) >= 0 ? 1 : -1)
+        
+        if let floor = floor {
+            if floor.frame.minX > x {
+                x = floor.frame.minX + sprite.frame.width/2
+                
+            } else if floor.frame.maxX < x {
+                x = floor.frame.maxX - sprite.frame.width/2
+            }
+        }
+        else {
+            finalHeight = player.sprite.position.y
+            sprite.size.height = finalHeight
+        }
+        
+        sprite.position = CGPoint(x: x, y: floorHeight)
+        
+        // ------------------------------------------------------------ physics
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: self.sprite.size, center: CGPoint(x: 0, y: sprite.frame.height/2))
+        self.sprite.physicsBody?.isDynamic = false
+        
+        sprite.scale(to: CGSize(width: sprite.size.width, height: 0))
+        
+        // ------------------------------------------------------------ emitter
+        let emitter = SKEmitterNode(fileNamed: "DirtParticle")!
+        emitter.zPosition = -22
+        
+        // ------------------------------------------------------------ animation
         
         sprite.run(SKAction.sequence([
-            SKAction.group([
-                SKAction.scaleY(to: -11, duration: 1.5),
-                
+            //            .scaleY(to: 0, duration: 0.0001),
+            //
+            .group([
+                SKAction.scaleY(to: 1, duration: 1.5),
+                SKAction.run(
+                    {
+                        emitter.particleBirthRate = 150
+                        emitter.position = CGPoint(x: self.sprite.position.x, y: floorHeight)
+                        self.sprite.parent?.addChild(emitter)
+                    })
             ]),
-            .wait(forDuration: 7),
-            SKAction.scaleY(to: 0.1, duration: 1.5),
-            SKAction.removeFromParent()
+            
+                .run({
+                    emitter.particleBirthRate = 0
+                }),
+            
+                .wait(forDuration: 2),
+            
+                .wait(forDuration: 5),
+            .run({
+                emitter.particleBirthRate = 150
+            }),
+            .scaleY(to: 0.1, duration: 1.5),
+            SKAction.run({
+                emitter.removeFromParent()
+            }),
+            .removeFromParent()
+            
+            
+            
         ]))
     }
 }

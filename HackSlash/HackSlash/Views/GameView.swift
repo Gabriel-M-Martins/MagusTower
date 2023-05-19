@@ -12,25 +12,24 @@ import UserNotifications
 struct GameView: View {
     @Environment(\.presentationMode) var presentation
     
-    @State var scene: SKScene = SKScene(fileNamed: "GameScene")!
+    @StateObject var scene: SKScene
     @State var paused = false
     @ObservedObject var viewManager: GameViewManager = GameViewManager()
     
-    init() {
-        scene.scaleMode = .aspectFill
+    init(level: Levels) {
+        self._scene = StateObject(wrappedValue: GameScene(level: level))
     }
     
     var body: some View {
         GeometryReader { geo in
             ZStack{
-                SpriteView(scene: scene)
+                SpriteView(scene: scene, debugOptions: .showsPhysics)
                     .edgesIgnoringSafeArea(.all)
                     .navigationBarBackButtonHidden()
                 
                 Button(action: {
                     paused = !paused
                     AudioManager.shared.playSound(named: "buttonClick.mp3")
-                    paused = true
                     scene.view?.isPaused = paused
                 }, label: {
                     Image(paused ? "Play icon": "Pause icon").resizable()
@@ -46,37 +45,57 @@ struct GameView: View {
                 .position(x: geo.frame(in: .global).maxX - geo.frame(in: .global).width*0.18, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.12)
                 
                 if(paused){
-                    PauseView(paused: $paused, scene: $scene)
+                    PauseView(paused: $paused, scene: Binding.constant(scene))
                 }
                 
                 if(viewManager.didDie){
-//                    MainMenuView()
-                    ZStack {}
+                    GameOverView()
                         .onAppear{
-                            self.presentation.wrappedValue.dismiss()
+                            scene.view?.isPaused = true
+                        }
+//                    ZStack {}
+//                        .onAppear{
+//                            self.presentation.wrappedValue.dismiss()
+//                        }
+                }
+                if(viewManager.didWin){
+                    GameWinView()
+                        .onAppear{
+                            scene.view?.isPaused = true
                         }
                 }
+                
             }
         }
         .edgesIgnoringSafeArea(.all)
+        .onAppear{
+            scene.scaleMode = .aspectFill
+            scene.anchorPoint = .zero
+        }
     }
 }
 
 class GameViewManager: ObservableObject{
     @Published var didDie = false
+    @Published var didWin = false
     let notificationCenter = NotificationCenter.default
     
     init(){
         self.notificationCenter.addObserver(self, selector: #selector(PlayerDied), name: Notification.Name("playerDeath"), object: nil)
+        self.notificationCenter.addObserver(self, selector: #selector(PlayerWin), name: Notification.Name("playerWin"), object: nil)
     }
     
     @objc func PlayerDied(){
         didDie = true
     }
+    
+    @objc func PlayerWin(){
+        didWin = true
+    }
 }
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView().previewInterfaceOrientation(.landscapeLeft)
+        GameView(level: Levels.Level1).previewInterfaceOrientation(.landscapeRight)
     }
 }

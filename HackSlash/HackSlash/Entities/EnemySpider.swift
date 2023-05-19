@@ -33,16 +33,16 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
     
     var changeSide = true
     
-    var despawnTime = Constants.deathDespawn
+    var despawnTime = Constants.singleton.deathDespawn
     
     var idSpider: Int
     
-    var damage: Bool = false
+    private var damage: Bool = false
     
     init(sprite: String, attributes: AttributesInfo, player: Player, idSpider: Int) {
         self.sprite = SKSpriteNode(imageNamed: sprite)
-        self.sprite.size = Constants.spiderSize
-        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: Constants.spiderSize.width, height: Constants.spiderSize.height), center: self.sprite.position)
+        self.sprite.size = Constants.singleton.spiderSize
+        self.sprite.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: Constants.singleton.spiderSize.width, height: Constants.singleton.spiderSize.height), center: self.sprite.position)
         self.sprite.physicsBody?.isDynamic = true
         self.sprite.physicsBody?.affectedByGravity = true
         self.attributes = attributes
@@ -52,26 +52,54 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         self.player = player
         self.idSpider = idSpider
         self.physicsBody.allowsRotation = false
-        self.changeMask(bit: Constants.playerMask)
-        self.changeMask(bit: Constants.groundMask)
-        self.changeMask(bit: Constants.wallMask)
-        self.physicsBody.collisionBitMask -= Constants.magicMask
-        self.physicsBody.categoryBitMask = Constants.enemiesMask
-        self.physicsBody.collisionBitMask -= Constants.enemiesMask
+        self.changeMask(bit: Constants.singleton.playerMask)
+        self.changeMask(bit: Constants.singleton.groundMask)
+        self.changeMask(bit: Constants.singleton.wallMask)
+        self.physicsBody.collisionBitMask -= Constants.singleton.magicMask
+        self.physicsBody.categoryBitMask = Constants.singleton.enemiesMask
+        self.physicsBody.collisionBitMask -= Constants.singleton.enemiesMask
         self.physicsBody.mass = 0.888888955116272
         
     }
     
+    func damageCaused() {
+        if !damage{
+            AudioManager.shared.playSound(named: "spiderAttack.wav")
+            damage = true
+            self.player.attributes.health = self.player.attributes.health - Constants.singleton.spiderDamage
+            
+            if self.player.attributes.defense > Constants.singleton.playerDefense{
+                Constants.singleton.notificationCenter.post(name: Notification.Name("playerLessDamage"), object: nil)
+            } else {
+                Constants.singleton.notificationCenter.post(name: Notification.Name("playerDamage"), object: nil)
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {self.damage = false})
+        }
+
+        /*
+        if !damage{
+                    damage = true
+                    self.player.attributes.health = self.player.attributes.health - Constants.singleton.spiderDamage
+                    if self.player.attributes.defense > Constants.singleton.playerDefense{
+                        Constants.singleton.notificationCenter.post(name: Notification.Name("playerLessDamage"), object: nil)
+                    } else {
+                    Constants.singleton.notificationCenter.post(name: Notification.Name("playerDamage"), object: nil)
+                    }
+                }
+        */
+    }
+    
     func moveAI(player: SKSpriteNode){
         //Antes que ache isso nojento, é a melhor solucao para o erro de self is immutable. Caso queiram ler sobre o erro: https://github.com/apple/swift/issues/46812
+        if sprite.intersects(self.player.sprite){
+            self.player.move(direction: [self.physicsBody.velocity.dx > 0 ? .right : .left], power: 1)
+            damageCaused()
+        }
         
         //Checa se a aranha está no ar ou no meio de um ataque
         switch self.currentState{
         case .idle, .walking:
-            if damage{
-                damage = false
-            }
-            
             if player.position.x > self.sprite.position.x || sprite.position.x - player.position.x > self.attributes.attackRange * 1.2{
                 
                 move(direction: [.left])
@@ -102,7 +130,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
                     self.attributes.velocity.maxYSpeed *= 100
                     let direction: CGFloat = self.sprite.position.x > self.player.sprite.position.x ? -1 : 1
                     if self.currentState != .death{
-                        self.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.playerSize.width/2 + Constants.spiderSize.width/2)) + (self.player.sprite.position.x - self.sprite.position.x), dy: abs(Constants.playerSize.height - Constants.spiderSize.height) + (self.player.sprite.position.y - self.sprite.position.y) + (desiredHeight * self.sprite.size.height) - (45.0 * gravity)))
+                        self.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.singleton.playerSize.width/2 + Constants.singleton.spiderSize.width/2)) + (self.player.sprite.position.x - self.sprite.position.x), dy: abs(Constants.singleton.playerSize.height - Constants.singleton.spiderSize.height) + (self.player.sprite.position.y - self.sprite.position.y) + (desiredHeight * self.sprite.size.height) - (45.0 * gravity)))
                     }
                 }
                 self.physicsBody.velocity.dx = 0
@@ -125,20 +153,12 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
             if self.physicsBody.velocity.dy < 0{
                 self.currentState = .attack
             }
-            self.physicsBody.collisionBitMask = self.physicsBody.collisionBitMask & (UInt32.max - Constants.groundMask)
+            self.physicsBody.collisionBitMask = self.physicsBody.collisionBitMask & (UInt32.max - Constants.singleton.groundMask)
             
         case .attack:
             if self.sprite.intersects(self.player.sprite){
                 self.player.move(direction: [self.physicsBody.velocity.dx > 0 ? .right : .left], power: 1)
-                if !damage{
-                    damage = true
-                    self.player.attributes.health = self.player.attributes.health - Constants.spiderDamage
-                    if self.player.attributes.defense > Constants.playerDefense{
-                        Constants.notificationCenter.post(name: Notification.Name("playerLessDamage"), object: nil)
-                    } else {
-                    Constants.notificationCenter.post(name: Notification.Name("playerDamage"), object: nil)
-                    }
-                }
+                damageCaused()
             }
         case .death:
             return
