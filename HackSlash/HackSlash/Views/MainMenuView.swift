@@ -27,6 +27,10 @@ struct MainMenuView: View {
             AudioManager.shared.setSFXVolume(Float(sfxVolume)!/100.0)
         }
         
+        if UserDefaults.standard.object(forKey: "highscore") != nil{
+            hasHighScore = true
+        }
+        
         if let high = UserDefaults.standard.string(forKey: "highscore"), !high.isEmpty{
             hasHighScore = true
         }

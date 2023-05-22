@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7CAC0E5A2A17D6150038C61E /* map3.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7CAC0E592A17D6150038C61E /* map3.txt */; };
+		7CAC0E5C2A17D64C0038C61E /* map4.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7CAC0E5B2A17D64C0038C61E /* map4.txt */; };
+		7CAC0E5E2A17D6860038C61E /* map5.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7CAC0E5D2A17D6860038C61E /* map5.txt */; };
+		7CAC0E602A17D7930038C61E /* map6.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7CAC0E5F2A17D7930038C61E /* map6.txt */; };
+		7CAC0E622A17D7F60038C61E /* map7.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7CAC0E612A17D7F60038C61E /* map7.txt */; };
 		7CC87CE22A16A01400BAA731 /* GameWinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC87CE12A16A01400BAA731 /* GameWinView.swift */; };
 		7CDBB2D72A12B561003EC549 /* HPBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBB2D62A12B561003EC549 /* HPBar.swift */; };
 		9202EB022A0EAD0500F5A109 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9202EAFA2A0EAD0500F5A109 /* MainMenuView.swift */; };
@@ -84,6 +89,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7CAC0E592A17D6150038C61E /* map3.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map3.txt; sourceTree = "<group>"; };
+		7CAC0E5B2A17D64C0038C61E /* map4.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map4.txt; sourceTree = "<group>"; };
+		7CAC0E5D2A17D6860038C61E /* map5.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map5.txt; sourceTree = "<group>"; };
+		7CAC0E5F2A17D7930038C61E /* map6.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map6.txt; sourceTree = "<group>"; };
+		7CAC0E612A17D7F60038C61E /* map7.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map7.txt; sourceTree = "<group>"; };
 		7CC87CE12A16A01400BAA731 /* GameWinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameWinView.swift; sourceTree = "<group>"; };
 		7CDBB2D62A12B561003EC549 /* HPBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HPBar.swift; sourceTree = "<group>"; };
 		9202EAFA2A0EAD0500F5A109 /* MainMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
@@ -246,6 +256,11 @@
 			children = (
 				A7AF3E5A2A0D2B8300E36A42 /* map1.txt */,
 				A77414CD2A16B3AA00E96021 /* map2.txt */,
+				7CAC0E592A17D6150038C61E /* map3.txt */,
+				7CAC0E5B2A17D64C0038C61E /* map4.txt */,
+				7CAC0E5D2A17D6860038C61E /* map5.txt */,
+				7CAC0E5F2A17D7930038C61E /* map6.txt */,
+				7CAC0E612A17D7F60038C61E /* map7.txt */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -433,7 +448,9 @@
 				92420C652A13F7BC00AE47A9 /* spiderSpawn.wav in Resources */,
 				A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */,
 				F9911E6F2A129CFC005F2B2C /* Assets.xcassets in Resources */,
+				7CAC0E5C2A17D64C0038C61E /* map4.txt in Resources */,
 				9202EB042A0EAD0500F5A109 /* Fonts in Resources */,
+				7CAC0E5E2A17D6860038C61E /* map5.txt in Resources */,
 				A7AF3E5B2A0D2B8300E36A42 /* map1.txt in Resources */,
 				92E3DF6E2A12CA63008A1AEE /* Assets.xcassets in Resources */,
 				92420C5D2A13F79C00AE47A9 /* magicCast.wav in Resources */,
@@ -448,8 +465,11 @@
 				F9911E872A154266005F2B2C /* ThunderArrow.sks in Resources */,
 				F98E2CF62A0D6AFA003273AA /* DirtParticle.sks in Resources */,
 				92E3DF722A12CB9E008A1AEE /* EletricAura.sks in Resources */,
+				7CAC0E5A2A17D6150038C61E /* map3.txt in Resources */,
+				7CAC0E602A17D7930038C61E /* map6.txt in Resources */,
 				92420C632A13F7BA00AE47A9 /* spiderAttack.wav in Resources */,
 				92E3DF702A12CB59008A1AEE /* IceAura.sks in Resources */,
+				7CAC0E622A17D7F60038C61E /* map7.txt in Resources */,
 				F9911E6E2A129CFC005F2B2C /* Collectable.sks in Resources */,
 				92393F4F2A17C59600F7C955 /* notification.mp3 in Resources */,
 				A77414D22A16E58F00E96021 /* door.wav in Resources */,
@@ -654,11 +674,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 856F4M2786;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Magus Tower";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.action-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -670,7 +691,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 23.05.17;
+				MARKETING_VERSION = 23.05.19;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MagusTower;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -685,11 +706,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 856F4M2786;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Magus Tower";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.action-games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -701,7 +723,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 23.05.17;
+				MARKETING_VERSION = 23.05.19;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MagusTower;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
