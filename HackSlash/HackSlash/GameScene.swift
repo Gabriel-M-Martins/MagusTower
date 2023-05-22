@@ -603,6 +603,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.transition(to: .landing)
             player.transition(to: .idle)
         }
+        
+        else if (contact.bodyA.node?.name == "wall" && contact.bodyB.node?.name == "Magic") || (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "wall") || (contact.bodyA.node?.name == "floor" && contact.bodyB.node?.name == "Magic") || (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "floor"){
+            for idx in 0..<magics.count {
+                if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
+                    magics[idx].node.particleBirthRate = 0
+                    let reference = magics[idx]
+                    magics.remove(at: idx)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        reference.node.removeFromParent()
+                    }
+                }
+            }
+        }
+        
         else if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "platform") || (contact.bodyA.node?.name == "floor" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "floor"){
             for spider in spiders{
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
@@ -619,17 +633,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for idx in 0..<spiders.count{
                 let spider = spiders[idx]
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
-                    for magic in magics{
-                        if magic.physicsBody === contact.bodyA || magic.physicsBody === contact.bodyB{
-                            magic.onTouch(touched: &spider.attributes)
+                    for idx in 0..<magics.count{
+                        if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
+                            magics[idx].onTouch(touched: &spider.attributes)
                             spider.attributes.velocity.maxYSpeed *= 10
                             spider.attributes.velocity.maxXSpeed *= 10
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 spider.attributes.velocity.maxYSpeed /= 10
                                 spider.attributes.velocity.maxXSpeed /= 10
                             }
-                            spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magic.angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magic.angle) * 6))
-                            magic.node.removeFromParent()
+                            spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magics[idx].angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magics[idx].angle) * 6))
+                            
+                            let reference = magics[idx]
+                            reference.node.run(SKAction.sequence([
+                                .wait(forDuration: 0.1),
+                                .run{
+                                    reference.node.particleBirthRate = 0
+                                },
+                                .wait(forDuration: 0.5),
+                                .run{
+                                    for idx in 0..<self.magics.count{
+                                        if self.magics[idx] === reference{
+                                            self.magics.remove(at: idx)
+                                        }
+                                    }
+                                    reference.node.removeFromParent()
+                                }
+                            ]))
                         }
                     }
                 }
