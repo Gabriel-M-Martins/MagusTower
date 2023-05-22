@@ -114,6 +114,32 @@ struct MainMenuView: View {
         .onAppear{
             loadUserData()
             AudioManager.shared.playMusic(named: "MagusTowerOST.mp3")
+            
+            let currentHighscore = UserDefaults.standard.string(forKey: "currentHighscore")
+            let realHighscore = UserDefaults.standard.string(forKey: "highscore")
+            
+            var currentHighscoreValue = 0
+            var realHighscoreValue = 0
+            
+            if let currentHighscore = currentHighscore {
+                if let currentValue = Int(currentHighscore) {
+                    currentHighscoreValue = currentValue
+                }
+            }
+            
+            if let realHighscore = realHighscore {
+                if let realValue = Int(realHighscore) {
+                    realHighscoreValue = realValue
+                }
+            }
+            
+            if currentHighscoreValue > realHighscoreValue {
+                realHighscoreValue = currentHighscoreValue
+            }
+            
+            UserDefaults.standard.set( String( realHighscoreValue ), forKey: "highscore")
+            UserDefaults.standard.set( String( 0 ), forKey: "currentHighscore")
+            
         }
     }
 }
