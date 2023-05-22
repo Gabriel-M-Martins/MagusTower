@@ -242,7 +242,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         updateSpidersState()
         
         guard !directionsMovement.isEmpty else { return }
-        if player.currentState == .jump || (player.currentState == .airborne && jumpCounter >= 3) {
+        if player.currentState == .jump || (player.currentState == .airborne && jumpCounter >= Constants.singleton.maxJumps) {
             directionsMovement.removeAll { dir in
                 dir == .up
             }
@@ -394,7 +394,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
-        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 50), player: player, idSpider: idSpider)
+        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 30, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 50), player: player, idSpider: idSpider)
         return spider
     }
 }
