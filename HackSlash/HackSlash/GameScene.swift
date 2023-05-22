@@ -39,6 +39,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var combosTimer: Timer?
+    
     private let spawnRate: Double
     
     private var tutorialFlag = false
@@ -337,7 +339,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    private func hidde(_ h: Bool, list: [SKSpriteNode]) {
+    private func hide(_ h: Bool, list: [SKSpriteNode]) {
         if !h {
             currentCombo = list
         }
@@ -351,47 +353,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func handleCombo(start: CGPoint, pos: CGPoint) {
         spellCount += 1
+        
         let vector = pos - start
         let directions = Directions.calculateDirections(vector)
-        if directionsCombos.count == 0{
-            //elements
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                if self.directionsCombos.count == 1 && self.spellCount < 3{
+        
+        
+        
+        if directionsCombos.count == 0 {
+            self.combosTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { _ in
+                if self.directionsCombos.count == 1 && self.spellCount < 3 {
                     self.directionsCombos.removeAll()
                     
-                    self.hidde(true, list: self.directionCombo)
-                    self.hidde(true, list: self.iceCombo)
-                    self.hidde(true, list: self.thunderCombo)
-                    self.hidde(true, list: self.fireCombo)
-                    self.hidde(true, list: self.earthCombo)
+                    self.hide(true, list: self.directionCombo)
+                    self.hide(true, list: self.iceCombo)
+                    self.hide(true, list: self.thunderCombo)
+                    self.hide(true, list: self.fireCombo)
+                    self.hide(true, list: self.earthCombo)
                     
-                    self.hidde(false, list: self.elementCombo)
+                    self.hide(false, list: self.elementCombo)
                     
                     self.directionsCombos = []
                 }
                 self.spellCount = 0
             }
             
-            hidde(true, list: elementCombo)
+            hide(true, list: elementCombo)
             
             firstDirectionCombo = directions[0]
             
-            switch firstDirectionCombo{
+            switch firstDirectionCombo {
             case .up:
-                hidde(false, list: iceCombo)
+                hide(false, list: iceCombo)
                 
             case .down:
-                hidde(false, list: thunderCombo)
+                hide(false, list: thunderCombo)
                 
             case .left:
-                hidde(false, list: fireCombo)
+                hide(false, list: fireCombo)
                 
             case .right:
-                hidde(false, list: earthCombo)
+                hide(false, list: earthCombo)
             }
         }
-        else if directionsCombos.count == 1{
+        else if directionsCombos.count == 1 {
             //attack
+            self.combosTimer?.invalidate()
+            
             if directions[0] == .down{
                 let magic = Magics.magic(primary: directionsCombos[0], secondary: directions[0])
                 let x = magic.getElement().getBuff()
@@ -399,19 +406,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 switch firstDirectionCombo{
                 case .up:
-                    hidde(true, list: iceCombo)
+                    hide(true, list: iceCombo)
                     
                 case .down:
-                    hidde(true, list: thunderCombo)
+                    hide(true, list: thunderCombo)
                     
                 case .left:
-                    hidde(true, list: fireCombo)
+                    hide(true, list: fireCombo)
                     
                 case .right:
-                    hidde(true, list: earthCombo)
+                    hide(true, list: earthCombo)
                 }
                 
-                hidde(false, list: elementCombo)
+                hide(false, list: elementCombo)
                 
                 directionsCombos = []
                 return
@@ -419,19 +426,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             switch firstDirectionCombo{
             case .up:
-                hidde(true, list: iceCombo)
+                hide(true, list: iceCombo)
                 
             case .down:
-                hidde(true, list: thunderCombo)
+                hide(true, list: thunderCombo)
                 
             case .left:
-                hidde(true, list: fireCombo)
+                hide(true, list: fireCombo)
                 
             case .right:
-                hidde(true, list: earthCombo)
+                hide(true, list: earthCombo)
             }
             
-            hidde(false, list: directionCombo)
+            hide(false, list: directionCombo)
         }
         
         if directionsCombos.count == 2 {
@@ -506,9 +513,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             directionsCombos = []
             
-            hidde(false, list: elementCombo)
+            hide(false, list: elementCombo)
             
-            hidde(true, list: directionCombo)
+            hide(true, list: directionCombo)
             
         } else {
             directionsCombos.append(directions[0])
