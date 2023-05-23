@@ -670,19 +670,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         updatePlayerState()
         updateSpidersState()
-        
-//        guard !directionsMovement.isEmpty else { return }
-//        if player.currentState == .jump || (player.currentState == .airborne && jumpCounter >= 3) {
-//            directionsMovement.removeAll { dir in
-//                dir == .up
-//            }
-//        }
-//
-//        if directionsMovement.contains(.up) {
-//            player.transition(to: .jump)
-//            jumpCounter += 1
-//        }
-//
+
         if jumpLocked {
             if let directionToMove = self.directionToMove {
                 switch directionToMove {
