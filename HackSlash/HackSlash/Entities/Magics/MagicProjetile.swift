@@ -29,10 +29,10 @@ class MagicProjetile: Projectile, DetectsCollision{
         self.damage.damage = Int(Constants.singleton.damageMultiplier * Double(self.damage.damage))
         self.physicsBody.categoryBitMask = Constants.singleton.magicMask
         self.changeMask(bit: Constants.singleton.enemiesMask, collision: false)
+        self.changeMask(bit: Constants.singleton.wallMask, collision: false)
     }
     
     func onTouch(touched: inout AttributesInfo){
         touched.health -= self.damage.damage
-        self.node.removeFromParent()
     }
 }

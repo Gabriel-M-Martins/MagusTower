@@ -12,6 +12,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     init(level: Levels) {
         let info = level.getInfo()
         
+        self.currentLevel = level
+        
         Constants.singleton.locker = false
         
         if level == .Level1 {
@@ -38,6 +40,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private var currentLevel: Levels
     
     private var combosTimer: Timer?
     
@@ -72,7 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var combosInput = SKShapeNode()
     private var combosAnalogic = SKShapeNode()
     
-    private var numberEnemies = Int.random(in: 1..<5)
+    private var numberEnemies: Int
     
     private var directionsCombos: [Directions] = []
     private var directionsMovement: [Directions] = []
@@ -83,17 +87,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var levelLabel: SKLabelNode
     
     private var jumpCounter = 0
-    var spidersKilled = 0
+    var enemiesKilled = 0
     
     private var mapInterpreter: MapInterpreter
     
-//    private func recordTower(){
-//        guard Constants.singleton.currentLevel != 1 else { return }
-//        let aux: Int = Int(UserDefaults.standard.string(forKey: "highscore")!)!
-//        if aux < Constants.singleton.currentLevel-1{
-//            UserDefaults.standard.set(String(Constants.singleton.currentLevel-1), forKey: "highscore")
+    private func saveHighscore(){
+        guard self.currentLevel != .Tutorial else { return }
+        
+        var points: Int = enemiesKilled * (Constants.singleton.currentLevel - 1)
+        
+        if let key = UserDefaults.standard.string(forKey: "currentHighscore") {
+            if let value = Int(key) {
+                points += value
+            }
+        }
+        
+//        if let key = UserDefaults.standard.string(forKey: "highscore") {
+//            if let value = Int(key) {
+//                if points > value {
+//                    UserDefaults.standard.set(String( points ), forKey: "currentHighscore")
+//                }
+//            }
 //        }
-//    }
+        
+        UserDefaults.standard.set(String( points ), forKey: "currentHighscore")
+    }
     
     private func setupTutorial() {
         let text1 = SKLabelNode(text: "To move, use the joystick on the left corner of the screen.")
@@ -121,21 +139,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(text5)
     }
     
-    private func setupLabel() {
-//        levelLabel.position = CGPoint(x: 0, y: 50)
-//        levelLabel.setScale(0)
-//        levelLabel.fontName = "NovaCut-Regular"
-//
-//        camera?.addChild(levelLabel)
-//
-//        levelLabel.run(.sequence([
-//            .scale(to: 1, duration: 1),
-//            .wait(forDuration: 1),
-//            .scale(to: 0, duration: 0.25),
-//            .removeFromParent()
-//        ]))
-    }
-    
     private func setupDoor() {
         let plat: SKSpriteNode
         
@@ -146,6 +149,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         door = SKSpriteNode(imageNamed: "DoorLocked")
+        
         door.name = "door"
         
         door.setScale(2)
@@ -162,6 +166,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func openDoor() {
         door.physicsBody?.categoryBitMask = Constants.singleton.wallMask
         door.run(.animate(with: [.init(imageNamed: "DoorUnlocked")], timePerFrame: 1))
+    }
+    
+    private func finishLevel(win: Bool) {
+        if win {
+            Constants.singleton.locker = true
+            Constants.singleton.notificationCenter.post(name: Notification.Name("playerWin"), object: nil)
+            
+            AudioManager.shared.playSound(named: "door.wav")
+        } else {
+            Constants.singleton.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
+        }
+        
+        self.saveHighscore()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -562,7 +579,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // ------------------------------------------------------------------------
         setupCamera()
-        setupLabel()
         // ------------------------------------------------------------------------
         setupGround()
         
@@ -619,6 +635,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.transition(to: .landing)
             player.transition(to: .idle)
         }
+        
+        else if (contact.bodyA.node?.name == "wall" && contact.bodyB.node?.name == "Magic") || (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "wall") || (contact.bodyA.node?.name == "floor" && contact.bodyB.node?.name == "Magic") || (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "floor"){
+            for idx in 0..<magics.count {
+                if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
+                    magics[idx].node.particleBirthRate = 0
+                    let reference = magics[idx]
+                    magics.remove(at: idx)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        reference.node.removeFromParent()
+                    }
+                    break
+                }
+            }
+        }
+        
         else if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "platform") || (contact.bodyA.node?.name == "floor" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "floor"){
             for spider in spiders{
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
@@ -635,17 +666,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for idx in 0..<spiders.count{
                 let spider = spiders[idx]
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
-                    for magic in magics{
-                        if magic.physicsBody === contact.bodyA || magic.physicsBody === contact.bodyB{
-                            magic.onTouch(touched: &spider.attributes)
+                    for idx in 0..<magics.count{
+                        if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
+                            magics[idx].onTouch(touched: &spider.attributes)
                             spider.attributes.velocity.maxYSpeed *= 10
                             spider.attributes.velocity.maxXSpeed *= 10
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 spider.attributes.velocity.maxYSpeed /= 10
                                 spider.attributes.velocity.maxXSpeed /= 10
                             }
-                            spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magic.angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magic.angle) * 6))
-                            magic.node.removeFromParent()
+                            spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magics[idx].angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magics[idx].angle) * 6))
+                            
+                            let reference = magics[idx]
+                            reference.node.run(SKAction.sequence([
+                                .wait(forDuration: 0.1),
+                                .run{
+                                    reference.node.particleBirthRate = 0
+                                },
+                                .wait(forDuration: 0.5),
+                                .run{
+                                    for idx in 0..<self.magics.count{
+                                        if self.magics[idx] === reference{
+                                            self.magics.remove(at: idx)
+                                        }
+                                        break
+                                    }
+                                    reference.node.removeFromParent()
+                                }
+                            ]))
                         }
                     }
                 }
@@ -664,13 +712,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             //remover aranha da cena
                             spider.sprite.removeFromParent()
                         })
-                        spidersKilled += 1
+                        enemiesKilled += 1
                         break
                     }
                 }
             }
             
-            if numberEnemies == spidersKilled {
+            if numberEnemies == enemiesKilled {
                 AudioManager.shared.playSound(named: "notification.mp3")
                 self.openDoor()
             }
@@ -701,22 +749,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         else if (contact.bodyA.node?.name == "door") || (contact.bodyB.node?.name == "door") {
-            Constants.singleton.locker = true
-            Constants.singleton.notificationCenter.post(name: Notification.Name("playerWin"), object: nil)
-            //recordTower()
-            AudioManager.shared.playSound(named: "door.wav")
+            self.finishLevel(win: true)
         }
     }
     
     override func update(_ currentTime: TimeInterval) {
         if player.attributes.health <= 0 {
-            Constants.singleton.notificationCenter.post(name: Notification.Name("playerDeath"), object: nil)
-            //recordTower()
+            self.finishLevel(win: false)
         }
-        //        if numberEnemies == spidersKilled {
-        ////            AudioManager.shared.playSound(named: "door.wav")
-        //            self.openDoor()
-        //        }
         
         camera?.position = player.position
         for spider in spiders{
