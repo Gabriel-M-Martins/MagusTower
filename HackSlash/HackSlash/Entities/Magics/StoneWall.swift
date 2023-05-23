@@ -30,7 +30,7 @@ class StoneWall {
                 x = floor.frame.maxX - sprite.frame.width/2
             }
         }
-        else {
+        else if player.sprite.position.y > finalHeight{
             finalHeight = player.sprite.position.y
             sprite.size.height = finalHeight
         }
