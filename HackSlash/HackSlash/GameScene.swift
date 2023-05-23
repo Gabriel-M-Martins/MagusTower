@@ -513,6 +513,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd)
                 addChild(stoneWall.sprite)
                 directionsCombos.removeAll()
+                
             case .A(.thunder):
                 let thunder = ThunderShot(angle: angle, player: player)
                 addChild(thunder.node)

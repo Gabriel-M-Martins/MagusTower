@@ -33,6 +33,15 @@ class MagicProjetile: Projectile, DetectsCollision{
     }
     
     func onTouch(touched: inout AttributesInfo){
-        touched.health -= self.damage.damage
+        
+        if touched.weakness.contains(self.damage.element){
+            touched.health -= self.damage.damage * 2
+        }
+        else if touched.resistence.contains(self.damage.element){
+            touched.health -= self.damage.damage / 2
+        }
+        else{
+            touched.health -= self.damage.damage
+        }
     }
 }
