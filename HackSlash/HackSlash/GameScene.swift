@@ -331,7 +331,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let vector = pos - movementInput.position
         let dir = Directions8.calculateDirections(vector)
         
-        if dir == .down {
+        if dir == .down || dir == .downLeft || dir == .downRight {
             directionToMove = nil
         } else {
             directionToMove = dir
@@ -768,8 +768,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if directionToMove == .up || directionToMove == .upLeft || directionToMove == .upRight {
-            if jumpCounter >= 3 {
+//        if directionToMove == .up || directionToMove == .upLeft || directionToMove == .upRight {
+        if directionToMove == .up {
+            if jumpCounter >= 2 {
                 if let directionToMove = self.directionToMove {
                     switch directionToMove {
                     case .upRight:
