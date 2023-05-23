@@ -49,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var currentLevel: Levels
     
-    private var combosTimer: Timer?
+    private var comboTimer: Timer?
     
     private let spawnRate: Double
     
@@ -206,7 +206,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             switch t.1 {
             case .movementAnalog:
-                handleMovement(start: movementInput.position, pos: pos)
+                handleMovement(pos: pos)
                 
                 if movementInput.contains(pos) {
                     movementAnalogic.run(.move(to: pos, duration: 0.1))
@@ -324,12 +324,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
-    private func handleMovement(start: CGPoint, pos: CGPoint) {
-        let vector = pos - start
-        directionsMovement.append(Directions4.calculateDirections(vector))
-//            .filter { dir in
-//                dir != .down
-//            }
+    private func handleMovement(pos: CGPoint) {
+        let vector = pos - movementInput.position
+        let dir = Directions4.calculateDirections(vector)
+        
+        if dir != .down {
+            directionsMovement.append(dir)
+        }
     }
     
     private func hide(_ h: Bool, list: [SKSpriteNode]) {
@@ -343,6 +344,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch currentComboState {
         case .element:
+            self.comboTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { _ in
+                if case .magic = self.currentComboState {
+                    self.currentComboState = .element
+                    
+                    [self.comboIceNodes, self.comboEarthNodes, self.comboThunderNodes, self.comboFireNodes].forEach { list in
+                        self.hide(true, list: list)
+                    }
+                    
+                    self.hide(false, list: self.comboElementNodes)
+                }
+            }
+            
             let direction = Directions4.calculateDirections(vector)
             
             hide(true, list: comboElementNodes)
@@ -371,6 +384,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             currentComboState = .magic(direction)
             
         case .magic(let previousDirection):
+            self.comboTimer?.invalidate()
+            
             let direction = Directions4.calculateDirections(vector)
             let magic = Magics.magic(primary: previousDirection, secondary: direction)
             
