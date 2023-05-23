@@ -149,6 +149,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         door = SKSpriteNode(imageNamed: "DoorLocked")
+        
         door.name = "door"
         
         door.setScale(2)
@@ -628,6 +629,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         reference.node.removeFromParent()
                     }
+                    break
                 }
             }
         }
@@ -671,6 +673,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                         if self.magics[idx] === reference{
                                             self.magics.remove(at: idx)
                                         }
+                                        break
                                     }
                                     reference.node.removeFromParent()
                                 }
