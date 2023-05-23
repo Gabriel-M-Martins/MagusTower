@@ -357,8 +357,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let vector = pos - start
         let directions = Directions.calculateDirections(vector)
         
-        
-        
         if directionsCombos.count == 0 {
             self.combosTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { _ in
                 if self.directionsCombos.count == 1 && self.spellCount < 3 {
@@ -424,6 +422,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 return
             }
             
+            //deixar enquanto nao tem as outras magias
+            if directions[0] == .left || directions[0] == .right {
+                spellCount -= 1
+                directionsCombos.removeLast()
+                return
+            }
+            
             switch firstDirectionCombo{
             case .up:
                 hide(true, list: iceCombo)
@@ -448,6 +453,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let angle = atan2(normalizedVector.y, normalizedVector.x)
             
             // MARK: call combo with vector and magic
+            //padronizar os casos em uma função
             switch magic{
             case .A(.fire):
                 let fireball = Fireball(angle: angle, player: player)
