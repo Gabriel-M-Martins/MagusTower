@@ -19,7 +19,7 @@ class Iceball: MagicProjetile {
         node.physicsBody?.allowsRotation = false
         node.physicsBody?.categoryBitMask = 0
         node.physicsBody?.collisionBitMask = 0
-        super.init(node: node, angle: angle, velocity: Constants.singleton.iceballVelocity, damage: Constants.singleton.iceballDamage)
+        super.init(node: node, angle: angle, element: .ice, velocity: Constants.singleton.iceballVelocity, damage: Constants.singleton.iceballDamage)
         self.launch()
     }
 }

@@ -40,6 +40,7 @@ class Constants {
     let playerDefense: Int = 5
     
     let fireballSize: CGVector = CGVector(dx: 35, dy: 13)
+    let burnDamage: Int = 2
     let fireballVelocity: VelocityInfo = VelocityInfo(xSpeed: 600, ySpeed: 600, maxXSpeed: 150, maxYSpeed: 150)
     lazy var fireballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
     

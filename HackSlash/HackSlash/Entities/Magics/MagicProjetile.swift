@@ -15,16 +15,19 @@ class MagicProjetile: Projectile, DetectsCollision{
     
     var angle: Double
     
+    var element: Elements
+    
     var velocity: VelocityInfo
     
     var damage: AttackInfo
     
-    init(node: SKEmitterNode, angle: Double, velocity: VelocityInfo, damage: AttackInfo) {
+    init(node: SKEmitterNode, angle: Double, element: Elements, velocity: VelocityInfo, damage: AttackInfo) {
         self.node = node
         self.node.name = "Magic"
         self.physicsBody = node.physicsBody!
         self.angle = angle
         self.velocity = velocity
+        self.element = element
         self.damage = damage
         self.damage.damage = Int(Constants.singleton.damageMultiplier * Double(self.damage.damage))
         self.physicsBody.categoryBitMask = Constants.singleton.magicMask
@@ -32,7 +35,10 @@ class MagicProjetile: Projectile, DetectsCollision{
         self.changeMask(bit: Constants.singleton.wallMask, collision: false)
     }
     
-    func onTouch(touched: inout AttributesInfo){
-        touched.health -= self.damage.damage
+    func onTouch(touched: any Attributes & Status){
+        var copySelf = touched
+        copySelf.attributes.health -= self.damage.damage
+        let x = element.getDebuff()
+        x(touched, 8.0)
     }
 }

@@ -19,7 +19,7 @@ class Fireball: MagicProjetile {
         node.physicsBody?.allowsRotation = false
         node.physicsBody?.categoryBitMask = 0
         node.physicsBody?.collisionBitMask = 0
-        super.init(node: node, angle: angle, velocity: Constants.singleton.fireballVelocity, damage: Constants.singleton.fireballDamage)
+        super.init(node: node, angle: angle, element: .fire, velocity: Constants.singleton.fireballVelocity, damage: Constants.singleton.fireballDamage)
         self.launch()
     }
 }

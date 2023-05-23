@@ -20,7 +20,7 @@ class ThunderShot: MagicProjetile{
         node.physicsBody?.allowsRotation = false
         node.physicsBody?.categoryBitMask = 0
         node.physicsBody?.collisionBitMask = 0
-        super.init(node: node, angle: angle, velocity: Constants.singleton.lightningParticleVelocity, damage: Constants.singleton.lightningParticleDamage)
+        super.init(node: node, angle: angle, element: .thunder, velocity: Constants.singleton.lightningParticleVelocity, damage: Constants.singleton.lightningParticleDamage)
         let subNode = SKEmitterNode(fileNamed: "ThunderArrow")!
         subNode.particlePositionRange = Constants.singleton.lightningParticleSize
         node.addChild(subNode)

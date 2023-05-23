@@ -652,7 +652,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     for idx in 0..<magics.count{
                         if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
-                            magics[idx].onTouch(touched: &spider.attributes)
+                            magics[idx].onTouch(touched: spider)
                             spider.attributes.velocity.maxYSpeed *= 10
                             spider.attributes.velocity.maxXSpeed *= 10
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
