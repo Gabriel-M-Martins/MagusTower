@@ -166,5 +166,7 @@ class Constants {
     let notificationCenter = NotificationCenter.default
     
     let buttonsColor: UIColor = .white
+    
+    let maxJumps: Int = 2
 
 }

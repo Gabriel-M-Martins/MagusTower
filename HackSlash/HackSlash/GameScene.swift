@@ -151,6 +151,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         door = SKSpriteNode(imageNamed: "DoorLocked")
+        
         door.name = "door"
         
         door.setScale(2)
@@ -446,7 +447,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd)
                 addChild(stoneWall.sprite)
-
+                
             case .D(let element):
                 let x = element.getBuff()
                 x(player, 15.0)
@@ -536,28 +537,77 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func didBegin(_ contact:SKPhysicsContact){
+    func spiderToCharging(spider: EnemySpider){
+        if spider.currentState == .walking || spider.currentState == .idle{
+            var spiderCopy = spider
+            spiderCopy.transition(to: .charging)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                spiderCopy.transition(to: .goingUp)
+                //desiredHeight in x times the spider height
+                let desiredHeight: CGFloat = 1.5
+                //so pra caso a gravidade mude, muda isso aqui ou faz ser igual o valor nas constantes
+                let gravity: CGFloat = -9.8
+                
+                spider.attributes.velocity.maxXSpeed *= 100
+                spider.attributes.velocity.maxYSpeed *= 100
+                let direction: CGFloat = spider.sprite.position.x > self.player.sprite.position.x ? -1 : 1
+                if spider.currentState != .death{
+                    spider.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.singleton.playerSize.width/2 + Constants.singleton.spiderSize.width/2)) + (self.player.sprite.position.x - spider.sprite.position.x), dy: abs(Constants.singleton.playerSize.height - Constants.singleton.spiderSize.height) + (spider.sprite.position.y - spider.sprite.position.y) + (desiredHeight * spider.sprite.size.height) - (45.0 * gravity)))
+                }
+            }
+        }
+    }
+    
+    func didBeginCompareNames(contact: SKPhysicsContact, name1: String, name2: String) -> Bool {
+        return (contact.bodyA.node?.name == name1 && contact.bodyB.node?.name == name2) || (contact.bodyA.node?.name == name2 && contact.bodyB.node?.name == name1)
+    }
+    
+    func didBeginPlatformFloorPlayer(contact: SKPhysicsContact){
+        //Colocar aqui tudo que for adicionado a funcao:
         
-        if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "platform") || (contact.bodyA.node?.name == "floor" && contact.bodyB.node?.name == "Player") || (contact.bodyA.node?.name == "Player" && contact.bodyB.node?.name == "floor"){
+        /*
+         A funcao reseta o jumpCounter e muda o estado do player de acordo
+         */
+        if didBeginCompareNames(contact: contact, name1: "platform", name2: "Player") || didBeginCompareNames(contact: contact, name1: "floor", name2: "Player"){
             self.jumpCounter = 0
             player.transition(to: .landing)
             player.transition(to: .idle)
         }
+    }
+    
+    func didBeginMagicFloorWall(contact: SKPhysicsContact){
+        //Colocar aqui tudo que for adicionado a funcao:
         
-        else if (contact.bodyA.node?.name == "wall" && contact.bodyB.node?.name == "Magic") || (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "wall") || (contact.bodyA.node?.name == "floor" && contact.bodyB.node?.name == "Magic") || (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "floor"){
+        /*
+         Procura a referencia a magia na lista de magias, entao torna seu birthRate em 0. Após 1.5 segundos, remove a magia de vez da cena.
+         Retirar primeiro o birthrate e dps a magia torna o efeito visualmente melhor.
+         */
+        
+        if didBeginCompareNames(contact: contact, name1: "Magic", name2: "wall") || didBeginCompareNames(contact: contact, name1: "floor", name2: "Magic"){
             for idx in 0..<magics.count {
                 if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
                     magics[idx].node.particleBirthRate = 0
                     let reference = magics[idx]
+                    reference.node.physicsBody = nil
                     magics.remove(at: idx)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        reference.node.removeFromParent()
-                    }
+                    reference.node.run(SKAction.sequence(
+                        [.wait(forDuration: 1.5),
+                         .removeFromParent()
+                        ]))
+                    break
                 }
             }
         }
+    }
+    
+    func didBeginPlatformFloorSpider(contact: SKPhysicsContact){
+        //Colocar aqui tudo que for adicionado a funcao:
         
-        else if (contact.bodyA.node?.name == "platform" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "platform") || (contact.bodyA.node?.name == "floor" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "floor"){
+        /*
+         quando a aranha toca no chao ou em uma plataforma e ta em modo de ataque, quer dizer q a mask dela já estava solidificada, e por isso ela pode transicionar pro idle e voltar a velocidade padrão
+         */
+        
+        if didBeginCompareNames(contact: contact, name1: "platform", name2: "Spider") || didBeginCompareNames(contact: contact, name1: "floor", name2: "Spider"){
             for spider in spiders{
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     if spider.currentState == .attack{
@@ -569,92 +619,124 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
-        else if (contact.bodyA.node?.name == "Magic" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "Magic"){
+    }
+    
+    func didBeginMagicSpider(contact: SKPhysicsContact){
+        //Colocar aqui tudo que for adicionado a funcao:
+        
+        /*
+         Essa funcao faz coisa p krl, ent ela ta quebrada em funcoes menores.
+         */
+        
+        func colisaoMagiaAranha(spider: EnemySpider){
+            //Aplica o onTouch na aranha, muda a velocidade dela pra aplicar o knockback adequado
+            
+            //Aplica o knockback e dps remove o feitico primeiro mudando o birth rate dele p 0 e dps fzendo sumir.
+            
+            for idx in 0..<magics.count{
+                if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
+                    
+                    magics[idx].onTouch(touched: &spider.attributes)
+                    
+                    spider.attributes.velocity.maxYSpeed *= 10
+                    spider.attributes.velocity.maxXSpeed *= 10
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        spider.attributes.velocity.maxYSpeed /= 10
+                        spider.attributes.velocity.maxXSpeed /= 10
+                    }
+                    
+                    spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magics[idx].angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magics[idx].angle) * 6))
+                    
+                    let reference = magics[idx]
+                    reference.node.run(SKAction.sequence([
+                        .wait(forDuration: 0.1),
+                        .run{
+                            reference.node.particleBirthRate = 0
+                        },
+                        .wait(forDuration: 0.5),
+                        .run{
+                            for idx in 0..<self.magics.count{
+                                if self.magics[idx] === reference{
+                                    self.magics.remove(at: idx)
+                                }
+                                break
+                            }
+                            reference.node.removeFromParent()
+                        }
+                    ]))
+                }
+            }
+        }
+            
+            func killSpider(spider: EnemySpider, idx: Int){
+                //transition spider state and apply sound effects
+                
+                
+                if spider.currentState != .death{
+                    AudioManager.shared.playSound(named: "spiderDying.wav")
+                    var copy = spider
+                    copy.transition(to: .death)
+                    spiders.remove(at: idx)
+                    delayWithSeconds(spider.despawnTime, completion: {
+                        for s in self.spiders{
+                            if s.idSpider > spider.idSpider{
+                                s.idSpider -= 1
+                            }
+                        }
+                        //remover aranha da cena
+                        spider.sprite.removeFromParent()
+                    })
+                    enemiesKilled += 1
+                }
+            }
+        
+        //Chama as funcoes nos momentos certos
+        if didBeginCompareNames(contact: contact, name1: "Magic", name2: "Spider"){
             for idx in 0..<spiders.count{
                 let spider = spiders[idx]
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
-                    for idx in 0..<magics.count{
-                        if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
-                            magics[idx].onTouch(touched: &spider.attributes)
-                            spider.attributes.velocity.maxYSpeed *= 10
-                            spider.attributes.velocity.maxXSpeed *= 10
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                spider.attributes.velocity.maxYSpeed /= 10
-                                spider.attributes.velocity.maxXSpeed /= 10
-                            }
-                            spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magics[idx].angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magics[idx].angle) * 6))
-                            
-                            let reference = magics[idx]
-                            reference.node.run(SKAction.sequence([
-                                .wait(forDuration: 0.1),
-                                .run{
-                                    reference.node.particleBirthRate = 0
-                                },
-                                .wait(forDuration: 0.5),
-                                .run{
-                                    for idx in 0..<self.magics.count{
-                                        if self.magics[idx] === reference{
-                                            self.magics.remove(at: idx)
-                                        }
-                                    }
-                                    reference.node.removeFromParent()
-                                }
-                            ]))
-                        }
-                    }
+                    colisaoMagiaAranha(spider: spider)
                 }
                 if spider.attributes.health<=0 {
-                    if spider.currentState != .death{
-                        AudioManager.shared.playSound(named: "spiderDying.wav")
-                        var copy = spider
-                        copy.transition(to: .death)
-                        spiders.remove(at: idx)
-                        delayWithSeconds(spider.despawnTime, completion: {
-                            for s in self.spiders{
-                                if s.idSpider > spider.idSpider{
-                                    s.idSpider -= 1
-                                }
-                            }
-                            //remover aranha da cena
-                            spider.sprite.removeFromParent()
-                        })
-                        enemiesKilled += 1
-                        break
-                    }
+                    killSpider(spider: spider, idx: idx)
+                    break
                 }
             }
-            
+            //apply win sound
             if numberEnemies == enemiesKilled {
                 AudioManager.shared.playSound(named: "notification.mp3")
                 self.openDoor()
             }
         }
-        else if (contact.bodyA.node?.name == "wall" && contact.bodyB.node?.name == "Spider") || (contact.bodyA.node?.name == "Spider" && contact.bodyB.node?.name == "wall") {
-            
+    }
+    
+    func didBeginWallSpider(contact: SKPhysicsContact){
+        //Colocar aqui tudo que for adicionado a funcao:
+        
+        /*
+         Se a aranha atingir uma parede, estiver tocando no chao e estiver em idle ou walking, entra em charging
+         */
+        
+        if didBeginCompareNames(contact: contact, name1: "wall", name2: "Spider") {
             for idx in 0..<spiders.count{
                 var spider = spiders[idx]
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
-                    if spider.currentState == .walking || spider.currentState == .idle{
-                        spider.transition(to: .charging)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            spider.transition(to: .goingUp)
-                            //desiredHeight in x times the spider height
-                            let desiredHeight: CGFloat = 1.5
-                            //so pra caso a gravidade mude, muda isso aqui ou faz ser igual o valor nas constantes
-                            let gravity: CGFloat = -9.8
-                            
-                            spider.attributes.velocity.maxXSpeed *= 100
-                            spider.attributes.velocity.maxYSpeed *= 100
-                            let direction: CGFloat = spider.sprite.position.x > self.player.sprite.position.x ? -1 : 1
-                            if spider.currentState != .death{
-                                spider.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.singleton.playerSize.width/2 + Constants.singleton.spiderSize.width/2)) + (self.player.sprite.position.x - spider.sprite.position.x), dy: abs(Constants.singleton.playerSize.height - Constants.singleton.spiderSize.height) + (spider.sprite.position.y - spider.sprite.position.y) + (desiredHeight * spider.sprite.size.height) - (45.0 * gravity)))
-                            }
-                        }
-                    }
+                    spiderToCharging(spider: spider)
                 }
             }
         }
-        else if (contact.bodyA.node?.name == "door") || (contact.bodyB.node?.name == "door") {
+    }
+    
+    func didBegin(_ contact:SKPhysicsContact){
+        
+        didBeginPlatformFloorPlayer(contact: contact)
+        didBeginMagicFloorWall(contact: contact)
+        didBeginPlatformFloorSpider(contact: contact)
+        didBeginMagicSpider(contact: contact)
+        didBeginWallSpider(contact: contact)
+
+        if (contact.bodyA.node?.name == "door") || (contact.bodyB.node?.name == "door") {
             self.finishLevel(win: true)
         }
     }
@@ -1126,7 +1208,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
         AudioManager.shared.playSound(named: "spiderSpawn.wav")
-        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 10, defense: 20, weakness: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 100), player: player, idSpider: idSpider)
+        let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 20, defense: 20, weakness: [], resistence: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 100), player: player, idSpider: idSpider)
         return spider
     }
     
