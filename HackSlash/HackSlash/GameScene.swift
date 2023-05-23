@@ -87,7 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var numberEnemies: Int
     
-    private var directionsMovement: [Directions4] = []
+    private var directionToMove: Directions8?
 //    private var firstDirectionCombo: Directions = .up
     
     private var door =  SKSpriteNode()
@@ -95,7 +95,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var levelLabel: SKLabelNode
     
     private var jumpCounter = 0
-    var enemiesKilled = 0
+    private var jumpLocked = false
+    
+    private var enemiesKilled = 0
     
     private var mapInterpreter: MapInterpreter
     
@@ -300,7 +302,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             case .movementAnalog:
                 movementAnalogic.run(SKAction.move(to: movementInput.position, duration: 0.1))
                 
-                directionsMovement = []
+                directionToMove = nil
                 
             case .combosAnalog:
                 let pos = t.location(in: camera)
@@ -326,10 +328,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func handleMovement(pos: CGPoint) {
         let vector = pos - movementInput.position
-        let dir = Directions4.calculateDirections(vector)
+        let dir = Directions8.calculateDirections(vector)
         
-        if dir != .down {
-            directionsMovement.append(dir)
+        if dir == .down {
+            directionToMove = nil
+        } else {
+            directionToMove = dir
         }
     }
     
@@ -667,19 +671,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         updatePlayerState()
         updateSpidersState()
         
-        guard !directionsMovement.isEmpty else { return }
-        if player.currentState == .jump || (player.currentState == .airborne && jumpCounter >= 3) {
-            directionsMovement.removeAll { dir in
-                dir == .up
+//        guard !directionsMovement.isEmpty else { return }
+//        if player.currentState == .jump || (player.currentState == .airborne && jumpCounter >= 3) {
+//            directionsMovement.removeAll { dir in
+//                dir == .up
+//            }
+//        }
+//
+//        if directionsMovement.contains(.up) {
+//            player.transition(to: .jump)
+//            jumpCounter += 1
+//        }
+//
+        if jumpLocked {
+            if let directionToMove = self.directionToMove {
+                switch directionToMove {
+                case .upRight:
+                    self.directionToMove = .right
+                case .upLeft:
+                    self.directionToMove = .left
+                case .up:
+                    self.directionToMove = nil
+                default:
+                    break
+                }
             }
         }
         
-        if directionsMovement.contains(.up) {
+        if directionToMove == .up || directionToMove == .upLeft || directionToMove == .upRight {
+            if jumpCounter >= 3 {
+                if let directionToMove = self.directionToMove {
+                    switch directionToMove {
+                    case .upRight:
+                        self.directionToMove = .right
+                    case .upLeft:
+                        self.directionToMove = .left
+                    default:
+                        self.directionToMove = nil
+                    }
+                }
+            }
+            
             player.transition(to: .jump)
+            
             jumpCounter += 1
+            jumpLocked = true
         }
         
-        player.move(direction: Set(directionsMovement))
+        if let directionToMove = self.directionToMove {
+            player.move(direction: directionToMove)
+        }
         
         if player.sprite.physicsBody!.velocity.dx < 0{
             player.sprite.xScale = -1
@@ -697,6 +738,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if player.physicsBody.velocity.dy < 0{
             player.transition(to: .airborne)
+            jumpLocked = false
         }
         
         if player.currentState == .airborne{
