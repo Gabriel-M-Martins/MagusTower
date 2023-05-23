@@ -13,6 +13,7 @@ struct MainMenuView: View {
     @State var showCredits: Bool = false
     @State var hasHighScore: Bool = false
     @State var highest: String = "0"
+    @State var tutorial: Bool = false
     
     func loadUserData(){
         if let masterVolume = UserDefaults.standard.string(forKey: "masterVolume"), !masterVolume.isEmpty{
@@ -34,6 +35,16 @@ struct MainMenuView: View {
         if let high = UserDefaults.standard.string(forKey: "highscore"), !high.isEmpty{
             hasHighScore = true
         }
+        
+//        UserDefaults.standard.removeObject(forKey: "tutorial")
+        
+        if UserDefaults.standard.object(forKey: "tutorial") == nil{
+            print(UserDefaults.standard.bool(forKey: "tutorial"))
+            tutorial = false
+        }
+        else{
+            tutorial = true
+        }
     }
 
     var body: some View {
@@ -48,15 +59,30 @@ struct MainMenuView: View {
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).midY*0.83)
                         
                         Group{
-                            NavigationLink {
-                                GameView(level: Levels.Level1)
-                            } label: {
-                                Image("Enter")
+                            if(tutorial){
+                                NavigationLink {
+                                    GameView(level: Levels.Level1)
+                                } label: {
+                                    Image("Enter")
+                                }
+                                .simultaneousGesture(TapGesture().onEnded{
+                                    AudioManager.shared.playSound(named: "buttonClick.mp3")
+                                })
+                                .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.31)
                             }
-                            .simultaneousGesture(TapGesture().onEnded{
-                                AudioManager.shared.playSound(named: "buttonClick.mp3")
-                            })
-                            .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.31)
+                            else{
+                                NavigationLink {
+                                    GameView(level: Levels.Tutorial)
+                                } label: {
+                                    Image("Enter")
+                                }
+                                .simultaneousGesture(TapGesture().onEnded{
+                                    AudioManager.shared.playSound(named: "buttonClick.mp3")
+                                    tutorial = true
+                                    UserDefaults.standard.set(true, forKey: "tutorial")
+                                })
+                                .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.31)
+                            }
                             
                             Button(action:{
                                 showSettings = !showSettings
@@ -71,6 +97,10 @@ struct MainMenuView: View {
                             } label: {
                                 Image("How")
                             }
+                            .simultaneousGesture(TapGesture().onEnded{
+                                tutorial = true
+                                UserDefaults.standard.set(true, forKey: "tutorial")
+                            })
                             .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.55)
                         }
                         
@@ -139,6 +169,7 @@ struct MainMenuView: View {
             
             UserDefaults.standard.set( String( realHighscoreValue ), forKey: "highscore")
             UserDefaults.standard.set( String( 0 ), forKey: "currentHighscore")
+            UserDefaults.standard.set( 0, forKey: "tutorial")
             
         }
     }
