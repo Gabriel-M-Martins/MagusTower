@@ -73,8 +73,6 @@
 		F98E2CFD2A0D6F96003273AA /* MagicProjetile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98E2CFC2A0D6F96003273AA /* MagicProjetile.swift */; };
 		F98E2CFF2A0D7104003273AA /* Fireball.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98E2CFE2A0D7104003273AA /* Fireball.swift */; };
 		F98E2D012A0D8453003273AA /* Iceball.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98E2D002A0D8453003273AA /* Iceball.swift */; };
-		F9911E692A129C5B005F2B2C /* TutorialScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9911E682A129C5B005F2B2C /* TutorialScene.sks */; };
-		F9911E6B2A129C66005F2B2C /* TutorialScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9911E6A2A129C66005F2B2C /* TutorialScene.swift */; };
 		F9911E6E2A129CFC005F2B2C /* Collectable.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9911E6C2A129CFC005F2B2C /* Collectable.sks */; };
 		F9911E6F2A129CFC005F2B2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F9911E6D2A129CFC005F2B2C /* Assets.xcassets */; };
 		F9911E712A12A15A005F2B2C /* StoneWall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9911E702A12A15A005F2B2C /* StoneWall.swift */; };
@@ -158,8 +156,6 @@
 		F98E2CFC2A0D6F96003273AA /* MagicProjetile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagicProjetile.swift; sourceTree = "<group>"; };
 		F98E2CFE2A0D7104003273AA /* Fireball.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fireball.swift; sourceTree = "<group>"; };
 		F98E2D002A0D8453003273AA /* Iceball.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Iceball.swift; sourceTree = "<group>"; };
-		F9911E682A129C5B005F2B2C /* TutorialScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TutorialScene.sks; sourceTree = "<group>"; };
-		F9911E6A2A129C66005F2B2C /* TutorialScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScene.swift; sourceTree = "<group>"; };
 		F9911E6C2A129CFC005F2B2C /* Collectable.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Collectable.sks; sourceTree = "<group>"; };
 		F9911E6D2A129CFC005F2B2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F9911E702A12A15A005F2B2C /* StoneWall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoneWall.swift; sourceTree = "<group>"; };
@@ -333,7 +329,6 @@
 				A7B6B1B62A02E6F1005FF90B /* Data */,
 				A7B6B1B32A02E6BF005FF90B /* Protocols */,
 				A7C1669229F71DC1003B096D /* AppDelegate.swift */,
-				F9911E672A129C44005F2B2C /* TutorialScene */,
 				A7C1669429F71DC1003B096D /* GameScene.sks */,
 				A7C1669629F71DC1003B096D /* Actions.sks */,
 				A7C1669829F71DC1003B096D /* GameScene.swift */,
@@ -374,15 +369,6 @@
 				F9911E702A12A15A005F2B2C /* StoneWall.swift */,
 			);
 			path = Magics;
-			sourceTree = "<group>";
-		};
-		F9911E672A129C44005F2B2C /* TutorialScene */ = {
-			isa = PBXGroup;
-			children = (
-				F9911E682A129C5B005F2B2C /* TutorialScene.sks */,
-				F9911E6A2A129C66005F2B2C /* TutorialScene.swift */,
-			);
-			path = TutorialScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -447,7 +433,6 @@
 				F98E2CF72A0D6AFA003273AA /* FireParticle.sks in Resources */,
 				A77414CE2A16B3AA00E96021 /* map2.txt in Resources */,
 				92E3DF6D2A12CA63008A1AEE /* FireAura.sks in Resources */,
-				F9911E692A129C5B005F2B2C /* TutorialScene.sks in Resources */,
 				92420C652A13F7BC00AE47A9 /* spiderSpawn.wav in Resources */,
 				A7C1669E29F71DC1003B096D /* Main.storyboard in Resources */,
 				F9911E6F2A129CFC005F2B2C /* Assets.xcassets in Resources */,
@@ -519,7 +504,6 @@
 				9202EB022A0EAD0500F5A109 /* MainMenuView.swift in Sources */,
 				F98E2CFA2A0D6F1A003273AA /* Projectile.swift in Sources */,
 				F98E2CFF2A0D7104003273AA /* Fireball.swift in Sources */,
-				F9911E6B2A129C66005F2B2C /* TutorialScene.swift in Sources */,
 				F98E2D012A0D8453003273AA /* Iceball.swift in Sources */,
 				A77414D02A16B84200E96021 /* LevelInfo.swift in Sources */,
 				A7C1669B29F71DC1003B096D /* GameViewController.swift in Sources */,
@@ -679,7 +663,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2V5RBDFH46;
+				DEVELOPMENT_TEAM = 73DNAYF2TM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Magus Tower";

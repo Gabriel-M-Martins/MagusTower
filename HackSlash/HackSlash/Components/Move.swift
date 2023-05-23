@@ -14,8 +14,8 @@ protocol Move {
 }
 
 extension Move{
-    func move(direction: [Directions], power: Double = 1){
-        let direction: Set<Directions> = Set<Directions>(direction)
+    func move(direction: Set<Directions4>, power: Double = 1){
+//        let direction: Set<Directions4> = Set<Directions8>(direction)
       
         for direct in direction{
             sprite.physicsBody?.applyImpulse(CGVector(dx: velocity.xSpeed * direct.coordenadas.x * power, dy: velocity.ySpeed * direct.coordenadas.y * power))
