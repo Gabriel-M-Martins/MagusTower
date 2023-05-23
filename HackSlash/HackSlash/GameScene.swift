@@ -348,18 +348,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    //Spell count declarado aqui só p ficar mais entendível
-    var spellCount: Int = 0
-    
     private func handleCombo(start: CGPoint, pos: CGPoint) {
-        spellCount += 1
         
         let vector = pos - start
         let directions = Directions.calculateDirections(vector)
         
         if directionsCombos.count == 0 {
             self.combosTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { _ in
-                if self.directionsCombos.count == 1 && self.spellCount < 3 {
+                if self.directionsCombos.count == 1 {
                     self.directionsCombos.removeAll()
                     
                     self.hide(true, list: self.directionCombo)
@@ -372,7 +368,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     self.directionsCombos = []
                 }
-                self.spellCount = 0
             }
             
             hide(true, list: elementCombo)
@@ -424,8 +419,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //deixar enquanto nao tem as outras magias
             if directions[0] == .left || directions[0] == .right {
-                spellCount -= 1
-                directionsCombos.removeLast()
+                switch firstDirectionCombo{
+                case .up:
+                    hide(true, list: iceCombo)
+                    
+                case .down:
+                    hide(true, list: thunderCombo)
+                    
+                case .left:
+                    hide(true, list: fireCombo)
+                    
+                case .right:
+                    hide(true, list: earthCombo)
+                }
+                
+                hide(false, list: elementCombo)
+                
+                directionsCombos = []
                 return
             }
             
