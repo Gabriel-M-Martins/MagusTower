@@ -87,7 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var numberEnemies: Int
     
-    private var directionToMove: Directions4?
+    private var directionToMove: Directions8?
 //    private var firstDirectionCombo: Directions = .up
     
     private var door =  SKSpriteNode()
@@ -329,9 +329,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func handleMovement(pos: CGPoint) {
         let vector = pos - movementInput.position
-        let dir = Directions4.calculateDirections(vector)
+        let dir = Directions8.calculateDirections(vector)
         
-        if dir == .down {
+        if dir == .down || dir == .downLeft || dir == .downRight {
             directionToMove = nil
         } else {
             directionToMove = dir
@@ -755,8 +755,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         if jumpLocked {
             if let directionToMove = self.directionToMove {
-                if case .up = directionToMove {
+                switch directionToMove {
+                case .upRight:
+                    self.directionToMove = .right
+                case .upLeft:
+                    self.directionToMove = .left
+                case .up:
                     self.directionToMove = nil
+                default:
+                    break
                 }
             }
         }
@@ -764,7 +771,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        if directionToMove == .up || directionToMove == .upLeft || directionToMove == .upRight {
         if directionToMove == .up {
             if jumpCounter >= 2 {
-                self.directionToMove = nil
+                if let directionToMove = self.directionToMove {
+                    switch directionToMove {
+                    case .upRight:
+                        self.directionToMove = .right
+                    case .upLeft:
+                        self.directionToMove = .left
+                    default:
+                        self.directionToMove = nil
+                    }
+                }
             }
             
             player.transition(to: .jump)
