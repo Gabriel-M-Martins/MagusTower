@@ -44,6 +44,10 @@ class Constants {
     let fireballVelocity: VelocityInfo = VelocityInfo(xSpeed: 600, ySpeed: 600, maxXSpeed: 150, maxYSpeed: 150)
     lazy var fireballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
     
+    let blizzardSize: CGVector = CGVector(dx: 100, dy: 100)
+    let blizzardVelocity: VelocityInfo = VelocityInfo(xSpeed: 200, ySpeed: 200, maxXSpeed: 150, maxYSpeed: 150)
+    lazy var blizzardDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage/2, element: .ice, activateEffects: (false, false))
+    
     let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
     let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 700, ySpeed: 700, maxXSpeed: 700, maxYSpeed: 700)
     lazy var iceballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .ice, activateEffects: (false, false))

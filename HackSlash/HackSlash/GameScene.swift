@@ -422,7 +422,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(fireball.node)
                 
             case .A(.ice):
-                let iceball = Iceball(angle: angle, player: player)
+                let iceball = Blizzard(angle: angle, player: player)
                 magics.append(iceball)
                 addChild(iceball.node)
                 
@@ -636,35 +636,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for idx in 0..<magics.count{
                 if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
                     
-                    magics[idx].onTouch(touched: &spider.attributes)
+                    magics[idx].onTouch(touched: spider)
                     
-                    spider.attributes.velocity.maxYSpeed *= 10
-                    spider.attributes.velocity.maxXSpeed *= 10
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        spider.attributes.velocity.maxYSpeed /= 10
-                        spider.attributes.velocity.maxXSpeed /= 10
-                    }
-                    
-                    spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magics[idx].angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magics[idx].angle) * 6))
-                    
-                    let reference = magics[idx]
-                    reference.node.run(SKAction.sequence([
-                        .wait(forDuration: 0.1),
-                        .run{
-                            reference.node.particleBirthRate = 0
-                        },
-                        .wait(forDuration: 0.5),
-                        .run{
-                            for idx in 0..<self.magics.count{
-                                if self.magics[idx] === reference{
-                                    self.magics.remove(at: idx)
-                                }
-                                break
-                            }
-                            reference.node.removeFromParent()
+                    let className = String(describing: magics[idx])
+                    if className != "HackSlash.Blizzard" {
+                        spider.attributes.velocity.maxYSpeed *= 10
+                        spider.attributes.velocity.maxXSpeed *= 10
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            spider.attributes.velocity.maxYSpeed /= 10
+                            spider.attributes.velocity.maxXSpeed /= 10
                         }
-                    ]))
+                        
+                        spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magics[idx].angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magics[idx].angle) * 6))
+                        
+                        let reference = magics[idx]
+                        reference.node.run(SKAction.sequence([
+                            .wait(forDuration: 0.1),
+                            .run{
+                                reference.node.particleBirthRate = 0
+                            },
+                            .wait(forDuration: 0.5),
+                            .run{
+                                for idx in 0..<self.magics.count{
+                                    if self.magics[idx] === reference{
+                                        self.magics.remove(at: idx)
+                                    }
+                                    break
+                                }
+                                reference.node.removeFromParent()
+                            }
+                        ]))
+                    }
                 }
             }
         }
