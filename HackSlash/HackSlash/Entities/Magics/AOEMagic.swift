@@ -1,5 +1,5 @@
 //
-//  Fireball.swift
+//  AOEMagic.swift
 //  HackSlash
 //
 //  Created by Pedro Mezacasa Muller on 11/05/23.
@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-class MagicProjetile: Projectile, DetectsCollision{
+class AOEMagic: Projectile, DetectsCollision{
     var physicsBody: SKPhysicsBody
     
     var node: SKEmitterNode
@@ -23,7 +23,7 @@ class MagicProjetile: Projectile, DetectsCollision{
     
     init(node: SKEmitterNode, angle: Double, element: Elements, velocity: VelocityInfo, damage: AttackInfo) {
         self.node = node
-        self.node.name = "Magic"
+        self.node.name = "AOEMagic"
         self.physicsBody = node.physicsBody!
         self.angle = angle
         self.velocity = velocity

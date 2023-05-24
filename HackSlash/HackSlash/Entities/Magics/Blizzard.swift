@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-class Fireball: MagicProjetile {
+class Blizzard: MagicProjetile {
     init(angle: Double, player: Player) {
         let node = SKEmitterNode(fileNamed: "FireParticle")!
         node.position = CGPoint(x: player.sprite.position.x + (cos(angle) * Constants.singleton.playerSize.width) * 0.4, y: player.sprite.position.y + (sin(angle) * Constants.singleton.playerSize.height) * 0.3)

@@ -8,7 +8,9 @@
 import Foundation
 import SpriteKit
 
-class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
+class EnemySpider: StateMachine, Move, Attributes, DetectsCollision, Status{
+    var isBuffed: Bool = false
+    
     typealias T = SKSpriteNode
     
     var currentState: StatesSpider
