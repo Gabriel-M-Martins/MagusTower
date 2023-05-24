@@ -14,7 +14,7 @@ protocol Move {
 }
 
 extension Move{
-    func move(direction: Directions8, power: Double = 1){
+    func move(direction: Directions4, power: Double = 1){
         
         sprite.physicsBody?.applyImpulse(CGVector(dx: velocity.xSpeed * direction.coordenadas.x * power, dy: velocity.ySpeed * direction.coordenadas.y * power))
         
