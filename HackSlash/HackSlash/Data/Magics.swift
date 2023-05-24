@@ -10,7 +10,7 @@ import Foundation
 enum Magics {
     case A(Elements), B(Elements), C(Elements), D(Elements)
     
-    static func magic(primary: Directions, secondary: Directions) -> Self {
+    static func magic(primary: Directions4, secondary: Directions4) -> Self {
         var element: Elements
         switch primary {
         

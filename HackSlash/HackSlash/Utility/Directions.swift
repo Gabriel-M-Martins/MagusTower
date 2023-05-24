@@ -8,8 +8,8 @@
 import Foundation
 import SpriteKit
 
-enum Directions{
-    case up, right, down, left
+enum Directions8: Int {
+    case up, right, down, left, upRight, upLeft, downRight, downLeft
     
     var coordenadas: (x: Double, y:Double) {
         switch self{
@@ -21,6 +21,14 @@ enum Directions{
             return (0,-1)
         case .left:
             return (-1,0)
+        case .upLeft:
+            return (-1, 0)
+        case .upRight:
+            return (1, 0)
+        case .downLeft:
+            return (-1, -1)
+        case .downRight:
+            return (1, -1)
         }
     }
     
@@ -40,41 +48,80 @@ enum Directions{
         return at
     }
     
-    static func calculateDirections(_ vector: CGPoint) -> [Self] {
+    static func calculateDirections(_ vector: CGPoint) -> Self {
         let degrees = atan2(vector.y, vector.x) * 180 / CGFloat.pi
         
         if degrees <= -145 {
-            return [.left]
+            return .left
         }
         
         if degrees <= -105 {
-            return [.left, .down]
+            return .downLeft
         }
         
         if degrees <= -75 {
-            return [.down]
+            return .down
         }
         
         if degrees <= -35 {
-            return [.right, .down]
+            return .downRight
         }
         
         if degrees <= 35 {
-            return [.right]
+            return .right
         }
         
         if degrees <= 75 {
-            return [.right, .up]
+            return .upRight
         }
         
         if degrees <= 105 {
-            return [.up]
+            return .up
         }
         
         if degrees <= 145 {
-            return [.left, .up]
+            return .upLeft
         }
             
-        return [.left]
+        return .left
+    }
+}
+
+enum Directions4: Int {
+    case up, right, down, left
+    
+    var coordenadas: (x: Double, y:Double) {
+        switch self{
+        case .up:
+            return (0,1)
+        case .right:
+            return (1,0)
+        case .down:
+            return (0,-1)
+        case .left:
+            return (-1,0)
+        }
+    }
+    
+    static func calculateDirections(_ vector: CGPoint) -> Self {
+        let degrees = atan2(vector.y, vector.x) * 180 / CGFloat.pi
+        
+        if degrees <= -135 {
+            return .left
+        }
+        
+        if degrees <= -45 {
+            return .down
+        }
+        
+        if degrees <= 45 {
+            return .right
+        }
+        
+        if degrees <= 135 {
+            return .up
+        }
+            
+        return .left
     }
 }

@@ -95,7 +95,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision, Status{
     func moveAI(player: SKSpriteNode){
         //Antes que ache isso nojento, é a melhor solucao para o erro de self is immutable. Caso queiram ler sobre o erro: https://github.com/apple/swift/issues/46812
         if sprite.intersects(self.player.sprite){
-            self.player.move(direction: [self.physicsBody.velocity.dx > 0 ? .right : .left], power: 1)
+            self.player.move(direction: self.physicsBody.velocity.dx > 0 ? .right : .left, power: 1)
             damageCaused()
         }
         
@@ -104,14 +104,14 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision, Status{
         case .idle, .walking:
             if player.position.x > self.sprite.position.x || sprite.position.x - player.position.x > self.attributes.attackRange * 1.2{
                 
-                move(direction: [.left])
+                move(direction: .left)
                 var tmpSelf = self
                 tmpSelf.transition(to: .walking)
                 sprite.xScale = -1
                 changeSide = true
                 
             } else {
-                move(direction: [.right])
+                move(direction: .right)
                 var tmpSelf = self
                 tmpSelf.transition(to: .walking)
                 sprite.xScale = 1
@@ -139,7 +139,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision, Status{
             }
             
         case .charging:
-            move(direction: [player.position.x > self.sprite.position.x ? .left : .right], power: 0.03)
+            move(direction: player.position.x > self.sprite.position.x ? .left : .right, power: 0.03)
             
             if changeSide {
                 changeSide = false
@@ -159,7 +159,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision, Status{
             
         case .attack:
             if self.sprite.intersects(self.player.sprite){
-                self.player.move(direction: [self.physicsBody.velocity.dx > 0 ? .right : .left], power: 1)
+                self.player.move(direction: self.physicsBody.velocity.dx > 0 ? .right : .left, power: 1)
                 damageCaused()
             }
         case .death:

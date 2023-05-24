@@ -20,27 +20,27 @@ enum Levels: CaseIterable {
     func getInfo() -> LevelInfo {
         switch self {
         case .Tutorial:
-            return LevelInfo(background: "MainScene", enemiesQtd: 1, mapFile: "map2", spawnRate: 2)
+            return LevelInfo(background: "MainScene", enemiesQtd: 1, mapFile: "map2", spawnRate: 1)
         case .Level1:
-            return LevelInfo(background: "MainScene", enemiesQtd: 5, mapFile: "map1", spawnRate: 3)
+            return LevelInfo(background: "MainScene", enemiesQtd: 3, mapFile: "map1", spawnRate: 7)
         case .Level2:
-            return LevelInfo(background: "MainScene", enemiesQtd: 7, mapFile: "map4", spawnRate: 2)
+            return LevelInfo(background: "MainScene", enemiesQtd: 5, mapFile: "map4", spawnRate: 7)
         case .Level3:
-            return LevelInfo(background: "MainScene", enemiesQtd: 12, mapFile: "map1", spawnRate: 1)
+            return LevelInfo(background: "MainScene", enemiesQtd: 7, mapFile: "map1", spawnRate: 7)
         case .Level4:
-            return LevelInfo(background: "MainScene", enemiesQtd: 15, mapFile: "map3", spawnRate: 0.90)
+            return LevelInfo(background: "MainScene", enemiesQtd: 10, mapFile: "map3", spawnRate: 7)
         case .Level5:
-            return LevelInfo(background: "MainScene", enemiesQtd: 20, mapFile: "map5", spawnRate: 0.80)
+            return LevelInfo(background: "MainScene", enemiesQtd: 5, mapFile: "map5", spawnRate: 5)
         case .Level6:
-            return LevelInfo(background: "MainScene", enemiesQtd: 22, mapFile: "map4", spawnRate: 0.75)
+            return LevelInfo(background: "MainScene", enemiesQtd: 7, mapFile: "map4", spawnRate: 5)
         case .Level7:
-            return LevelInfo(background: "MainScene", enemiesQtd: 24, mapFile: "map6", spawnRate: 0.70)
+            return LevelInfo(background: "MainScene", enemiesQtd: 10, mapFile: "map6", spawnRate: 5)
         case .Level8:
-            return LevelInfo(background: "MainScene", enemiesQtd: 20, mapFile: "map7", spawnRate: 0.50)
+            return LevelInfo(background: "MainScene", enemiesQtd: 5, mapFile: "map7", spawnRate: 4)
         case .Level9:
-            return LevelInfo(background: "MainScene", enemiesQtd: 22, mapFile: "map3", spawnRate: 0.55)
+            return LevelInfo(background: "MainScene", enemiesQtd: 7, mapFile: "map3", spawnRate: 4)
         case .Level10:
-            return LevelInfo(background: "MainScene", enemiesQtd: 24, mapFile: "map6", spawnRate: 0.60)
+            return LevelInfo(background: "MainScene", enemiesQtd: 10, mapFile: "map6", spawnRate: 4)
         }
     }
     

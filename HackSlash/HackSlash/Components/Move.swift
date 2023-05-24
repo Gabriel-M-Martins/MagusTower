@@ -14,12 +14,9 @@ protocol Move {
 }
 
 extension Move{
-    func move(direction: [Directions], power: Double = 1){
-        let direction: Set<Directions> = Set<Directions>(direction)
-      
-        for direct in direction{
-            sprite.physicsBody?.applyImpulse(CGVector(dx: velocity.xSpeed * direct.coordenadas.x * power, dy: velocity.ySpeed * direct.coordenadas.y * power))
-        }
+    func move(direction: Directions4, power: Double = 1){
+        
+        sprite.physicsBody?.applyImpulse(CGVector(dx: velocity.xSpeed * direction.coordenadas.x * power, dy: velocity.ySpeed * direction.coordenadas.y * power))
         
         if sprite.physicsBody!.velocity.dx < -velocity.maxXSpeed{
             sprite.physicsBody!.velocity.dx = -velocity.maxXSpeed

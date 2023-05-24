@@ -35,9 +35,18 @@ class MagicProjetile: Projectile, DetectsCollision{
         self.changeMask(bit: Constants.singleton.wallMask, collision: false)
     }
     
-    func onTouch(touched: any Attributes & Status){
-        var copySelf = touched
-        copySelf.attributes.health -= self.damage.damage
+    func onTouch(touched: inout AttributesInfo){
+        
+        if touched.weakness.contains(self.damage.element){
+            touched.health -= self.damage.damage * 2
+        }
+        else if touched.resistence.contains(self.damage.element){
+            touched.health -= self.damage.damage / 2
+        }
+        else{
+            touched.health -= self.damage.damage
+        }
+
         let x = element.getDebuff()
         x(touched, 8.0)
     }
