@@ -56,6 +56,9 @@ class Constants {
     let lightningParticleVelocity: VelocityInfo = VelocityInfo(xSpeed: 1000, ySpeed: 1000, maxXSpeed: 1000, maxYSpeed: 800)
     lazy var lightningParticleDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .thunder, activateEffects: (false, false))
     
+    let fireArrowSize: CGVector = CGVector(dx: 38, dy: 15)
+    lazy var fireExplosionDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage * 3, element: .fire, activateEffects: (false, false))
+    
     let playerSize: CGSize = CGSize(width: 104, height: 111)
     let spiderSize: CGSize = CGSize(width: 90, height: 60)
 
