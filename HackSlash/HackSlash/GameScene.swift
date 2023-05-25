@@ -443,15 +443,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if nd == nil {
                     floorHeight = floors[0].position.y
+                    nd = floors[0]
                 }
                 
-                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd,move: false)
+                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd!, move: false)
                 addChild(stoneWall.sprite)
-                
-            case .B(.ice):
-                let iceball = Blizzard(angle: angle, player: player)
-                magics.append(iceball)
-                addChild(iceball.node)
                 
             case .B(.earth):
                 var floorHeight = player.position.y - player.sprite.frame.height/2
@@ -462,12 +458,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         floorHeight = i.position.y + i.size.height/2
                     }
                 }
+                
                 if nd == nil {
                     floorHeight = floors[0].position.y
+                    nd = floors[0]
                 }
                 
-                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd,move: true)
+                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd!, move: true)
                 addChild(stoneWall.sprite)
+                
+            case .B(.ice):
+                let iceball = Blizzard(angle: angle, player: player)
+                magics.append(iceball)
+                addChild(iceball.node)
                 
             case .D(let element):
                 let x = element.getBuff()
