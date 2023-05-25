@@ -44,6 +44,38 @@ class Constants {
     let fireballVelocity: VelocityInfo = VelocityInfo(xSpeed: 600, ySpeed: 600, maxXSpeed: 150, maxYSpeed: 150)
     lazy var fireballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
     
+    static var batIdleTexture: [SKTexture] {
+        var texture: [SKTexture] = []
+        for n in 0...18{
+            texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
+        }
+        return texture
+    }
+    
+    static var batFlyingTexture: [SKTexture] {
+        var texture: [SKTexture] = []
+        for n in 0...18{
+        texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
+        }
+        return texture
+    }
+    
+    static var batAttackingTexture: [SKTexture] {
+        var texture: [SKTexture] = []
+        for n in 0...18{
+            texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
+        }
+        return texture
+}
+    
+    static var batDeathTexture: [SKTexture] {
+    var texture: [SKTexture] = []
+    for n in 0...18{
+        texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
+    }
+    return texture
+}
+    
     let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
     let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 700, ySpeed: 700, maxXSpeed: 700, maxYSpeed: 700)
     lazy var iceballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .ice, activateEffects: (false, false))
@@ -57,6 +89,7 @@ class Constants {
     
     let playerSize: CGSize = CGSize(width: 104, height: 111)
     let spiderSize: CGSize = CGSize(width: 90, height: 60)
+    let batSize: CGSize = CGSize(width: 90, height: 60)
 
     let fireATexture: SKTexture = SKTexture(imageNamed: "Fireball")
     let fireBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")

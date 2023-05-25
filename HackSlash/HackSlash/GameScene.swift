@@ -60,6 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var floors: [SKSpriteNode] = []
     private var player: Player = Player(sprite: "")
     private var spiders: [EnemySpider] = []
+    private var bats: [EnemyBat] = []
     private var magics: [MagicProjetile] = []
     
     private var comboElementNodes: [SKSpriteNode] = []
@@ -503,10 +504,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if tutorialFlag {
             setupTutorial()
             delayWithSeconds(spawnRate) { [self] in
-                self.setupSpawn(position: CGPoint(x: 900, y: 2 * frame.maxY), spriteName: "Spider", idSpawn: 1)
+                self.setupSpawn(position: CGPoint(x: 900, y: 2 * frame.maxY), spriteName: "Bat", idSpawn: 1)
             }
         } else {
-            for i in 0...numberEnemies - 1 {
+            for i in 0..<numberEnemies {
                 delayWithSeconds(spawnRate * Double(i)) { [self] in
                     self.setupSpawn(position: CGPoint(x: CGFloat.random(in: -Constants.singleton.frame.width/3...Constants.singleton.frame.width/3), y: 2 * frame.maxY), spriteName: "Spider", idSpawn: i)
                 }
@@ -689,11 +690,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     colisaoMagiaAranha(spider: spider)
                 }
             }
-            //apply win sound
-            if numberEnemies == enemiesKilled {
-                AudioManager.shared.playSound(named: "notification.mp3")
-                self.openDoor()
-            }
         }
     }
     
@@ -726,6 +722,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact:SKPhysicsContact){
+        
+        if numberEnemies == enemiesKilled {
+            AudioManager.shared.playSound(named: "notification.mp3")
+            self.openDoor()
+        }
         
         didBeginPlatformFloorPlayer(contact: contact)
         didBeginMagicFloorWall(contact: contact)
@@ -829,20 +830,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var copy = spider
             copy.transition(to: .death)
             delayWithSeconds(spider.despawnTime, completion: {
-                for s in self.spiders{
-                    if s.idSpider > spider.idSpider{
-                        s.idSpider -= 1
+                for idx in 0..<self.spiders.count{
+                    if self.spiders[idx] === spider{
+                        self.spiders.remove(at: idx)
+                        break
                     }
                 }
                 //remover aranha da cena
                 spider.sprite.removeFromParent()
             })
             enemiesKilled += 1
+            
+            print(spiders.count)
         }
     }
     
     
     func updateSpidersState(){
+        if spiders.count == 0{
+            print("qlq merda")
+        }
         var deadSpiders: [(EnemySpider, Int)] = []
         for idx in 0..<spiders.count{
             let spider = spiders[idx]
@@ -879,7 +886,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for tupla in deadSpiders {
             let spider = tupla.0
             let idx = tupla.1
-            killSpider(spider: spider, idx: idx)
+            if spiders[idx] === spider{
+                killSpider(spider: spider, idx: idx)
+            }
         }
     }
     
@@ -1141,6 +1150,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             spiders.append(enemy)
             addChild(enemy.sprite)
         }
+        else if spriteName == "Bat"{
+            let bat = setupBat(spriteName: "Bat")
+            bat.sprite.position = position
+            bats.append(bat)
+            addChild(bat.sprite)
+        }
     }
     
     func setupCamera() {
@@ -1224,6 +1239,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         AudioManager.shared.playSound(named: "spiderSpawn.wav")
         let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 20, defense: 20, weakness: [], resistence: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 100), player: player, idSpider: idSpider)
         return spider
+    }
+    
+    func setupBat(spriteName: String) -> EnemyBat{
+        let bat = EnemyBat(sprite: spriteName, attributes: AttributesInfo(health: 20, defense: 20, weakness: [], resistence: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 50, maxXSpeed: 200, maxYSpeed: 200), attackRange: frame.width * 3, maxHealth: 100), player: player)
+        return bat
     }
     
 }
