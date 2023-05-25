@@ -4,6 +4,7 @@ import UserNotifications
 extension SKScene: ObservableObject {}
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
     enum ButtonAssociation {
         case movementAnalog
         case combosAnalog

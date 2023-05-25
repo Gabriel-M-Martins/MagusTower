@@ -20,7 +20,7 @@ import SwiftUI
  */
 
 
-class Constants {
+class Constants: ObservableObject {
     static let singleton: Constants = Constants()
     
     private init() {}
@@ -168,5 +168,7 @@ class Constants {
     let buttonsColor: UIColor = .white
     
     let maxJumps: Int = 2
+    
+    @Published var paused: Bool = false
 
 }
