@@ -59,8 +59,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var walls: [SKSpriteNode] = []
     private var floors: [SKSpriteNode] = []
     private var player: Player = Player(sprite: "")
-    private var spiders: [EnemySpider] = []
-    private var bats: [EnemyBat] = []
+    private var enemies: [AI] = []
     private var magics: [MagicProjetile] = []
     
     private var comboElementNodes: [SKSpriteNode] = []
@@ -528,7 +527,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if tutorialFlag {
             setupTutorial()
             delayWithSeconds(spawnRate) { [self] in
-                self.setupSpawn(position: CGPoint(x: 900, y: 2 * frame.maxY), spriteName: "Bat", idSpawn: 1)
+                self.setupSpawn(position: CGPoint(x: 900, y: 2 * frame.maxY), spriteName: "Spider", idSpawn: 1)
             }
         } else {
             for i in 0..<numberEnemies {
@@ -592,6 +591,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return (contact.bodyA.node?.name == name1 && contact.bodyB.node?.name == name2) || (contact.bodyA.node?.name == name2 && contact.bodyB.node?.name == name1)
     }
     
+    func didBeginBatWall(contact: SKPhysicsContact){
+        if didBeginCompareNames(contact: contact, name1: "Bat", name2: "wall"){
+            for bat in enemies {
+                let bat = bat as? EnemyBat
+                if let bat = bat {
+                    if bat.physicsBody === contact.bodyB || bat.physicsBody === contact.bodyA{
+                        bat.physicsBody.velocity = CGVector.zero
+                        bat.directionGoing?.toggle()
+                        bat.sprite.xScale *= -1
+                        var copyBat = bat
+                        copyBat.transition(to: .idle)
+                    }
+                }
+            }
+            
+        }
+    }
+    
     func didBeginPlatformFloorPlayer(contact: SKPhysicsContact){
         //Colocar aqui tudo que for adicionado a funcao:
         
@@ -645,13 +662,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          */
         
         if didBeginCompareNames(contact: contact, name1: "platform", name2: "Spider") || didBeginCompareNames(contact: contact, name1: "floor", name2: "Spider"){
-            for spider in spiders{
-                if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
-                    if spider.currentState == .attack{
-                        var copy = spider
-                        copy.transition(to: .walking)
-                        copy.attributes.velocity.maxYSpeed /= 100
-                        copy.attributes.velocity.maxXSpeed /= 100
+            for spider in enemies{
+                let spider = spider as? EnemySpider
+                if let spider = spider{
+                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                        if spider.currentState == .attack{
+                            var copy = spider
+                            copy.transition(to: .walking)
+                            copy.attributes.velocity.maxYSpeed /= 100
+                            copy.attributes.velocity.maxXSpeed /= 100
+                        }
                     }
                 }
             }
@@ -711,10 +731,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Chama as funcoes nos momentos certos
         if didBeginCompareNames(contact: contact, name1: "Magic", name2: "Spider"){
-            for idx in 0..<spiders.count{
-                let spider = spiders[idx]
-                if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
-                    colisaoMagiaAranha(spider: spider)
+            for idx in 0..<enemies.count{
+                let spider = enemies[idx] as? EnemySpider
+                if let spider = spider{
+                    
+                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                        colisaoMagiaAranha(spider: spider)
+                    }
                 }
             }
         }
@@ -722,11 +745,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBeginSpiderFireExplosion(contact: SKPhysicsContact){
         if didBeginCompareNames(contact: contact, name1: "Spider", name2: "FireExplosion"){
-            for spider in spiders {
-                if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
-                    spider.attributes.health -= Constants.singleton.fireExplosionDamage.damage
+            for spider in enemies {
+                let spider = spider as? EnemySpider
+                if let spider = spider{
+                    
+                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                        spider.attributes.health -= Constants.singleton.fireExplosionDamage.damage
+                    }
+                    print(spider.attributes.health)
                 }
-                print(spider.attributes.health)
             }
         }
     }
@@ -739,10 +766,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          */
         
         if didBeginCompareNames(contact: contact, name1: "wall", name2: "Spider") {
-            for idx in 0..<spiders.count{
-               let spider = spiders[idx]
-                if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
-                    spiderToCharging(spider: spider)
+            for idx in 0..<enemies.count{
+                let spider = enemies[idx] as? EnemySpider
+                if let spider = spider{
+                    
+                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                        spiderToCharging(spider: spider)
+                    }
                 }
             }
         }
@@ -750,11 +780,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact:SKPhysicsContact){
         
-        if numberEnemies == enemiesKilled {
-            AudioManager.shared.playSound(named: "notification.mp3")
-            self.openDoor()
-        }
-        
+        didBeginBatWall(contact: contact)
         didBeginPlatformFloorPlayer(contact: contact)
         didBeginMagicFloorWall(contact: contact)
         didBeginPlatformFloorSpider(contact: contact)
@@ -773,8 +799,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         camera?.position = player.position
-        for spider in spiders{
-            spider.moveAI(player: player.sprite)
+        for spider in enemies{
+            spider.moveAI()
+        }
+        for bat in enemies{
+            let bat = bat as? EnemyBat
+            if let bat = bat{
+                bat.moveAI()
+            }
         }
         updatePlayerState()
         updateSpidersState()
@@ -857,10 +889,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var copy = spider
             copy.transition(to: .death)
             delayWithSeconds(spider.despawnTime, completion: {
-                for idx in 0..<self.spiders.count{
-                    if self.spiders[idx] === spider{
-                        self.spiders.remove(at: idx)
-                        break
+                for idx in 0..<self.enemies.count{
+                    let spider2 = self.enemies[idx] as? EnemySpider
+                    if let spider2 = spider2{
+                        
+                        if spider2 === spider{
+                            self.enemies.remove(at: idx)
+                            break
+                        }
                     }
                 }
                 //remover aranha da cena
@@ -878,26 +914,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func updateSpidersState(){
-        if spiders.count == 0{
-            print("qlq merda")
-        }
         var deadSpiders: [(EnemySpider, Int)] = []
-        for idx in 0..<spiders.count{
-            let spider = spiders[idx]
+        for idx in 0..<enemies.count{
+            let spider = enemies[idx] as? EnemySpider
+            if let spider = spider{
+                
             if spider.currentState != .death && spider.attributes.health <= 0{
                 deadSpiders.append((spider, idx))
             }
-            if spider.currentState == .attack{
-                if spider.sprite.physicsBody!.collisionBitMask & Constants.singleton.groundMask == 0 {
-                    if spider.position.y <= player.position.y{
-                        var hasCollided = false
-                        for platform in platforms {
-                            if platform.intersects(spider.sprite){
-                                hasCollided = true
+                if spider.currentState == .attack{
+                    if spider.sprite.physicsBody!.collisionBitMask & Constants.singleton.groundMask == 0 {
+                        if spider.position.y <= player.position.y{
+                            var hasCollided = false
+                            for platform in platforms {
+                                if platform.intersects(spider.sprite){
+                                    hasCollided = true
+                                }
                             }
-                        }
-                        if !hasCollided {
-                            spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.singleton.groundMask
+                            if !hasCollided {
+                                spider.physicsBody.collisionBitMask = spider.physicsBody.collisionBitMask | Constants.singleton.groundMask
+                            }
                         }
                     }
                 }
@@ -917,8 +953,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for tupla in deadSpiders {
             let spider = tupla.0
             let idx = tupla.1
-            if spiders[idx] === spider{
-                killSpider(spider: spider, idx: idx)
+            
+            let spider2 = enemies[idx] as? EnemySpider
+            if let spider2 = spider2{
+                
+                if spider2 === spider{
+                    killSpider(spider: spider, idx: idx)
+                }
             }
         }
     }
@@ -1178,13 +1219,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if(spriteName == "Spider"){
             let enemy = setupSpider(spriteName: "Spider", idSpider: (idSpawn-1))
             enemy.sprite.position = position
-            spiders.append(enemy)
+            enemies.append(enemy)
             addChild(enemy.sprite)
         }
         else if spriteName == "Bat"{
             let bat = setupBat(spriteName: "Bat")
             bat.sprite.position = position
-            bats.append(bat)
+            enemies.append(bat)
             addChild(bat.sprite)
         }
     }
@@ -1273,7 +1314,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupBat(spriteName: String) -> EnemyBat{
-        let bat = EnemyBat(sprite: spriteName, attributes: AttributesInfo(health: 20, defense: 20, weakness: [], resistence: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 50, maxXSpeed: 200, maxYSpeed: 200), attackRange: frame.width * 3, maxHealth: 100), player: player)
+        let bat = EnemyBat(sprite: spriteName, attributes: AttributesInfo(health: 20, defense: 20, weakness: [], resistence: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 50, maxXSpeed: 200, maxYSpeed: 200), attackRange: frame.width * 2, maxHealth: 100), player: player)
         return bat
     }
     

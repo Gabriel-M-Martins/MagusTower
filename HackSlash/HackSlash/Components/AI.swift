@@ -9,5 +9,11 @@ import Foundation
 import SpriteKit
 
 protocol AI{
-    func moveAI(player: SKSpriteNode)
+    func moveAI()
+    
+    var enemyType: EnemyType {get set}
+}
+
+enum EnemyType{
+    case Spider, Bat
 }

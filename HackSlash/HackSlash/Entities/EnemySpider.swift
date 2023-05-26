@@ -9,6 +9,9 @@ import Foundation
 import SpriteKit
 
 class EnemySpider: StateMachine, Move, Attributes, DetectsCollision, Status, AI{
+    
+    var enemyType: EnemyType = .Spider
+    
     var isBuffed: Bool = false
     
     typealias T = SKSpriteNode
@@ -92,7 +95,7 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision, Status, AI{
         */
     }
     
-    func moveAI(player: SKSpriteNode){
+    func moveAI(){
         //Antes que ache isso nojento, é a melhor solucao para o erro de self is immutable. Caso queiram ler sobre o erro: https://github.com/apple/swift/issues/46812
         if sprite.intersects(self.player.sprite){
             self.player.move(direction: self.physicsBody.velocity.dx > 0 ? .right : .left, power: 1)
