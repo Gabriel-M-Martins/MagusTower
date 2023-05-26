@@ -59,7 +59,7 @@ class EnemyBat: StateMachine, Move, Attributes, DetectsCollision, Status{
 //                if 
 //            }
 //            
-//            self.move(direction: <#T##Directions4#>)
+//            self.move(direction: )
 //        }
 //    }
 }

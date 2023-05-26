@@ -75,6 +75,9 @@ class Constants {
     }
     return texture
 }
+    let blizzardSize: CGVector = CGVector(dx: 100, dy: 100)
+    let blizzardVelocity: VelocityInfo = VelocityInfo(xSpeed: 200, ySpeed: 200, maxXSpeed: 150, maxYSpeed: 150)
+    lazy var blizzardDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage/2, element: .ice, activateEffects: (false, false))
     
     let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
     let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 700, ySpeed: 700, maxXSpeed: 700, maxYSpeed: 700)

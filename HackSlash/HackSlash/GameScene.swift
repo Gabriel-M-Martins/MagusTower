@@ -444,10 +444,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if nd == nil {
                     floorHeight = floors[0].position.y
+                    nd = floors[0]
                 }
                 
-                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd)
+                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd!, move: false)
                 addChild(stoneWall.sprite)
+                
+            case .B(.earth):
+                var floorHeight = player.position.y - player.sprite.frame.height/2
+                var nd: SKNode?
+                for i in floors + platforms {
+                    if player.sprite.intersects(i) && (player.position.y > i.position.y) {
+                        nd = i
+                        floorHeight = i.position.y + i.size.height/2
+                    }
+                }
+                
+                if nd == nil {
+                    floorHeight = floors[0].position.y
+                    nd = floors[0]
+                }
+                
+                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd!, move: true)
+                addChild(stoneWall.sprite)
+                
+            case .B(.ice):
+                let iceball = Blizzard(angle: angle, player: player)
+                magics.append(iceball)
+                addChild(iceball.node)
                 
             case .B(.fire):
                 let fireArrow: FireArrow = FireArrow(angle: angle, player: player)
@@ -651,33 +675,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     magics[idx].onTouch(touched: spider)
                     
-                    spider.attributes.velocity.maxYSpeed *= 10
-                    spider.attributes.velocity.maxXSpeed *= 10
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        spider.attributes.velocity.maxYSpeed /= 10
-                        spider.attributes.velocity.maxXSpeed /= 10
-                    }
-                    
-                    spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magics[idx].angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magics[idx].angle) * 6))
-                    
-                    let reference = magics[idx]
-                    reference.node.run(SKAction.sequence([
-                        .wait(forDuration: 0.1),
-                        .run{
-                            reference.node.particleBirthRate = 0
-                        },
-                        .wait(forDuration: 0.5),
-                        .run{
-                            for idx in 0..<self.magics.count{
-                                if self.magics[idx] === reference{
-                                    self.magics.remove(at: idx)
-                                }
-                                break
-                            }
-                            reference.node.removeFromParent()
+                    let className = String(describing: magics[idx])
+                    if className != "HackSlash.Blizzard" {
+                        spider.attributes.velocity.maxYSpeed *= 10
+                        spider.attributes.velocity.maxXSpeed *= 10
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            spider.attributes.velocity.maxYSpeed /= 10
+                            spider.attributes.velocity.maxXSpeed /= 10
                         }
-                    ]))
+                        
+                        spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magics[idx].angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magics[idx].angle) * 6))
+                        
+                        let reference = magics[idx]
+                        reference.node.run(SKAction.sequence([
+                            .wait(forDuration: 0.1),
+                            .run{
+                                reference.node.particleBirthRate = 0
+                            },
+                            .wait(forDuration: 0.5),
+                            .run{
+                                for idx in 0..<self.magics.count{
+                                    if self.magics[idx] === reference{
+                                        self.magics.remove(at: idx)
+                                    }
+                                    break
+                                }
+                                reference.node.removeFromParent()
+                            }
+                        ]))
+                    }
                 }
             }
         }
@@ -841,7 +868,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             })
             enemiesKilled += 1
             
-            print(spiders.count)
+            //apply win sound
+            if numberEnemies == enemiesKilled {
+                AudioManager.shared.playSound(named: "notification.mp3")
+                self.openDoor()
+            }
         }
     }
     
