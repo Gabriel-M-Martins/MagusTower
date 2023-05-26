@@ -22,9 +22,9 @@ enum Directions8: Int {
         case .left:
             return (-1,0)
         case .upLeft:
-            return (-1, 1)
+            return (-1, 0)
         case .upRight:
-            return (1, 1)
+            return (1, 0)
         case .downLeft:
             return (-1, -1)
         case .downRight:

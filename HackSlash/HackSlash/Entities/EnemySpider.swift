@@ -8,7 +8,9 @@
 import Foundation
 import SpriteKit
 
-class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
+class EnemySpider: StateMachine, Move, Attributes, DetectsCollision, Status{
+    var isBuffed: Bool = false
+    
     typealias T = SKSpriteNode
     
     var currentState: StatesSpider
@@ -158,7 +160,6 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision{
         case .attack:
             if self.sprite.intersects(self.player.sprite){
                 self.player.move(direction: self.physicsBody.velocity.dx > 0 ? .right : .left, power: 1)
-                damageCaused()
             }
         case .death:
             return

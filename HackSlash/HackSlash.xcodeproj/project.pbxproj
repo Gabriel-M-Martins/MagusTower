@@ -64,7 +64,14 @@
 		A7CDC3152A0424880030A92B /* VelocityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC3142A0424880030A92B /* VelocityInfo.swift */; };
 		A7CDC3172A0424CC0030A92B /* AttributesInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDC3162A0424CC0030A92B /* AttributesInfo.swift */; };
 		A7F665F92A0EB22C0010C96F /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F665F82A0EB22C0010C96F /* GameView.swift */; };
+		CE1BE9B02A1E8B8500FD8184 /* AOEMagic.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1BE9AF2A1E8B8500FD8184 /* AOEMagic.swift */; };
+		CE1BE9B22A1E8BCE00FD8184 /* Blizzard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1BE9B12A1E8BCE00FD8184 /* Blizzard.swift */; };
+		CE1BE9B42A1E8C1C00FD8184 /* BlizzardParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE1BE9B32A1E8C1C00FD8184 /* BlizzardParticle.sks */; };
 		F9132ABF2A1C003D008AD2D0 /* LevelInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9132ABE2A1C003D008AD2D0 /* LevelInfo.swift */; };
+		F9132AE82A1E9F8D008AD2D0 /* FireArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9132AE72A1E9F8D008AD2D0 /* FireArrow.swift */; };
+		F9132AEA2A1EA00A008AD2D0 /* FireArrow.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9132AE92A1EA00A008AD2D0 /* FireArrow.sks */; };
+		F9132AEC2A1EA063008AD2D0 /* FireArrowSmoke.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9132AEB2A1EA063008AD2D0 /* FireArrowSmoke.sks */; };
+		F9132AEE2A1EA07B008AD2D0 /* FireExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = F9132AED2A1EA07B008AD2D0 /* FireExplosion.sks */; };
 		F98E2CF12A0D6AED003273AA /* LightiningParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F98E2CEF2A0D6AED003273AA /* LightiningParticle.sks */; };
 		F98E2CF62A0D6AFA003273AA /* DirtParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F98E2CF32A0D6AFA003273AA /* DirtParticle.sks */; };
 		F98E2CF72A0D6AFA003273AA /* FireParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = F98E2CF42A0D6AFA003273AA /* FireParticle.sks */; };
@@ -147,7 +154,14 @@
 		A7CDC3162A0424CC0030A92B /* AttributesInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributesInfo.swift; sourceTree = "<group>"; };
 		A7F665F62A0EB1440010C96F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A7F665F82A0EB22C0010C96F /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		CE1BE9AF2A1E8B8500FD8184 /* AOEMagic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AOEMagic.swift; sourceTree = "<group>"; };
+		CE1BE9B12A1E8BCE00FD8184 /* Blizzard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blizzard.swift; sourceTree = "<group>"; };
+		CE1BE9B32A1E8C1C00FD8184 /* BlizzardParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BlizzardParticle.sks; sourceTree = "<group>"; };
 		F9132ABE2A1C003D008AD2D0 /* LevelInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelInfo.swift; sourceTree = "<group>"; };
+		F9132AE72A1E9F8D008AD2D0 /* FireArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireArrow.swift; sourceTree = "<group>"; };
+		F9132AE92A1EA00A008AD2D0 /* FireArrow.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireArrow.sks; sourceTree = "<group>"; };
+		F9132AEB2A1EA063008AD2D0 /* FireArrowSmoke.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireArrowSmoke.sks; sourceTree = "<group>"; };
+		F9132AED2A1EA07B008AD2D0 /* FireExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireExplosion.sks; sourceTree = "<group>"; };
 		F98E2CEF2A0D6AED003273AA /* LightiningParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightiningParticle.sks; sourceTree = "<group>"; };
 		F98E2CF32A0D6AFA003273AA /* DirtParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DirtParticle.sks; sourceTree = "<group>"; };
 		F98E2CF42A0D6AFA003273AA /* FireParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireParticle.sks; sourceTree = "<group>"; };
@@ -344,6 +358,9 @@
 			isa = PBXGroup;
 			children = (
 				F98E2CF32A0D6AFA003273AA /* DirtParticle.sks */,
+				F9132AE92A1EA00A008AD2D0 /* FireArrow.sks */,
+				F9132AEB2A1EA063008AD2D0 /* FireArrowSmoke.sks */,
+				F9132AED2A1EA07B008AD2D0 /* FireExplosion.sks */,
 				F9911E6C2A129CFC005F2B2C /* Collectable.sks */,
 				F9911E6D2A129CFC005F2B2C /* Assets.xcassets */,
 				F98E2CF42A0D6AFA003273AA /* FireParticle.sks */,
@@ -355,6 +372,7 @@
 				F9911E862A154266005F2B2C /* ThunderArrow.sks */,
 				92E3DF732A12CBE3008A1AEE /* EarthAura.sks */,
 				92E3DF6C2A12CA63008A1AEE /* Assets.xcassets */,
+				CE1BE9B32A1E8C1C00FD8184 /* BlizzardParticle.sks */,
 			);
 			path = Particles;
 			sourceTree = "<group>";
@@ -363,10 +381,13 @@
 			isa = PBXGroup;
 			children = (
 				F98E2CFC2A0D6F96003273AA /* MagicProjetile.swift */,
+				F9132AE72A1E9F8D008AD2D0 /* FireArrow.swift */,
 				F98E2CFE2A0D7104003273AA /* Fireball.swift */,
 				F98E2D002A0D8453003273AA /* Iceball.swift */,
 				F9911E882A154650005F2B2C /* ThunderShot.swift */,
 				F9911E702A12A15A005F2B2C /* StoneWall.swift */,
+				CE1BE9AF2A1E8B8500FD8184 /* AOEMagic.swift */,
+				CE1BE9B12A1E8BCE00FD8184 /* Blizzard.swift */,
 			);
 			path = Magics;
 			sourceTree = "<group>";
@@ -444,6 +465,7 @@
 				92420C5D2A13F79C00AE47A9 /* magicCast.wav in Resources */,
 				A7C1669529F71DC1003B096D /* GameScene.sks in Resources */,
 				A7C166A029F71DC2003B096D /* Assets.xcassets in Resources */,
+				F9132AEE2A1EA07B008AD2D0 /* FireExplosion.sks in Resources */,
 				92E3DF742A12CBE3008A1AEE /* EarthAura.sks in Resources */,
 				92420C612A13F7B700AE47A9 /* spiderDying.wav in Resources */,
 				92420C5F2A13F79F00AE47A9 /* basicAttack.wav in Resources */,
@@ -455,12 +477,15 @@
 				92E3DF722A12CB9E008A1AEE /* EletricAura.sks in Resources */,
 				7CAC0E5A2A17D6150038C61E /* map3.txt in Resources */,
 				7CAC0E602A17D7930038C61E /* map6.txt in Resources */,
+				F9132AEC2A1EA063008AD2D0 /* FireArrowSmoke.sks in Resources */,
 				92420C632A13F7BA00AE47A9 /* spiderAttack.wav in Resources */,
 				92E3DF702A12CB59008A1AEE /* IceAura.sks in Resources */,
 				7CAC0E622A17D7F60038C61E /* map7.txt in Resources */,
 				F9911E6E2A129CFC005F2B2C /* Collectable.sks in Resources */,
+				CE1BE9B42A1E8C1C00FD8184 /* BlizzardParticle.sks in Resources */,
 				92393F4F2A17C59600F7C955 /* notification.mp3 in Resources */,
 				A77414D22A16E58F00E96021 /* door.wav in Resources */,
+				F9132AEA2A1EA00A008AD2D0 /* FireArrow.sks in Resources */,
 				A7C1669729F71DC1003B096D /* Actions.sks in Resources */,
 				92420C5B2A13F79500AE47A9 /* buttonClick.mp3 in Resources */,
 			);
@@ -493,8 +518,10 @@
 				A7B6B1B52A02E6D7005FF90B /* StateMachineable.swift in Sources */,
 				A7B6B1B82A02E732005FF90B /* AnimationInfo.swift in Sources */,
 				F98E2CFD2A0D6F96003273AA /* MagicProjetile.swift in Sources */,
+				CE1BE9B02A1E8B8500FD8184 /* AOEMagic.swift in Sources */,
 				A7C1669929F71DC1003B096D /* GameScene.swift in Sources */,
 				F99499D42A02CC0E00E3807D /* Move.swift in Sources */,
+				CE1BE9B22A1E8BCE00FD8184 /* Blizzard.swift in Sources */,
 				A7CDC3152A0424880030A92B /* VelocityInfo.swift in Sources */,
 				F9911E892A154650005F2B2C /* ThunderShot.swift in Sources */,
 				9202EB052A0EAD0500F5A109 /* SettingsView.swift in Sources */,
@@ -504,6 +531,7 @@
 				9202EB022A0EAD0500F5A109 /* MainMenuView.swift in Sources */,
 				F98E2CFA2A0D6F1A003273AA /* Projectile.swift in Sources */,
 				F98E2CFF2A0D7104003273AA /* Fireball.swift in Sources */,
+				F9132AE82A1E9F8D008AD2D0 /* FireArrow.swift in Sources */,
 				F98E2D012A0D8453003273AA /* Iceball.swift in Sources */,
 				A77414D02A16B84200E96021 /* LevelInfo.swift in Sources */,
 				A7C1669B29F71DC1003B096D /* GameViewController.swift in Sources */,
@@ -663,7 +691,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 856F4M2786;
+				DEVELOPMENT_TEAM = 2V5RBDFH46;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Magus Tower";
@@ -680,7 +708,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 23.05.19;
-				PRODUCT_BUNDLE_IDENTIFIER = com.MagusTowe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MagusTow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -695,7 +723,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 856F4M2786;
+				DEVELOPMENT_TEAM = 2V5RBDFH46;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Magus Tower";
@@ -712,7 +740,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 23.05.19;
-				PRODUCT_BUNDLE_IDENTIFIER = com.MagusTower;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MagusTow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

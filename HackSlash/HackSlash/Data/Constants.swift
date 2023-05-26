@@ -40,8 +40,13 @@ class Constants: ObservableObject {
     let playerDefense: Int = 5
     
     let fireballSize: CGVector = CGVector(dx: 35, dy: 13)
+    let burnDamage: Int = 2
     let fireballVelocity: VelocityInfo = VelocityInfo(xSpeed: 600, ySpeed: 600, maxXSpeed: 150, maxYSpeed: 150)
     lazy var fireballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .fire, activateEffects: (false, false))
+    
+    let blizzardSize: CGVector = CGVector(dx: 100, dy: 100)
+    let blizzardVelocity: VelocityInfo = VelocityInfo(xSpeed: 200, ySpeed: 200, maxXSpeed: 150, maxYSpeed: 150)
+    lazy var blizzardDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage/2, element: .ice, activateEffects: (false, false))
     
     let iceballSize: CGVector = CGVector(dx: 38, dy: 15)
     let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 700, ySpeed: 700, maxXSpeed: 700, maxYSpeed: 700)
@@ -50,6 +55,9 @@ class Constants: ObservableObject {
     let lightningParticleSize: CGVector = CGVector(dx: 38, dy: 10)
     let lightningParticleVelocity: VelocityInfo = VelocityInfo(xSpeed: 1000, ySpeed: 1000, maxXSpeed: 1000, maxYSpeed: 800)
     lazy var lightningParticleDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .thunder, activateEffects: (false, false))
+    
+    let fireArrowSize: CGVector = CGVector(dx: 38, dy: 15)
+    lazy var fireExplosionDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage * 3, element: .fire, activateEffects: (false, false))
     
     let playerSize: CGSize = CGSize(width: 104, height: 111)
     let spiderSize: CGSize = CGSize(width: 90, height: 60)

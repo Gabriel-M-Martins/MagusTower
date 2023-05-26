@@ -214,7 +214,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     for magic in magics{
                         if magic.physicsBody === contact.bodyA || magic.physicsBody === contact.bodyB{
-                            magic.onTouch(touched: &spider.attributes)
+                            magic.onTouch(touched: spider)
                             spider.attributes.velocity.maxYSpeed *= 10
                             spider.attributes.velocity.maxXSpeed *= 10
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

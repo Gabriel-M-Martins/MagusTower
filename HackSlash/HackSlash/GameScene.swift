@@ -88,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var numberEnemies: Int
     
-    private var directionToMove: Directions8?
+    private var directionToMove: Directions4?
 //    private var firstDirectionCombo: Directions = .up
     
     private var door =  SKSpriteNode()
@@ -344,7 +344,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func handleMovement(pos: CGPoint) {
         let vector = pos - movementInput.position
-        let dir = Directions8.calculateDirections(vector)
+        let dir = Directions4.calculateDirections(vector)
         
         if dir == .down {
             directionToMove = nil
@@ -458,11 +458,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if nd == nil {
                     floorHeight = floors[0].position.y
+                    nd = floors[0]
                 }
                 
-                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd)
+                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd!, move: false)
                 addChild(stoneWall.sprite)
                 
+            case .B(.earth):
+                var floorHeight = player.position.y - player.sprite.frame.height/2
+                var nd: SKNode?
+                for i in floors + platforms {
+                    if player.sprite.intersects(i) && (player.position.y > i.position.y) {
+                        nd = i
+                        floorHeight = i.position.y + i.size.height/2
+                    }
+                }
+                
+                if nd == nil {
+                    floorHeight = floors[0].position.y
+                    nd = floors[0]
+                }
+                
+                let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd!, move: true)
+                addChild(stoneWall.sprite)
+                
+            case .B(.ice):
+                let iceball = Blizzard(angle: angle, player: player)
+                magics.append(iceball)
+                addChild(iceball.node)
+                
+            case .B(.fire):
+                let fireArrow: FireArrow = FireArrow(angle: angle, player: player)
+                addChild(fireArrow.node)
+                magics.append(fireArrow)
+            
             case .D(let element):
                 let x = element.getBuff()
                 x(player, 15.0)
@@ -603,13 +632,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
                     magics[idx].node.particleBirthRate = 0
                     let reference = magics[idx]
-                    reference.node.physicsBody = nil
                     magics.remove(at: idx)
                     reference.node.run(SKAction.sequence(
                         [.wait(forDuration: 1.5),
                          .removeFromParent()
                         ]))
                     break
+                }
+            }
+        }
+        
+        else if didBeginCompareNames(contact: contact, name1: "FireArrow", name2: "wall") || didBeginCompareNames(contact: contact, name1: "floor", name2: "FireArrow"){
+            for idx in 0..<magics.count {
+                if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
+                    FireArrowSmoke(father: magics[idx].node)
                 }
             }
         }
@@ -651,60 +687,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for idx in 0..<magics.count{
                 if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
                     
-                    magics[idx].onTouch(touched: &spider.attributes)
+                    magics[idx].onTouch(touched: spider)
                     
-                    spider.attributes.velocity.maxYSpeed *= 10
-                    spider.attributes.velocity.maxXSpeed *= 10
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        spider.attributes.velocity.maxYSpeed /= 10
-                        spider.attributes.velocity.maxXSpeed /= 10
-                    }
-                    
-                    spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magics[idx].angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magics[idx].angle) * 6))
-                    
-                    let reference = magics[idx]
-                    reference.node.run(SKAction.sequence([
-                        .wait(forDuration: 0.1),
-                        .run{
-                            reference.node.particleBirthRate = 0
-                        },
-                        .wait(forDuration: 0.5),
-                        .run{
-                            for idx in 0..<self.magics.count{
-                                if self.magics[idx] === reference{
-                                    self.magics.remove(at: idx)
-                                }
-                                break
-                            }
-                            reference.node.removeFromParent()
+                    let className = String(describing: magics[idx])
+                    if className != "HackSlash.Blizzard" {
+                        spider.attributes.velocity.maxYSpeed *= 10
+                        spider.attributes.velocity.maxXSpeed *= 10
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            spider.attributes.velocity.maxYSpeed /= 10
+                            spider.attributes.velocity.maxXSpeed /= 10
                         }
-                    ]))
+                        
+                        spider.physicsBody.applyImpulse(CGVector(dx: Constants.singleton.spiderSize.width * cos(magics[idx].angle) * 6, dy: Constants.singleton.spiderSize.height * sin(magics[idx].angle) * 6))
+                        
+                        let reference = magics[idx]
+                        reference.node.run(SKAction.sequence([
+                            .wait(forDuration: 0.1),
+                            .run{
+                                reference.node.particleBirthRate = 0
+                            },
+                            .wait(forDuration: 0.5),
+                            .run{
+                                for idx in 0..<self.magics.count{
+                                    if self.magics[idx] === reference{
+                                        self.magics.remove(at: idx)
+                                    }
+                                    break
+                                }
+                                reference.node.removeFromParent()
+                            }
+                        ]))
+                    }
                 }
             }
         }
-            
-            func killSpider(spider: EnemySpider, idx: Int){
-                //transition spider state and apply sound effects
-                
-                
-                if spider.currentState != .death{
-                    AudioManager.shared.playSound(named: "spiderDying.wav")
-                    var copy = spider
-                    copy.transition(to: .death)
-                    spiders.remove(at: idx)
-                    delayWithSeconds(spider.despawnTime, completion: {
-                        for s in self.spiders{
-                            if s.idSpider > spider.idSpider{
-                                s.idSpider -= 1
-                            }
-                        }
-                        //remover aranha da cena
-                        spider.sprite.removeFromParent()
-                    })
-                    enemiesKilled += 1
-                }
-            }
         
         //Chama as funcoes nos momentos certos
         if didBeginCompareNames(contact: contact, name1: "Magic", name2: "Spider"){
@@ -713,15 +730,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     colisaoMagiaAranha(spider: spider)
                 }
-                if spider.attributes.health<=0 {
-                    killSpider(spider: spider, idx: idx)
-                    break
-                }
             }
-            //apply win sound
-            if numberEnemies == enemiesKilled {
-                AudioManager.shared.playSound(named: "notification.mp3")
-                self.openDoor()
+        }
+    }
+    
+    func didBeginSpiderFireExplosion(contact: SKPhysicsContact){
+        if didBeginCompareNames(contact: contact, name1: "Spider", name2: "FireExplosion"){
+            for spider in spiders {
+                if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                    spider.attributes.health -= Constants.singleton.fireExplosionDamage.damage
+                }
+                print(spider.attributes.health)
             }
         }
     }
@@ -735,7 +754,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if didBeginCompareNames(contact: contact, name1: "wall", name2: "Spider") {
             for idx in 0..<spiders.count{
-                var spider = spiders[idx]
+               let spider = spiders[idx]
                 if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
                     spiderToCharging(spider: spider)
                 }
@@ -750,6 +769,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         didBeginPlatformFloorSpider(contact: contact)
         didBeginMagicSpider(contact: contact)
         didBeginWallSpider(contact: contact)
+        didBeginSpiderFireExplosion(contact: contact)
 
         if (contact.bodyA.node?.name == "door") || (contact.bodyB.node?.name == "door") {
             self.finishLevel(win: true)
@@ -770,31 +790,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         if jumpLocked {
             if let directionToMove = self.directionToMove {
-                switch directionToMove {
-                case .upRight:
-                    self.directionToMove = .right
-                case .upLeft:
-                    self.directionToMove = .left
-                case .up:
+                if case .up = directionToMove {
                     self.directionToMove = nil
-                default:
-                    break
                 }
             }
         }
         
-        if directionToMove == .up || directionToMove == .upLeft || directionToMove == .upRight {
-            if jumpCounter >= 3 {
-                if let directionToMove = self.directionToMove {
-                    switch directionToMove {
-                    case .upRight:
-                        self.directionToMove = .right
-                    case .upLeft:
-                        self.directionToMove = .left
-                    default:
-                        self.directionToMove = nil
-                    }
-                }
+//        if directionToMove == .up || directionToMove == .upLeft || directionToMove == .upRight {
+        if directionToMove == .up {
+            if jumpCounter >= 2 {
+                self.directionToMove = nil
             }
             
             player.transition(to: .jump)
@@ -852,9 +857,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func killSpider(spider: EnemySpider, idx: Int){
+        //transition spider state and apply sound effects
+        
+        
+        if spider.currentState != .death && spider.attributes.health <= 0{
+            AudioManager.shared.playSound(named: "spiderDying.wav")
+            var copy = spider
+            copy.transition(to: .death)
+            delayWithSeconds(spider.despawnTime, completion: {
+                for idx in 0..<self.spiders.count{
+                    if self.spiders[idx] === spider{
+                        self.spiders.remove(at: idx)
+                        break
+                    }
+                }
+                //remover aranha da cena
+                spider.sprite.removeFromParent()
+            })
+            enemiesKilled += 1
+            
+            //apply win sound
+            if numberEnemies == enemiesKilled {
+                AudioManager.shared.playSound(named: "notification.mp3")
+                self.openDoor()
+            }
+        }
+    }
+    
     
     func updateSpidersState(){
-        for spider in spiders{
+        var deadSpiders: [(EnemySpider, Int)] = []
+        for idx in 0..<spiders.count{
+            let spider = spiders[idx]
+            if spider.currentState != .death && spider.attributes.health <= 0{
+                deadSpiders.append((spider, idx))
+            }
             if spider.currentState == .attack{
                 if spider.sprite.physicsBody!.collisionBitMask & Constants.singleton.groundMask == 0 {
                     if spider.position.y <= player.position.y{
@@ -881,6 +919,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //                    }
                 //                }
             }
+        }
+        for tupla in deadSpiders {
+            let spider = tupla.0
+            let idx = tupla.1
+            killSpider(spider: spider, idx: idx)
         }
     }
     
