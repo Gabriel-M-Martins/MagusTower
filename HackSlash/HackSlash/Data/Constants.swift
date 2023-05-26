@@ -52,6 +52,13 @@ class Constants {
     let iceballVelocity: VelocityInfo = VelocityInfo(xSpeed: 700, ySpeed: 700, maxXSpeed: 700, maxYSpeed: 700)
     lazy var iceballDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .ice, activateEffects: (false, false))
     
+    let cloudSize: CGVector = CGVector(dx: 308, dy: 8)
+    let cloudVelocity: VelocityInfo = VelocityInfo(xSpeed: 0, ySpeed: 0, maxXSpeed: 0, maxYSpeed: 0)
+    
+    let sparkSize: CGVector = CGVector(dx: 18, dy: 7)
+    let sparkVelocity: VelocityInfo = VelocityInfo(xSpeed: 700, ySpeed: 700, maxXSpeed: 700, maxYSpeed: 700)
+    lazy var sparkDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage/4, element: .thunder, activateEffects: (false, false))
+    
     let lightningParticleSize: CGVector = CGVector(dx: 38, dy: 10)
     let lightningParticleVelocity: VelocityInfo = VelocityInfo(xSpeed: 1000, ySpeed: 1000, maxXSpeed: 1000, maxYSpeed: 800)
     lazy var lightningParticleDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage, element: .thunder, activateEffects: (false, false))

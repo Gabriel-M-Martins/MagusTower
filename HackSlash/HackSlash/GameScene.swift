@@ -431,6 +431,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(thunder.node)
                 magics.append(thunder)
                 
+                
             case .A(.earth):
                 var floorHeight = player.position.y - player.sprite.frame.height/2
                 var nd: SKNode?
@@ -476,6 +477,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let fireArrow: FireArrow = FireArrow(angle: angle, player: player)
                 addChild(fireArrow.node)
                 magics.append(fireArrow)
+            case .B(.thunder):
+                let thunder = Spark(angle: angle, player: player)
+                addChild(thunder.node)
+                magics.append(thunder)
+// Lógica para remover a nuvem
+//                delayWithSeconds(5){
+//                    magics.remove(thunder.node)
+//                    removeChild(thunder.node)
+//                }
             
             case .D(let element):
                 let x = element.getBuff()
