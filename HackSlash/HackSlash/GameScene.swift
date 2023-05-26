@@ -716,11 +716,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     colisaoMagiaAranha(spider: spider)
                 }
             }
-            //apply win sound
-            if numberEnemies == enemiesKilled {
-                AudioManager.shared.playSound(named: "notification.mp3")
-                self.openDoor()
-            }
         }
     }
     
@@ -856,15 +851,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var copy = spider
             copy.transition(to: .death)
             delayWithSeconds(spider.despawnTime, completion: {
-                for s in self.spiders{
-                    if s.idSpider > spider.idSpider{
-                        s.idSpider -= 1
+                for idx in 0..<self.spiders.count{
+                    if self.spiders[idx] === spider{
+                        self.spiders.remove(at: idx)
+                        break
                     }
                 }
                 //remover aranha da cena
                 spider.sprite.removeFromParent()
             })
             enemiesKilled += 1
+            
+            //apply win sound
+            if numberEnemies == enemiesKilled {
+                AudioManager.shared.playSound(named: "notification.mp3")
+                self.openDoor()
+            }
         }
     }
     

@@ -160,7 +160,6 @@ class EnemySpider: StateMachine, Move, Attributes, DetectsCollision, Status{
         case .attack:
             if self.sprite.intersects(self.player.sprite){
                 self.player.move(direction: self.physicsBody.velocity.dx > 0 ? .right : .left, power: 1)
-                damageCaused()
             }
         case .death:
             return
