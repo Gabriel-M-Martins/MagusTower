@@ -120,26 +120,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func setupTutorial() {
         let text1 = SKLabelNode(text: "To move, use the joystick on the left corner of the screen.")
         
-        let text3 = SKLabelNode(text: "To cast a fireball, swipe left on the right joystick, then up and then aim where you feel like it.")
+        let text3 = SKLabelNode(text: "To cast a")
+        let text32 = SKLabelNode(text: "fireball")
+        text32.fontColor = UIColor.red
+        let text33 = SKLabelNode(text: ", drag and release left on the right joystick, then up ")
+        let text34 = SKLabelNode(text: "and then aim where you feel like it. But hurry up, time is your enemy.")
         
         let text4 = SKLabelNode(text: "Beyond this wall is an evil spider.")
-        let text5 = SKLabelNode(text: "Mages hate spiders.")
+        let text5 = SKLabelNode(text: "Mages hate spiders. Kill it.")
         
-        let texts = [text1, text3, text4, text5]
+        let text6 = SKLabelNode(text: "👈  👆  👉")
+        
+        let texts = [text1, text3, text32, text33, text34, text4, text5, text6]
         for i in texts {
             i.fontName = "NovaCut-Regular"
             i.fontSize = 23
         }
         
         text1.position = CGPoint(x: -850, y: 40)
-        text3.position = CGPoint(x: -300, y: 140)
+        text3.position = CGPoint(x: -400, y: 140)
+        text32.position = CGPoint(x: -315, y: 140)
+        text33.position = CGPoint(x: -20, y: 140)
+        text34.position = CGPoint(x: -100, y: 110)
         text4.position = CGPoint(x: 300, y: 35)
-        text5.position = CGPoint(x: 800, y: 70)
+        text5.position = CGPoint(x: 770, y: 70)
+        text6.position = CGPoint(x: 320, y: 110)
         
         addChild(text1)
         addChild(text3)
+        addChild(text32)
+        addChild(text33)
+        addChild(text34)
         addChild(text4)
         addChild(text5)
+        addChild(text6)
     }
     
     private func setupDoor() {
