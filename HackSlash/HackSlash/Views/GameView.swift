@@ -11,9 +11,9 @@ import UserNotifications
 
 struct GameView: View {
     @Environment(\.presentationMode) var presentation
-    
+    @Environment(\.scenePhase) var scenePhase
     @StateObject var scene: SKScene
-    @State var paused = false
+    @State var paused: Bool = false
     @ObservedObject var viewManager: GameViewManager = GameViewManager()
     @State var floorSign = true
     
@@ -25,14 +25,15 @@ struct GameView: View {
         GeometryReader { geo in
             ZStack{
 //                SpriteView(scene: scene, debugOptions: .showsPhysics)
+
                 SpriteView(scene: scene, debugOptions: .showsPhysics)
                     .edgesIgnoringSafeArea(.all)
                     .navigationBarBackButtonHidden()
                 
                 Button(action: {
-                    paused = !paused
+                    paused = true
                     AudioManager.shared.playSound(named: "buttonClick.mp3")
-                    scene.view?.isPaused = paused
+                    scene.view?.isPaused = true
                 }, label: {
                     Image(paused ? "Play icon": "Pause icon").resizable()
                 })
@@ -79,6 +80,9 @@ struct GameView: View {
         .onAppear{
             scene.scaleMode = .aspectFill
             scene.anchorPoint = .zero
+        }
+        .onChange(of: scenePhase) { newValue in
+            scene.view?.isPaused = true
         }
     }
 }
