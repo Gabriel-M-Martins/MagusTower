@@ -95,7 +95,7 @@ class Constants: ObservableObject {
     let batSize: CGSize = CGSize(width: 90, height: 60)
 
     let fireATexture: SKTexture = SKTexture(imageNamed: "Fireball")
-    let fireBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    let fireBTexture: SKTexture = SKTexture(imageNamed: "Fire Arrow")
     let fireCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
     let fireDTexture: SKTexture = SKTexture(imageNamed: "Firestatus")
     
@@ -105,12 +105,12 @@ class Constants: ObservableObject {
     let thunderDTexture: SKTexture = SKTexture(imageNamed: "Eletricstatus")
     
     let iceATexture: SKTexture = SKTexture(imageNamed: "Iceshard")
-    let iceBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    let iceBTexture: SKTexture = SKTexture(imageNamed: "Ice blizzard")
     let iceCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
     let iceDTexture: SKTexture = SKTexture(imageNamed: "Icestatus")
     
     let earthATexture: SKTexture = SKTexture(imageNamed: "Earthwall")
-    let earthBTexture: SKTexture = SKTexture(imageNamed: "NoPowerLeft")
+    let earthBTexture: SKTexture = SKTexture(imageNamed: "Earth moving wall")
     let earthCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
     let earthDTexture: SKTexture = SKTexture(imageNamed: "Earthstatus")
     

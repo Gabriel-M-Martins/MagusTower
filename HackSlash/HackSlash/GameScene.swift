@@ -464,7 +464,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd!, move: false)
                 addChild(stoneWall.sprite)
                 
-            case .B(.earth):
+            case .D(.earth):
                 var floorHeight = player.position.y - player.sprite.frame.height/2
                 var nd: SKNode?
                 for i in floors + platforms {
@@ -482,17 +482,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let stoneWall = StoneWall(player: player, angle: angle, floorHeight: floorHeight, floor: nd!, move: true)
                 addChild(stoneWall.sprite)
                 
-            case .B(.ice):
+            case .D(.ice):
                 let iceball = Blizzard(angle: angle, player: player)
                 magics.append(iceball)
                 addChild(iceball.node)
                 
-            case .B(.fire):
+            case .D(.fire):
                 let fireArrow: FireArrow = FireArrow(angle: angle, player: player)
                 addChild(fireArrow.node)
                 magics.append(fireArrow)
             
-            case .D(let element):
+            case .C(let element):
                 let x = element.getBuff()
                 x(player, 15.0)
                 
