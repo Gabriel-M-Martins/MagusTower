@@ -26,7 +26,7 @@ struct GameView: View {
             ZStack{
 //                SpriteView(scene: scene, debugOptions: .showsPhysics)
 
-                SpriteView(scene: scene, debugOptions: .showsPhysics)
+                SpriteView(scene: scene)
                     .edgesIgnoringSafeArea(.all)
                     .navigationBarBackButtonHidden()
                 
