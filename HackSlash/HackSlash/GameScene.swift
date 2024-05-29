@@ -23,7 +23,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         Constants.singleton.locker = false
         
-        if level == .Level1 {
+        if level == .Random {
             Constants.singleton.currentLevel = 1
         } else if level == .Tutorial {
             Constants.singleton.currentLevel = 0
@@ -35,9 +35,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.background = SKSpriteNode(texture: SKTexture(imageNamed: info.background))
         self.numberEnemies = info.enemiesQtd
         
-        self.mapInterpreter = MapInterpreter(map: Constants.singleton.frame, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: info.mapFile)!
+        self.mapInterpreter = MapInterpreter(map: Constants.singleton.frame, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: info.mapFile, isFile: false)!
         
-        self.levelLabel = SKLabelNode(text: level.name())
+        self.levelLabel = SKLabelNode(text: level.name(Constants.singleton.currentLevel))
         
         self.spawnRate = info.spawnRate
         
