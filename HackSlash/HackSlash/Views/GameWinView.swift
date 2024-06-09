@@ -14,13 +14,9 @@ struct GameWinView: View {
                 ZStack{
                     Color.black.opacity(0.4)
                     Group{
-                        if Constants.singleton.locker{
+                        if Constants.singleton.locker {
                             NavigationLink(destination: {
-                                if Constants.singleton.currentLevel >= Levels.allCases.count {
-                                    MainMenuView()
-                                } else {
-                                    GameView(level: Levels.allCases[Constants.singleton.currentLevel])
-                                }
+                                GameView(level: .Random)
                             }, label: {
                                 Image("Next")
                             })

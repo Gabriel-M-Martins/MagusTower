@@ -50,9 +50,7 @@ struct GameView: View {
                 .position(x: geo.frame(in: .global).maxX - geo.frame(in: .global).width*0.18, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.12)
                 
                 if(floorSign){
-                    if Constants.singleton.currentLevel != 1{
-                        FloorSignView()
-                    }
+                    FloorSignView()
                 }
                 
                 if(paused){
