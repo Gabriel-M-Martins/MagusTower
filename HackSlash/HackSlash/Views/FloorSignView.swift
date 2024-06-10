@@ -8,12 +8,20 @@
 import SwiftUI
 
 struct FloorSignView: View {
+    var signText: String {
+        if Constants.singleton.currentLevel == 0 {
+            return "Tutorial"
+        } else {
+            return "Floor \(Constants.singleton.currentLevel)"
+        }
+    }
+    
     var body: some View {
         GeometryReader { geo in
             ZStack{
                 Image("FloorSign")
                 
-                Text("Floor \(Constants.singleton.currentLevel-1)")
+                Text(signText)
                     .foregroundColor(Color("Chumbo")).bold().font(.title2)
                     .padding(.bottom, 10)
             }

@@ -61,7 +61,7 @@ struct MainMenuView: View {
                         Group{
                             if(tutorial){
                                 NavigationLink {
-                                    GameView(level: Levels.Level1)
+                                    GameView(level: Levels.Random)
                                 } label: {
                                     Image("Enter")
                                 }

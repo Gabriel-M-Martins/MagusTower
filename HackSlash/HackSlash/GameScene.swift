@@ -23,21 +23,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         Constants.singleton.locker = false
         
-        if level == .Level1 {
-            Constants.singleton.currentLevel = 1
+        if level == .Random {
+            Constants.singleton.currentLevel += 1
         } else if level == .Tutorial {
             Constants.singleton.currentLevel = 0
             tutorialFlag = true
         }
         
-        Constants.singleton.currentLevel += 1
-        
         self.background = SKSpriteNode(texture: SKTexture(imageNamed: info.background))
         self.numberEnemies = info.enemiesQtd
         
-        self.mapInterpreter = MapInterpreter(map: Constants.singleton.frame, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: info.mapFile)!
+        self.mapInterpreter = MapInterpreter(map: .init(origin: .zero, size: .init(width: 1280, height: 720))/*Constants.singleton.frame*/, platformHeightDistance: Constants.singleton.playerSize.height + 60, platformHeight: Constants.singleton.platformsHeight, scale: 3, mapText: info.mapFile, isFile: false || tutorialFlag)!
         
-        self.levelLabel = SKLabelNode(text: level.name())
+        self.levelLabel = SKLabelNode(text: level.name(Constants.singleton.currentLevel))
         
         self.spawnRate = info.spawnRate
         
@@ -162,7 +160,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if tutorialFlag {
             plat = platforms[1]
         } else {
-            plat = platforms.randomElement()!
+            // TODO: Spawn door on a reachable platform instead of just a random one or the ground :/
+            plat = floors[0]// platforms.randomElement()!
         }
         
         door = SKSpriteNode(imageNamed: "DoorLocked")
@@ -513,19 +512,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         view.showsPhysics = true
         
-        self.backgroundColor = .black
         physicsWorld.contactDelegate = self
-        background.zPosition = -30
-        background.anchorPoint = CGPoint(x: 0.5, y: 0)
-        background.size = CGSize(width: Constants.singleton.frame.width * 3, height: Constants.singleton.frame.height * 3)
-        background.position.y = -Constants.singleton.frame.height/2
-        addChild(background)
         
-        floorBackground.zPosition = -15
-        floorBackground.anchorPoint = CGPoint(x: 0.5, y: 0)
-        floorBackground.size = CGSize(width: frame.width * 3, height: frame.height * 6)
-        floorBackground.position.y = frame.minY - (200*2)
-        addChild(floorBackground)
+//        self.backgroundColor = .black
+//        background.zPosition = -30
+//        background.anchorPoint = CGPoint(x: 0.5, y: 0)
+//        background.size = CGSize(width: Constants.singleton.frame.width * 3, height: Constants.singleton.frame.height * 3)
+//        background.position.y = -Constants.singleton.frame.height/2
+//        addChild(background)
+        
+//        floorBackground.zPosition = -15
+//        floorBackground.anchorPoint = CGPoint(x: 0.5, y: 0)
+//        floorBackground.size = CGSize(width: frame.width * 3, height: frame.height * 6)
+//        floorBackground.position.y = frame.minY - (200*2)
+//        addChild(floorBackground)
         
         // ------------------------------------------------------------------------
         setupPlayer()
@@ -566,13 +566,81 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.createPlatform(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
         }
         
+        var minX: CGFloat = .greatestFiniteMagnitude
+        var maxX: CGFloat = -1 * .greatestFiniteMagnitude
         for i in wall {
+            if minX > i.position.x {
+                minX = i.position.x - i.size.height/2
+            } else if maxX < i.position.x {
+                maxX = i.position.x - i.size.height
+            }
+            
             self.createWall(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
         }
         
+        var maxY: CGFloat = -1 * .greatestFiniteMagnitude
+        var minY: CGFloat = .greatestFiniteMagnitude
         for i in floor {
+            if minY > i.position.y {
+                minY = i.position.y
+            } else if maxY < i.position.y {
+                maxY = i.position.y
+            }
+            
             self.createFloor(size: i.size, position: i.position, sprite: Constants.randomPlatformSprite())
         }
+        
+        setupBackground(minX: minX, maxX: maxX, minY: minY, maxY: maxY)
+        setupCeilingSpikes(minX: minX, maxX: maxX, y: maxY)
+    }
+    
+    func setupBackground(minX: CGFloat, maxX: CGFloat, minY: CGFloat, maxY: CGFloat) {
+        self.backgroundColor = .black
+        
+        let backgroundPath = CGMutablePath()
+        backgroundPath.move(to: .init(x: minX, y: minY))
+        backgroundPath.addLine(to: .init(x: maxX, y: minY))
+        backgroundPath.addLine(to: .init(x: maxX, y: maxY))
+        backgroundPath.addLine(to: .init(x: minX, y: maxY))
+        backgroundPath.addLine(to: .init(x: minX, y: minY))
+        backgroundPath.closeSubpath()
+        
+        let backgroundShape = SKShapeNode(path: backgroundPath)
+        backgroundShape.fillColor = .init(red: 29/255, green: 35/255, blue: 31/255, alpha: 1)
+        backgroundShape.strokeColor = .clear
+        backgroundShape.zPosition = -100
+        addChild(backgroundShape)
+    }
+    
+    func setupCeilingSpikes(minX: CGFloat, maxX: CGFloat, y: CGFloat) {
+        let path = CGMutablePath()
+        let start: CGPoint = .init(x: minX, y: y)
+        path.move(to: start)
+        
+        let top = y - 10
+        
+        var currentX: CGFloat = minX
+        var strokeDown: Int = 1
+
+        while currentX < maxX {
+            currentX += .random(in: 30...120)
+            let yGoal = strokeDown % 3 == 0 ? top - .random(in: 50...150) : top
+            strokeDown += 1
+            
+            let pos: CGPoint = .init(x: currentX, y: yGoal)
+            path.addLine(to: pos)
+        }
+        
+        let end: CGPoint = .init(x: currentX + 150, y: y)
+        
+        path.addLine(to: end)
+        path.addLine(to: start)
+        path.closeSubpath()
+        
+        let shape = SKShapeNode(path: path)
+        shape.fillColor = .black
+        shape.strokeColor = .clear
+        addChild(shape)
     }
     
     func delayWithSeconds(_ seconds: Double, completion: @escaping () -> ()) {
@@ -581,8 +649,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func spiderToCharging(spider: EnemySpider){
-        if spider.currentState == .walking || spider.currentState == .idle{
+    func spiderToCharging(spider: EnemySpider) {
+        if spider.currentState == .walking || spider.currentState == .idle {
             var spiderCopy = spider
             spiderCopy.transition(to: .charging)
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -595,7 +663,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 spider.attributes.velocity.maxXSpeed *= 100
                 spider.attributes.velocity.maxYSpeed *= 100
                 let direction: CGFloat = spider.sprite.position.x > self.player.sprite.position.x ? -1 : 1
-                if spider.currentState != .death{
+                if spider.currentState != .death {
                     spider.physicsBody.applyImpulse(CGVector(dx:(direction * (Constants.singleton.playerSize.width/2 + Constants.singleton.spiderSize.width/2)) + (self.player.sprite.position.x - spider.sprite.position.x), dy: abs(Constants.singleton.playerSize.height - Constants.singleton.spiderSize.height) + (spider.sprite.position.y - spider.sprite.position.y) + (desiredHeight * spider.sprite.size.height) - (45.0 * gravity)))
                 }
             }
@@ -606,12 +674,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return (contact.bodyA.node?.name == name1 && contact.bodyB.node?.name == name2) || (contact.bodyA.node?.name == name2 && contact.bodyB.node?.name == name1)
     }
     
-    func didBeginBatWall(contact: SKPhysicsContact){
-        if didBeginCompareNames(contact: contact, name1: "Bat", name2: "wall"){
+    func didBeginBatWall(contact: SKPhysicsContact) {
+        if didBeginCompareNames(contact: contact, name1: "Bat", name2: "wall") {
             for bat in enemies {
                 let bat = bat as? EnemyBat
                 if let bat = bat {
-                    if bat.physicsBody === contact.bodyB || bat.physicsBody === contact.bodyA{
+                    if bat.physicsBody === contact.bodyB || bat.physicsBody === contact.bodyA {
                         bat.physicsBody.velocity = CGVector.zero
                         bat.directionGoing?.toggle()
                         bat.sprite.xScale *= -1
@@ -624,20 +692,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func didBeginPlatformFloorPlayer(contact: SKPhysicsContact){
+    func didBeginPlatformFloorPlayer(contact: SKPhysicsContact) {
         //Colocar aqui tudo que for adicionado a funcao:
         
         /*
          A funcao reseta o jumpCounter e muda o estado do player de acordo
          */
-        if didBeginCompareNames(contact: contact, name1: "platform", name2: "Player") || didBeginCompareNames(contact: contact, name1: "floor", name2: "Player"){
+        if didBeginCompareNames(contact: contact, name1: "platform", name2: "Player") || didBeginCompareNames(contact: contact, name1: "floor", name2: "Player") {
             self.jumpCounter = 0
             player.transition(to: .landing)
             player.transition(to: .idle)
         }
     }
     
-    func didBeginMagicFloorWall(contact: SKPhysicsContact){
+    func didBeginMagicFloorWall(contact: SKPhysicsContact) {
         //Colocar aqui tudo que for adicionado a funcao:
         
         /*
@@ -645,42 +713,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          Retirar primeiro o birthrate e dps a magia torna o efeito visualmente melhor.
          */
         
-        if didBeginCompareNames(contact: contact, name1: "Magic", name2: "wall") || didBeginCompareNames(contact: contact, name1: "floor", name2: "Magic"){
+        if didBeginCompareNames(contact: contact, name1: "Magic", name2: "wall") || didBeginCompareNames(contact: contact, name1: "floor", name2: "Magic") {
             for idx in 0..<magics.count {
-                if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
+                if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB {
                     magics[idx].node.particleBirthRate = 0
+                    
                     let reference = magics[idx]
                     magics.remove(at: idx)
-                    reference.node.run(SKAction.sequence(
-                        [.wait(forDuration: 1.5),
-                         .removeFromParent()
-                        ]))
+                    
+                    reference.node.run(SKAction.sequence([
+                        .wait(forDuration: 1.5),
+                        .removeFromParent()
+                        ])
+                    )
+                    
                     break
                 }
             }
         }
         
-        else if didBeginCompareNames(contact: contact, name1: "FireArrow", name2: "wall") || didBeginCompareNames(contact: contact, name1: "floor", name2: "FireArrow"){
+        else if didBeginCompareNames(contact: contact, name1: "FireArrow", name2: "wall") || didBeginCompareNames(contact: contact, name1: "floor", name2: "FireArrow") {
             for idx in 0..<magics.count {
-                if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
+                if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB {
                     FireArrowSmoke(father: magics[idx].node)
                 }
             }
         }
     }
     
-    func didBeginPlatformFloorSpider(contact: SKPhysicsContact){
+    func didBeginPlatformFloorSpider(contact: SKPhysicsContact) {
         //Colocar aqui tudo que for adicionado a funcao:
         
         /*
          quando a aranha toca no chao ou em uma plataforma e ta em modo de ataque, quer dizer q a mask dela já estava solidificada, e por isso ela pode transicionar pro idle e voltar a velocidade padrão
          */
         
-        if didBeginCompareNames(contact: contact, name1: "platform", name2: "Spider") || didBeginCompareNames(contact: contact, name1: "floor", name2: "Spider"){
-            for spider in enemies{
+        if didBeginCompareNames(contact: contact, name1: "platform", name2: "Spider") || didBeginCompareNames(contact: contact, name1: "floor", name2: "Spider") {
+            for spider in enemies {
                 let spider = spider as? EnemySpider
-                if let spider = spider{
-                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                if let spider = spider {
+                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB {
                         if spider.currentState == .attack{
                             var copy = spider
                             copy.transition(to: .walking)
@@ -693,19 +765,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func didBeginMagicSpider(contact: SKPhysicsContact){
+    func didBeginMagicSpider(contact: SKPhysicsContact) {
         //Colocar aqui tudo que for adicionado a funcao:
         
         /*
          Essa funcao faz coisa p krl, ent ela ta quebrada em funcoes menores.
          */
         
-        func colisaoMagiaAranha(spider: EnemySpider){
+        func colisaoMagiaAranha(spider: EnemySpider) {
             //Aplica o onTouch na aranha, muda a velocidade dela pra aplicar o knockback adequado
             
             //Aplica o knockback e dps remove o feitico primeiro mudando o birth rate dele p 0 e dps fzendo sumir.
             
-            for idx in 0..<magics.count{
+            for idx in 0..<magics.count {
                 if magics[idx].physicsBody === contact.bodyA || magics[idx].physicsBody === contact.bodyB{
                     
                     magics[idx].onTouch(touched: spider)
@@ -725,13 +797,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         let reference = magics[idx]
                         reference.node.run(SKAction.sequence([
                             .wait(forDuration: 0.1),
-                            .run{
+                            .run {
                                 reference.node.particleBirthRate = 0
                             },
                             .wait(forDuration: 0.5),
-                            .run{
-                                for idx in 0..<self.magics.count{
-                                    if self.magics[idx] === reference{
+                            .run {
+                                for idx in 0..<self.magics.count {
+                                    if self.magics[idx] === reference {
                                         self.magics.remove(at: idx)
                                     }
                                     break
@@ -745,12 +817,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         //Chama as funcoes nos momentos certos
-        if didBeginCompareNames(contact: contact, name1: "Magic", name2: "Spider"){
-            for idx in 0..<enemies.count{
+        if didBeginCompareNames(contact: contact, name1: "Magic", name2: "Spider") {
+            for idx in 0..<enemies.count {
                 let spider = enemies[idx] as? EnemySpider
-                if let spider = spider{
+                if let spider = spider {
                     
-                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB {
                         colisaoMagiaAranha(spider: spider)
                     }
                 }
@@ -758,16 +830,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func didBeginSpiderFireExplosion(contact: SKPhysicsContact){
-        if didBeginCompareNames(contact: contact, name1: "Spider", name2: "FireExplosion"){
+    func didBeginSpiderFireExplosion(contact: SKPhysicsContact) {
+        if didBeginCompareNames(contact: contact, name1: "Spider", name2: "FireExplosion") {
             for spider in enemies {
                 let spider = spider as? EnemySpider
-                if let spider = spider{
+                if let spider = spider {
                     
-                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB {
                         spider.attributes.health -= Constants.singleton.fireExplosionDamage.damage
                     }
-                    print(spider.attributes.health)
                 }
             }
         }
@@ -781,11 +852,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          */
         
         if didBeginCompareNames(contact: contact, name1: "wall", name2: "Spider") {
-            for idx in 0..<enemies.count{
+            for idx in 0..<enemies.count {
                 let spider = enemies[idx] as? EnemySpider
                 if let spider = spider{
                     
-                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB{
+                    if spider.physicsBody === contact.bodyA || spider.physicsBody === contact.bodyB {
                         spiderToCharging(spider: spider)
                     }
                 }
@@ -793,7 +864,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func didBegin(_ contact:SKPhysicsContact){
+    func didBegin(_ contact:SKPhysicsContact) {
         
         didBeginBatWall(contact: contact)
         didBeginPlatformFloorPlayer(contact: contact)
@@ -814,10 +885,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         camera?.position = player.position
-        for spider in enemies{
+        for spider in enemies {
             spider.moveAI()
         }
-        for bat in enemies{
+        for bat in enemies {
             let bat = bat as? EnemyBat
             if let bat = bat{
                 bat.moveAI()
@@ -850,15 +921,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.move(direction: directionToMove)
         }
         
-        if player.sprite.physicsBody!.velocity.dx < 0{
+        if player.sprite.physicsBody!.velocity.dx < 0 {
             player.sprite.xScale = -1
         }
-        else{
+        else {
             player.sprite.xScale = 1
         }
     }
     
-    func updatePlayerState(){
+    func updatePlayerState() {
         if player.currentState == .jump {
             player.physicsBody.collisionBitMask = player.physicsBody.collisionBitMask & (UInt32.max - Constants.singleton.groundMask)
             player.physicsBody.contactTestBitMask = player.physicsBody.contactTestBitMask & (UInt32.max - Constants.singleton.groundMask)
@@ -869,7 +940,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             jumpLocked = false
         }
         
-        if player.currentState == .airborne{
+        if player.currentState == .airborne {
             if player.sprite.physicsBody!.collisionBitMask & Constants.singleton.groundMask == 0 {
                 var hasCollided = false
                 for platform in platforms {
@@ -895,7 +966,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func killSpider(spider: EnemySpider, idx: Int){
+    func killSpider(spider: EnemySpider, idx: Int) {
         //transition spider state and apply sound effects
         
         
@@ -1253,7 +1324,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(camera)
     }
     
-    func createPlatform(size: CGSize, position: CGPoint, sprite: String){
+    func createPlatform(size: CGSize, position: CGPoint, sprite: String) {
         let platform = SKSpriteNode(imageNamed: sprite)
         platform.size = size
         // settando o anchor point para ser no meio horizontal e no baixo na vertical
@@ -1271,12 +1342,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(platform)
     }
     
-    func createWall(size: CGSize, position: CGPoint, sprite: String){
+    func createWall(size: CGSize, position: CGPoint, sprite: String) {
         let wall = SKSpriteNode(imageNamed: sprite)
         wall.size = size
         wall.zRotation = .pi / 2
         // settando o anchor point para ser no meio horizontal e no baixo na vertical
-        wall.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        wall.anchorPoint = CGPoint(x: 0.5, y: 0)
         // posicao do wall é zero no x e o mais baixo no y
         wall.position = position
         // criando o physicsbody e settando que nao é dinamico p nenhuma força poder ser aplicada contra ele
@@ -1290,7 +1361,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(wall)
     }
     
-    func createFloor(size: CGSize, position: CGPoint, sprite: String){
+    func createFloor(size: CGSize, position: CGPoint, sprite: String) {
         let floor = SKSpriteNode(imageNamed: sprite)
         floor.size = size
         // settando o anchor point para ser no meio horizontal e no baixo na vertical
@@ -1308,7 +1379,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(floor)
     }
     
-    func setupPlayer(){
+    func setupPlayer() {
         //Creates player and adds it to the scene
         player = Player(sprite: "MagoFrente")
         player.sprite.position.y += Constants.singleton.frame.height/2 //frame.midY + frame.midY/2
@@ -1322,13 +1393,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(player.sprite)
     }
     
-    func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider{
+    func setupSpider(spriteName: String, idSpider: Int) -> EnemySpider {
         AudioManager.shared.playSound(named: "spiderSpawn.wav")
         let spider = EnemySpider(sprite: spriteName, attributes: AttributesInfo(health: 20, defense: 20, weakness: [], resistence: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 10, maxXSpeed: 200, maxYSpeed: 5000), attackRange: frame.width * 0.3, maxHealth: 100), player: player, idSpider: idSpider)
         return spider
     }
     
-    func setupBat(spriteName: String) -> EnemyBat{
+    func setupBat(spriteName: String) -> EnemyBat {
         let bat = EnemyBat(sprite: spriteName, attributes: AttributesInfo(health: 20, defense: 20, weakness: [], resistence: [], velocity: VelocityInfo(xSpeed: 50, ySpeed: 50, maxXSpeed: 200, maxYSpeed: 200), attackRange: frame.width * 2, maxHealth: 100), player: player)
         return bat
     }

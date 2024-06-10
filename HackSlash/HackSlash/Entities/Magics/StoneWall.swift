@@ -104,7 +104,6 @@ class StoneWall {
         
         let finalSequence: [SKAction]
         if (move) {
-            print("Cheguei aqui 2")
             let sequence2 = SKAction.sequence([
                 .move(by:CGVector(dx: 500 * cos(angle),dy:0.0), duration: 2)
             ])

@@ -11,11 +11,11 @@ import SwiftUI
 
 /*
  class Singleton {
-     static let shared: Singleton = {
-         let instance = Singleton()
-         // setup code
-         return instance
-     }()
+ static let shared: Singleton = {
+ let instance = Singleton()
+ // setup code
+ return instance
+ }()
  }
  */
 
@@ -35,7 +35,7 @@ class Constants: ObservableObject {
     let playerMask: UInt32 = 4
     let magicMask: UInt32 = 8
     let wallMask: UInt32 = 16
-
+    
     let playerDamage: Int = 10
     let playerDefense: Int = 5
     
@@ -55,7 +55,7 @@ class Constants: ObservableObject {
     static var batFlyingTexture: [SKTexture] {
         var texture: [SKTexture] = []
         for n in 0...18{
-        texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
+            texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
         }
         return texture
     }
@@ -66,15 +66,15 @@ class Constants: ObservableObject {
             texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
         }
         return texture
-}
+    }
     
     static var batDeathTexture: [SKTexture] {
-    var texture: [SKTexture] = []
-    for n in 0...18{
-        texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
+        var texture: [SKTexture] = []
+        for n in 0...18{
+            texture.append(SKTexture(imageNamed: "MagoPuloRight\(n)"))
+        }
+        return texture
     }
-    return texture
-}
     let blizzardSize: CGVector = CGVector(dx: 100, dy: 100)
     let blizzardVelocity: VelocityInfo = VelocityInfo(xSpeed: 200, ySpeed: 200, maxXSpeed: 150, maxYSpeed: 150)
     lazy var blizzardDamage: AttackInfo = AttackInfo(damage: Constants.singleton.playerDamage/2, element: .ice, activateEffects: (false, false))
@@ -93,7 +93,7 @@ class Constants: ObservableObject {
     let playerSize: CGSize = CGSize(width: 104, height: 111)
     let spiderSize: CGSize = CGSize(width: 90, height: 60)
     let batSize: CGSize = CGSize(width: 90, height: 60)
-
+    
     let fireATexture: SKTexture = SKTexture(imageNamed: "Fireball")
     let fireBTexture: SKTexture = SKTexture(imageNamed: "Fire Arrow")
     let fireCTexture: SKTexture = SKTexture(imageNamed: "NoPowerRight")
@@ -196,9 +196,9 @@ class Constants: ObservableObject {
         }
         return texture
     }
-
+    
     var platformsHeight: CGFloat {
-        frame.height/18
+        frame.height/20
     }
     
     var spiderDamage: Int = 5
@@ -210,5 +210,5 @@ class Constants: ObservableObject {
     let maxJumps: Int = 2
     
     @Published var paused: Bool = false
-
+    
 }

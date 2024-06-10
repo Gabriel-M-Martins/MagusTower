@@ -36,6 +36,7 @@
 		92E3DF702A12CB59008A1AEE /* IceAura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF6F2A12CB59008A1AEE /* IceAura.sks */; };
 		92E3DF722A12CB9E008A1AEE /* EletricAura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF712A12CB9E008A1AEE /* EletricAura.sks */; };
 		92E3DF742A12CBE3008A1AEE /* EarthAura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 92E3DF732A12CBE3008A1AEE /* EarthAura.sks */; };
+		A71581F12C066D2700A6C21C /* LevelGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71581F02C066D2700A6C21C /* LevelGenerator.swift */; };
 		A71EEAB92A0D284B0063BC77 /* MapInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */; };
 		A75915982A02EA3A00D953C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6B1AF2A02C461005FF90B /* Constants.swift */; };
 		A77414CE2A16B3AA00E96021 /* map2.txt in Resources */ = {isa = PBXBuildFile; fileRef = A77414CD2A16B3AA00E96021 /* map2.txt */; };
@@ -127,6 +128,7 @@
 		92E3DF6F2A12CB59008A1AEE /* IceAura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = IceAura.sks; sourceTree = "<group>"; };
 		92E3DF712A12CB9E008A1AEE /* EletricAura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = EletricAura.sks; sourceTree = "<group>"; };
 		92E3DF732A12CBE3008A1AEE /* EarthAura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = EarthAura.sks; sourceTree = "<group>"; };
+		A71581F02C066D2700A6C21C /* LevelGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelGenerator.swift; sourceTree = "<group>"; };
 		A71EEAB82A0D284B0063BC77 /* MapInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapInterpreter.swift; sourceTree = "<group>"; };
 		A77414CD2A16B3AA00E96021 /* map2.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = map2.txt; sourceTree = "<group>"; };
 		A77414CF2A16B84200E96021 /* LevelInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelInfo.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				F99499D52A02CD3800E3807D /* Directions.swift */,
 				A795A8682A0984EF00FF21A3 /* Extensions.swift */,
 				92E3DF692A12C62B008A1AEE /* AudioManager.swift */,
+				A71581F02C066D2700A6C21C /* LevelGenerator.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				92E3DF6A2A12C62B008A1AEE /* AudioManager.swift in Sources */,
 				A7B6B1BB2A02E785005FF90B /* StatesPlayer.swift in Sources */,
 				A75915982A02EA3A00D953C2 /* Constants.swift in Sources */,
+				A71581F12C066D2700A6C21C /* LevelGenerator.swift in Sources */,
 				F9132ABF2A1C003D008AD2D0 /* LevelInfo.swift in Sources */,
 				92C004CA2A154B24001E8312 /* GameOverView.swift in Sources */,
 				A7F665F92A0EB22C0010C96F /* GameView.swift in Sources */,
@@ -703,7 +707,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 856F4M2786;
+				DEVELOPMENT_TEAM = 73DNAYF2TM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Magus Tower";
@@ -735,7 +739,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 856F4M2786;
+				DEVELOPMENT_TEAM = 73DNAYF2TM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HackSlash/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Magus Tower";

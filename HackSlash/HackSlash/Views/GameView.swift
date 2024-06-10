@@ -12,10 +12,12 @@ import UserNotifications
 struct GameView: View {
     @Environment(\.presentationMode) var presentation
     @Environment(\.scenePhase) var scenePhase
-    @StateObject var scene: SKScene
+    
     @State var paused: Bool = false
-    @ObservedObject var viewManager: GameViewManager = GameViewManager()
     @State var floorSign = true
+    
+    @StateObject var scene: SKScene
+    @ObservedObject var viewManager: GameViewManager = GameViewManager()
     
     init(level: Levels) {
         self._scene = StateObject(wrappedValue: GameScene(level: level))
@@ -48,9 +50,7 @@ struct GameView: View {
                 .position(x: geo.frame(in: .global).maxX - geo.frame(in: .global).width*0.18, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.12)
                 
                 if(floorSign){
-                    if Constants.singleton.currentLevel != 1{
-                        FloorSignView()
-                    }
+                    FloorSignView()
                 }
                 
                 if(paused){
@@ -90,6 +90,9 @@ struct GameView: View {
 class GameViewManager: ObservableObject{
     @Published var didDie = false
     @Published var didWin = false
+    
+    @Published var currentLevel = 0
+    
     let notificationCenter = NotificationCenter.default
     
     init(){
@@ -103,11 +106,5 @@ class GameViewManager: ObservableObject{
     
     @objc func PlayerWin(){
         didWin = true
-    }
-}
-
-struct GameView_Previews: PreviewProvider {
-    static var previews: some View {
-        GameView(level: Levels.Level1).previewInterfaceOrientation(.landscapeRight)
     }
 }

@@ -24,7 +24,8 @@ struct PauseView: View {
                         }, label: {
                             Image("Back Paused")
                         })
-                        .simultaneousGesture(TapGesture().onEnded{
+                        .simultaneousGesture(TapGesture().onEnded {
+                            Constants.singleton.currentLevel = 0
                             AudioManager.shared.playSound(named: "buttonClick.mp3")
                         })
                         .position(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).minY + geo.frame(in: .global).height*0.70)
