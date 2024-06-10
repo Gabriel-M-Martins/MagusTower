@@ -28,12 +28,12 @@ struct MapInterpreter {
         let coords = MapInterpreter.parseCoordinates(text, idx: "1")
         let platformWidth = (map.width * scale) / CGFloat(coords.1 /* *10 */)
 
-        let minX = -Constants.singleton.frame.width/2
+        let minX = -map.width/2
 
         // -------------------------------------------------------------------------------- platforms
         rects = []
         
-        var currentHeight = 100 - Constants.singleton.frame.height/2
+        var currentHeight = -map.height/2
         for line in coords.0.reversed() {
             for coord in line {
                 let width = platformWidth * CGFloat(coord.size)
@@ -50,7 +50,7 @@ struct MapInterpreter {
         // -------------------------------------------------------------------------------- walls
         wall = []
         
-        currentHeight = -Constants.singleton.frame.height/2
+        currentHeight = -map.height/2
         for line in coordsWall.0.reversed() {
             for coordWall in line {
                 let width = platformWidth * CGFloat(coordWall.size)
@@ -58,7 +58,7 @@ struct MapInterpreter {
                 
                 wall.append((CGSize(width: width, height: platformHeight), CGPoint(x: posX, y: currentHeight)))
             }
-            currentHeight += platformHeightDistance
+            currentHeight += platformWidth
         }
         
         let coordsFloor = MapInterpreter.parseCoordinates(text, idx: "3")
@@ -67,7 +67,7 @@ struct MapInterpreter {
         // -------------------------------------------------------------------------------- floor
         floor = []
         
-        currentHeight = 100 - Constants.singleton.frame.height/2
+        currentHeight = platformHeightDistance - map.height/2
         for line in coordsFloor.0.reversed() {
             for coordFloor in line {
                 let width = platformWidth * CGFloat(coordFloor.size)
@@ -75,6 +75,7 @@ struct MapInterpreter {
                 
                 floor.append((CGSize(width: width, height: platformHeight), CGPoint(x: posX, y: currentHeight)))
             }
+            
             currentHeight += platformHeightDistance
         }
     }
