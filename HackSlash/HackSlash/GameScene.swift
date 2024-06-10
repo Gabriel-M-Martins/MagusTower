@@ -160,7 +160,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if tutorialFlag {
             plat = platforms[1]
         } else {
-            plat = platforms.randomElement()!
+            // TODO: Spawn door on a reachable platform instead of just a random one or the ground :/
+            plat = floors[0]// platforms.randomElement()!
         }
         
         door = SKSpriteNode(imageNamed: "DoorLocked")
